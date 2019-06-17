@@ -1,18 +1,16 @@
 module.exports = {
   root: true,
   env: {
-    node: true,
+    node: true
   },
-  extends: [
-    'plugin:vue/essential',
-    '@vue/airbnb',
-    '@vue/typescript',
-  ],
-  rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-  },
+  extends: ['plugin:vue/essential', '@vue/airbnb', '@vue/typescript', 'plugin:prettier/recommended'],
   parserOptions: {
     parser: '@typescript-eslint/parser',
+    sourceType: 'module',
+    ecmaVersion: 2018
   },
+  rules: {
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
+  }
 };
