@@ -2,13 +2,18 @@ import { Tail } from 'tail';
 import { EventEmitter } from 'events';
 
 export default class TailLogfile {
-  public ee: EventEmitter;
+  private ee: EventEmitter;
 
   private tail: Tail;
 
   constructor(logfilePath: string) {
     this.ee = new EventEmitter();
-    this.tail = new Tail(logfilePath);
+    this.tail = new Tail(logfilePath, {
+      useWatchFile: true,
+      fsWatchOptions: {
+        interval: 250,
+      },
+    });
 
     this.registerEvents();
   }
@@ -25,6 +30,18 @@ export default class TailLogfile {
    */
   public unwatch() {
     this.tail.unwatch();
+  }
+
+  /**
+   * Listen to `line` and `error` events emitted from the Tail module and
+   * execute your own callback.
+   *
+   * @param eventName name of the event for the EventEmitter
+   * @param callback callback function with a param that will contain the
+   * latest line added to the file
+   */
+  public on(eventName: 'line' | 'error', callback: (line: string) => void) {
+    this.ee.on(eventName, callback);
   }
 
   /**
