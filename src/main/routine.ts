@@ -1,7 +1,10 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { EventEmitter } from 'events';
-import { app, protocol, BrowserWindow } from 'electron';
+import { app, protocol, BrowserWindow, IpcMessageEvent, ipcMain } from 'electron';
 import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib';
+
+import { IpcHttpRequestOption } from '@/types/IpcHttpRequestOption';
+import { ipcHttpRequest } from './ipc-http-request';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 const webpackDevURL: string | undefined = process.env.WEBPACK_DEV_SERVER_URL;
@@ -65,5 +68,15 @@ export function registerEvents() {
 
     createWindow();
     ee.emit('ready');
+  });
+}
+
+/**
+ * Register various IPC events that can be sent from the renderer to the main
+ * process.
+ */
+export function registerIpcEvents() {
+  ipcMain.on('HTTP_REQUEST', (event: IpcMessageEvent, option: IpcHttpRequestOption) => {
+    ipcHttpRequest(event, option);
   });
 }
