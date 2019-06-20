@@ -1,5 +1,7 @@
 <template>
-  <div id="app" />
+  <div id="app" class="w-screen h-screen bg-dark-discord">
+    <router-view />
+  </div>
 </template>
 
 <script lang="ts">
