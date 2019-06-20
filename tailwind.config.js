@@ -8,6 +8,23 @@ module.exports = {
         '10': '0.1',
         '90': '0.9'
       }
+    },
+    fontFamily: {
+      display: [
+        'FontinRegular',
+        '-apple-system',
+        'BlinkMacSystemFont',
+        'Segoe UI',
+        'Roboto',
+        'Helvetica Neue',
+        'Arial',
+        'Noto Sans',
+        'sans-serif',
+        'Apple Color Emoji',
+        'Segoe UI Emoji',
+        'Segoe UI Symbol',
+        'Noto Color Emoji'
+      ]
     }
   },
   variants: {

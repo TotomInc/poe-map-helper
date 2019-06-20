@@ -12,4 +12,5 @@ export default class App extends Vue {}
 <style lang="postcss">
 @import '../node_modules/@vue/ui/dist/vue-ui.css';
 @import 'assets/styles/tailwind.postcss';
+@import 'assets/css/fonts.css';
 </style>
