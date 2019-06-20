@@ -7,6 +7,10 @@ module.exports = {
       opacity: {
         '10': '0.1',
         '90': '0.9'
+      },
+      colors: {
+        'dark-discord': '#2c2f33',
+        'grey-discord': '#99aab5'
       }
     },
     fontFamily: {
