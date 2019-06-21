@@ -11,8 +11,8 @@ export default class TailLogfile {
     this.tail = new Tail(logfilePath, {
       useWatchFile: true,
       fsWatchOptions: {
-        interval: 250,
-      },
+        interval: 250
+      }
     });
 
     this.registerEvents();
