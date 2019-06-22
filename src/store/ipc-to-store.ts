@@ -23,6 +23,11 @@ export function ipcToStore(store: Store<RootState>): void {
   });
 }
 
+/**
+ * Send an `HTTP_REQUEST` IPC event to the main process with an options object.
+ *
+ * @param options HTTP request options
+ */
 export function ipcHttpRequest(options: IpcHttpRequestOption) {
   console.log('Store sent an HTTP_REQUEST IPC event:', options);
 
