@@ -3,7 +3,7 @@ import { EventEmitter } from 'events';
 import { app, protocol, BrowserWindow, IpcMessageEvent, ipcMain } from 'electron';
 import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib';
 
-import { IpcHttpRequestOption } from '@/types/IpcHttpRequestOption';
+import { IpcHttpRequestOption } from '@/models/IpcHttp';
 import { ipcHttpRequest } from './ipc-http-request';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
