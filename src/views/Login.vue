@@ -18,9 +18,15 @@
     </div>
 
     <div class="flex">
-      <vue-input v-model="poesessid" icon-left="lock" placeholder="Your POESESSID" class="w-1/3 mr-2" />
+      <vue-input
+        v-model="POESESSID"
+        icon-left="lock"
+        placeholder="Your POESESSID"
+        class="w-1/3 mr-2"
+        :disabled="user.loading"
+      />
 
-      <vue-button class="primary" :loading="loading" :disabled="loading" @click="login()">
+      <vue-button class="primary" :loading="user.loading" :disabled="user.loading" @click="login()">
         Login
       </vue-button>
     </div>
@@ -30,14 +36,19 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 
+import { UserState } from '@/store/user/user.state';
+import { userActions } from '@/store/user/user.actions';
+
 @Component({})
 export default class LoginView extends Vue {
-  private poesessid = '';
+  private POESESSID = '';
 
-  private loading = false;
+  get user(): UserState {
+    return this.$store.state.user;
+  }
 
   public login(): void {
-    this.loading = true;
+    this.$store.dispatch(userActions.COOKIE_LOGIN, this.POESESSID);
   }
 }
 </script>
