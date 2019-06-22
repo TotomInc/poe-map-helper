@@ -1,8 +1,10 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import LoginView from './views/Login.vue';
-import HomeView from './views/Home.vue';
+import store from '@/store';
+import HomeView from '@/views/Home.vue';
+import LoginView from '@/views/Login.vue';
+import SetupView from '@/views/Setup.vue';
 
 Vue.use(Router);
 
@@ -13,7 +15,7 @@ export default new Router({
       path: '/',
       component: HomeView,
       beforeEnter: (to, from, next) => {
-        if (!localStorage.getItem('POESESSID')) {
+        if (!store.state.user.logged) {
           next('/login');
         } else {
           next();
@@ -23,6 +25,17 @@ export default new Router({
     {
       path: '/login',
       component: LoginView
+    },
+    {
+      path: '/setup',
+      component: SetupView,
+      beforeEnter: (to, from, next) => {
+        if (!store.state.user.logged) {
+          next('/login');
+        } else {
+          next();
+        }
+      }
     }
   ]
 });
