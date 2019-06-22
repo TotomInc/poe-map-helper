@@ -30,6 +30,8 @@
         Login
       </vue-button>
     </div>
+
+    <notifications group="LOGIN" position="bottom right" />
   </div>
 </template>
 
@@ -45,6 +47,21 @@ export default class LoginView extends Vue {
 
   get user(): UserState {
     return this.$store.state.user;
+  }
+
+  public mounted(): void {
+    this.$store.subscribeAction(({ type, payload }) => {
+      if (type === userActions.COOKIE_LOGIN_SUCCESS) {
+        this.$router.push('setup');
+      } else if (type === userActions.COOKIE_LOGIN_FAILED) {
+        this.$notify({
+          group: 'LOGIN',
+          title: 'Unable to login',
+          text: 'Invalid or expired POESESSID, try to generate a new one.',
+          type: 'error'
+        });
+      }
+    });
   }
 
   public login(): void {
