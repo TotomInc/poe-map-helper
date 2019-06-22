@@ -10,6 +10,9 @@ module.exports = {
     ecmaVersion: 2018
   },
   rules: {
+    'class-methods-use-this': 'off',
+    'import/no-extraneous-dependencies': 'off',
+    'import/prefer-default-export': 'off',
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
   }
