@@ -1,6 +1,7 @@
 import { ActionTree } from 'vuex';
 
 import { IpcHttpRequestOption } from '@/models/IpcHttp';
+import { POECharacter } from '@/models/PathOfExileAPI';
 import { RootState } from '@/store/state';
 import { ipcHttpRequest } from '@/store/ipc-to-store';
 import { UserState } from './user.state';
@@ -56,7 +57,7 @@ export const actions: ActionTree<UserState, RootState> = {
     context.commit(userMutations.removeLoading);
   },
 
-  [userActions.LOAD_CHARACTERS_SUCCESS](context, payload: any[]) {
+  [userActions.LOAD_CHARACTERS_SUCCESS](context, payload: POECharacter[]) {
     context.commit(userMutations.removeLoading);
     context.commit(userMutations.setCharacters);
   },

@@ -1,5 +1,6 @@
 import { MutationTree } from 'vuex';
 
+import { POECharacter } from '@/models/PathOfExileAPI';
 import { UserState } from './user.state';
 
 export const userMutations = {
@@ -36,7 +37,7 @@ export const mutations: MutationTree<UserState> = {
     state.poesessid = payload;
   },
 
-  [userMutations.setCharacters](state, payload: any[]) {
+  [userMutations.setCharacters](state, payload: POECharacter[]) {
     state.characters = payload;
   },
 

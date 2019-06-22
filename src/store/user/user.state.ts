@@ -1,8 +1,10 @@
+import { POECharacter } from '@/models/PathOfExileAPI';
+
 export interface UserState {
   logged: boolean;
   poesessid: string | undefined;
   loading: boolean;
-  characters: any[];
+  characters: POECharacter[];
 }
 
 export const state: UserState = {
