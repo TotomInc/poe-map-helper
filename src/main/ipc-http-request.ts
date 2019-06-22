@@ -27,6 +27,6 @@ export function ipcHttpRequest(event: IpcMessageEvent, options: IpcHttpRequestOp
         error: err
       };
 
-      event.sender.send(options.onFailIpc, payload);
+      event.sender.send('HTTP_REQUEST_FAIL', payload);
     });
 }
