@@ -13,7 +13,7 @@ export function ipcToStore(store: Store<RootState>): void {
   ipcRenderer.on('HTTP_REQUEST_SUCCESS', (event: IpcMessageEvent, args: IpcHttpResponse) => {
     console.log('Received HTTP_REQUEST_SUCCESS IPC event:', args);
 
-    store.dispatch(args.requestOptions.onSuccessIpc, args.response);
+    store.dispatch(args.requestOptions.onSuccessIpc, args.response ? args.response.data : null);
   });
 
   ipcRenderer.on('HTTP_REQUEST_FAIL', (event: IpcMessageEvent, args: IpcHttpResponse) => {
