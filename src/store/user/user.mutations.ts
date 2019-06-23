@@ -1,5 +1,6 @@
 import { MutationTree } from 'vuex';
 
+import { POECharacter } from '@/models/PathOfExileAPI';
 import { UserState } from './user.state';
 
 export const userMutations = {
@@ -12,7 +13,10 @@ export const userMutations = {
   setPOESESSID: 'Set user POESESSID',
 
   setCharacters: 'Set user characters',
-  removeCharacters: 'Remove user characters'
+  removeCharacters: 'Remove user characters',
+
+  setSelectedCharacter: 'Set user selected character',
+  removeSelectedCharacter: 'Remove user selected character'
 };
 
 export const mutations: MutationTree<UserState> = {
@@ -36,11 +40,19 @@ export const mutations: MutationTree<UserState> = {
     state.poesessid = payload;
   },
 
-  [userMutations.setCharacters](state, payload: any[]) {
+  [userMutations.setCharacters](state, payload: POECharacter[]) {
     state.characters = payload;
   },
 
   [userMutations.removeCharacters](state, payload: void) {
     state.characters = [];
+  },
+
+  [userMutations.setSelectedCharacter](state, payload: string) {
+    state.selectedCharacter = payload;
+  },
+
+  [userMutations.removeSelectedCharacter](state, payload: void) {
+    state.selectedCharacter = undefined;
   }
 };

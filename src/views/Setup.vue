@@ -1,10 +1,78 @@
 <template>
-  <div id="setup-view" />
+  <div id="setup-view" class="flex flex-col justify-center items-center h-full w-full font-display">
+    <div v-if="user.loading">
+      <h1 class="text-xl text-white">
+        Retrieving your account characters...
+      </h1>
+    </div>
+
+    <div v-else>
+      <p class="text-white text-center mb-4">
+        Choose the character you want to play with:
+      </p>
+
+      <div>
+        <vue-select
+          v-model="selectedCharacter"
+          placeholder="Select your character..."
+          icon-left="perm_identity"
+          class="w-64 mr-2"
+        >
+          <vue-select-button
+            v-for="(character, index) in user.characters"
+            :key="'character-option-' + index"
+            :value="character.name"
+            :label="character.name"
+          />
+        </vue-select>
+
+        <vue-button class="primary" :loading="user.loading" :disabled="!poeSelectedCharacter" @click="setCharacter()">
+          Finish setup
+        </vue-button>
+      </div>
+    </div>
+
+    <notifications group="CHARACTER" position="bottom right" />
+  </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 
+import { POECharacter } from '@/models/PathOfExileAPI';
+import { UserState } from '@/store/user/user.state';
+import { userActions } from '@/store/user/user.actions';
+import { userMutations } from '@/store/user/user.mutations';
+
 @Component({})
-export default class SetupView extends Vue {}
+export default class SetupView extends Vue {
+  private selectedCharacter: string = '';
+
+  get user(): UserState {
+    return this.$store.state.user;
+  }
+
+  get poeSelectedCharacter(): POECharacter | undefined {
+    return this.user.characters.find((char) => char.name === this.selectedCharacter);
+  }
+
+  public mounted(): void {
+    this.$store.dispatch(userActions.LOAD_CHARACTERS);
+
+    this.$store.subscribeAction(({ type, payload }) => {
+      if (type === userActions.LOAD_CHARACTERS_FAILED) {
+        this.$notify({
+          group: 'CHARACTER',
+          title: 'Unable to load characters',
+          text: 'Unable to load characters from your PoE account, please restart the app.',
+          type: 'error'
+        });
+      }
+    });
+  }
+
+  public setCharacter(): void {
+    this.$store.commit(userMutations.setSelectedCharacter, this.selectedCharacter);
+  }
+}
 </script>
