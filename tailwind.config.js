@@ -10,7 +10,10 @@ module.exports = {
       },
       colors: {
         'dark-discord': '#2c2f33',
-        'grey-discord': '#99aab5'
+        'grey-discord': '#99aab5',
+        'green-vue-700': '#3daa79',
+        'green-vue-500': '#42b983',
+        'green-vue-300': '#70cca2'
       }
     },
     fontFamily: {
