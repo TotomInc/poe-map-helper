@@ -50,7 +50,22 @@ export const actions: ActionTree<UserState, RootState> = {
   },
 
   [userActions.LOAD_CHARACTERS](context, payload: void) {
+    const requestPayload: IpcHttpRequestOption = {
+      url: 'https://www.pathofexile.com/character-window/get-characters',
+      onSuccessIpc: userActions.LOAD_CHARACTERS_SUCCESS,
+      onFailIpc: userActions.LOAD_CHARACTERS_FAILED,
+      axiosOptions: {
+        method: 'GET',
+        maxRedirects: 0,
+        headers: {
+          Cookie: `POESESSID=${context.state.poesessid}`
+        }
+      }
+    };
+
     context.commit(userMutations.setLoading);
+
+    ipcHttpRequest(requestPayload);
   },
 
   [userActions.LOAD_CHARACTERS_FAILED](context, payload: void) {
@@ -59,7 +74,7 @@ export const actions: ActionTree<UserState, RootState> = {
 
   [userActions.LOAD_CHARACTERS_SUCCESS](context, payload: POECharacter[]) {
     context.commit(userMutations.removeLoading);
-    context.commit(userMutations.setCharacters);
+    context.commit(userMutations.setCharacters, payload);
   },
 
   [userActions.LOGOUT](context, payload: void) {

@@ -13,7 +13,10 @@ export const userMutations = {
   setPOESESSID: 'Set user POESESSID',
 
   setCharacters: 'Set user characters',
-  removeCharacters: 'Remove user characters'
+  removeCharacters: 'Remove user characters',
+
+  setSelectedCharacter: 'Set user selected character',
+  removeSelectedCharacter: 'Remove user selected character'
 };
 
 export const mutations: MutationTree<UserState> = {
@@ -43,5 +46,13 @@ export const mutations: MutationTree<UserState> = {
 
   [userMutations.removeCharacters](state, payload: void) {
     state.characters = [];
+  },
+
+  [userMutations.setSelectedCharacter](state, payload: string) {
+    state.selectedCharacter = payload;
+  },
+
+  [userMutations.removeSelectedCharacter](state, payload: void) {
+    state.selectedCharacter = undefined;
   }
 };
