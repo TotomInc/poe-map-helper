@@ -1,4 +1,5 @@
 import { ActionTree } from 'vuex';
+import { ipcRenderer } from 'electron';
 
 import { IpcHttpRequestOption } from '@/models/IpcHttp';
 import { POECharacter } from '@/models/PathOfExileAPI';
@@ -15,6 +16,8 @@ export const userActions = {
   LOAD_CHARACTERS: 'LOAD_CHARACTERS',
   LOAD_CHARACTERS_SUCCESS: 'LOAD_CHARACTERS_SUCCESS',
   LOAD_CHARACTERS_FAILED: 'LOAD_CHARACTERS_FAILED',
+
+  FINISH_SETUP: 'FINISH_SETUP',
 
   LOGOUT: 'LOGOUT'
 };
@@ -75,6 +78,18 @@ export const actions: ActionTree<UserState, RootState> = {
   [userActions.LOAD_CHARACTERS_SUCCESS](context, payload: POECharacter[]) {
     context.commit(userMutations.removeLoading);
     context.commit(userMutations.setCharacters, payload);
+  },
+
+  [userActions.FINISH_SETUP](
+    context,
+    payload: {
+      selectedCharacter: string;
+      logfilePath: string;
+    }
+  ) {
+    context.commit(userMutations.setSelectedCharacter, payload.selectedCharacter);
+
+    ipcRenderer.send('LOGFILE_PATH', payload.logfilePath);
   },
 
   [userActions.LOGOUT](context, payload: void) {

@@ -1,5 +1,5 @@
 <template>
-  <div id="setup-view" class="flex flex-col justify-center items-center h-full w-full font-display text-white">
+  <div id="setup-view" class="flex flex-col justify-center items-center h-full w-full text-white">
     <div v-if="user.loading">
       <h1 class="text-xl text-white">
         Retrieving your account characters...
@@ -37,7 +37,7 @@
 
           <label
             for="file"
-            class="flex items-center px-3 py-1 rounded text-sm cursor-pointer bg-green-vue-500 focus:bg-green-vue-700 hover:bg-green-vue-300"
+            class="flex items-center px-3 py-1 rounded text-sm cursor-pointer bg-vue-500 focus:bg-vue-700 hover:bg-vue-300"
           >
             Select Client.txt
           </label>
@@ -46,7 +46,7 @@
             class="primary"
             :loading="user.loading"
             :disabled="!poeSelectedCharacter || !logfilePath"
-            @click="setCharacter()"
+            @click="finishSetup()"
           >
             Finish setup
           </vue-button>
@@ -95,8 +95,14 @@ export default class SetupView extends Vue {
     });
   }
 
-  public setCharacter(): void {
-    this.$store.commit(userMutations.setSelectedCharacter, this.selectedCharacter);
+  public finishSetup(): void {
+    const payload = {
+      selectedCharacter: this.selectedCharacter,
+      logfilePath: this.logfilePath
+    };
+
+    this.$store.dispatch(userActions.FINISH_SETUP, payload);
+    this.$router.push('/');
   }
 
   /**

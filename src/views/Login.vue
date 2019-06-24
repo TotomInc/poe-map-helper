@@ -1,5 +1,5 @@
 <template>
-  <div id="login-view" class="flex flex-col justify-center items-center h-full w-full font-display">
+  <div id="login-view" class="flex flex-col justify-center items-center h-full w-full">
     <div class="splash-screen" />
 
     <h1 class="mb-4 text-white text-2xl">

@@ -5,12 +5,17 @@ import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-buil
 
 import { IpcHttpRequestOption } from '@/models/IpcHttp';
 import { ipcHttpRequest } from './ipc-http-request';
+import Clipboard from './clipboard';
+import TailLogfile from './tail-logfile';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 const webpackDevURL: string | undefined = process.env.WEBPACK_DEV_SERVER_URL;
+const clipboard = new Clipboard();
+
 export const ee = new EventEmitter();
 
 let win: BrowserWindow | null;
+let tail: TailLogfile | null;
 
 /**
  * Register schemes as privileged, need to be called before the `ready` event
@@ -78,5 +83,17 @@ export function registerEvents() {
 export function registerIpcEvents() {
   ipcMain.on('HTTP_REQUEST', (event: IpcMessageEvent, option: IpcHttpRequestOption) => {
     ipcHttpRequest(event, option);
+  });
+
+  // When receiving the logfile path during the setup, instanciate a
+  // `TailLogfile` with the logfile path to watch
+  ipcMain.on('LOGFILE_PATH', (event: IpcMessageEvent, path: string) => {
+    tail = new TailLogfile(path);
+
+    tail.on('line', (line) => console.log('TODO: parser for a PoE line from logfile', line));
+  });
+
+  clipboard.on('content', (clipboardData) => {
+    ipcMain.emit('CLIPBOARD_CONTENT', clipboardData);
   });
 }
