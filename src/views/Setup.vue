@@ -1,5 +1,5 @@
 <template>
-  <div id="setup-view" class="flex flex-col justify-center items-center h-full w-full font-display text-white">
+  <div id="setup-view" class="flex flex-col justify-center items-center h-full w-full text-white">
     <div v-if="user.loading">
       <h1 class="text-xl text-white">
         Retrieving your account characters...
