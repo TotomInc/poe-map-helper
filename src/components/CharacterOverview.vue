@@ -23,10 +23,10 @@
             </i>
           </div>
 
-          <h1 class="text-3xl">
+          <h1 class="text-3xl text-gray-300">
             {{ poeCharacter.name }}
 
-            <small class="text-xl bg-discord-500 rounded-full px-2 py-1">
+            <small class="text-xl bg-discord-500 rounded-full px-2 py-1 text-gray text-discord-100">
               {{ poeCharacter.league }}
             </small>
           </h1>
@@ -41,7 +41,7 @@
             <small>({{ poeCharacter.experience }} / {{ experienceRequired }} exp.)</small>
           </p>
 
-          <div class="w-full h-1 bg-discord-300 rounded">
+          <div class="w-full h-2 bg-discord-300 rounded">
             <div class="h-full w-0 max-w-full rounded bg-vue-500" :style="{ width: calculateExperienceBarWidth() }" />
           </div>
         </div>
