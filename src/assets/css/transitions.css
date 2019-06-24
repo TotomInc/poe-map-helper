@@ -1,3 +1,4 @@
+/* Basic fade-in / fade-out transition with opacity */
 .fade-enter-active,
 .fade-leave-active {
   transition-duration: 0.3s;
@@ -8,4 +9,25 @@
 .fade-enter,
 .fade-leave-active {
   opacity: 0;
+}
+
+/* Smooth transition going down-to-up and up-to-down with translateY */
+.smooth-enter-active {
+  transition: all 0.5s ease-in-out;
+  transform: translateY(0px);
+}
+
+.smooth-enter {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.smooth-leave-active {
+  transition: all 0.5s ease-in-out;
+  transform: translateY(-30px);
+}
+
+.smooth-leave {
+  opacity: 1;
+  transform: translateY(0px);
 }
