@@ -46,7 +46,7 @@
             class="primary"
             :loading="user.loading"
             :disabled="!poeSelectedCharacter || !logfilePath"
-            @click="setCharacter()"
+            @click="finishSetup()"
           >
             Finish setup
           </vue-button>
@@ -95,8 +95,14 @@ export default class SetupView extends Vue {
     });
   }
 
-  public setCharacter(): void {
-    this.$store.commit(userMutations.setSelectedCharacter, this.selectedCharacter);
+  public finishSetup(): void {
+    const payload = {
+      selectedCharacter: this.selectedCharacter,
+      logfilePath: this.logfilePath
+    };
+
+    this.$store.dispatch(userActions.FINISH_SETUP, payload);
+    this.$router.push('/');
   }
 
   /**
