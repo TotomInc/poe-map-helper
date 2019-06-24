@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="w-screen h-screen bg-dark-discord">
+  <div id="app" class="w-screen h-screen bg-discord-900">
     <transition name="fade" mode="out-in" :duration="300">
       <router-view />
     </transition>

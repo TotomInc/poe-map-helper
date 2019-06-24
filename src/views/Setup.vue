@@ -37,7 +37,7 @@
 
           <label
             for="file"
-            class="flex items-center px-3 py-1 rounded text-sm cursor-pointer bg-green-vue-500 focus:bg-green-vue-700 hover:bg-green-vue-300"
+            class="flex items-center px-3 py-1 rounded text-sm cursor-pointer bg-vue-500 focus:bg-vue-700 hover:bg-vue-300"
           >
             Select Client.txt
           </label>

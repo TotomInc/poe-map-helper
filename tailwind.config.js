@@ -9,11 +9,15 @@ module.exports = {
         '90': '0.9'
       },
       colors: {
-        'dark-discord': '#2c2f33',
-        'grey-discord': '#99aab5',
-        'green-vue-700': '#3daa79',
-        'green-vue-500': '#42b983',
-        'green-vue-300': '#70cca2'
+        'discord-100': '#B2B4B5',
+        'discord-300': '#727679',
+        'discord-500': '#545D63',
+        'discord-700': '#363C40',
+        'discord-900': '#2C2F33',
+
+        'vue-700': '#3daa79',
+        'vue-500': '#42b983',
+        'vue-300': '#70cca2'
       }
     },
     fontFamily: {
@@ -101,7 +105,7 @@ module.exports = {
     zIndex: ['responsive']
   },
   corePlugins: {
-    container: false
+    container: true
   },
   plugins: []
 };
