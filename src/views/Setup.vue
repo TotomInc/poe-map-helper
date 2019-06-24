@@ -1,17 +1,17 @@
 <template>
-  <div id="setup-view" class="flex flex-col justify-center items-center h-full w-full font-display">
+  <div id="setup-view" class="flex flex-col justify-center items-center h-full w-full font-display text-white">
     <div v-if="user.loading">
       <h1 class="text-xl text-white">
         Retrieving your account characters...
       </h1>
     </div>
 
-    <div v-else>
-      <p class="text-white text-center mb-4">
+    <div v-else class="flex flex-col justify-center items-center">
+      <p class="text-center mb-4">
         Choose the character you want to play with:
       </p>
 
-      <div>
+      <div class="mb-4">
         <vue-select
           v-model="selectedCharacter"
           placeholder="Select your character..."
@@ -25,10 +25,32 @@
             :label="character.name"
           />
         </vue-select>
+      </div>
 
-        <vue-button class="primary" :loading="user.loading" :disabled="!poeSelectedCharacter" @click="setCharacter()">
-          Finish setup
-        </vue-button>
+      <div>
+        <p class="mb-4">
+          Select your Client.txt log-file on your Path of Exile directory:
+        </p>
+
+        <div class="flex flex-row justify-between">
+          <input id="file" ref="file-input" type="file" accept=".txt" class="hidden" @change="onFileSelected" />
+
+          <label
+            for="file"
+            class="flex items-center px-3 py-1 rounded text-sm cursor-pointer bg-green-vue-500 focus:bg-green-vue-700 hover:bg-green-vue-300"
+          >
+            Select Client.txt
+          </label>
+
+          <vue-button
+            class="primary"
+            :loading="user.loading"
+            :disabled="!poeSelectedCharacter || !logfilePath"
+            @click="setCharacter()"
+          >
+            Finish setup
+          </vue-button>
+        </div>
       </div>
     </div>
 
@@ -46,7 +68,9 @@ import { userMutations } from '@/store/user/user.mutations';
 
 @Component({})
 export default class SetupView extends Vue {
-  private selectedCharacter: string = '';
+  private selectedCharacter = '';
+
+  private logfilePath = '';
 
   get user(): UserState {
     return this.$store.state.user;
@@ -73,6 +97,42 @@ export default class SetupView extends Vue {
 
   public setCharacter(): void {
     this.$store.commit(userMutations.setSelectedCharacter, this.selectedCharacter);
+  }
+
+  /**
+   * Triggered when a file have been selected in the `file-input` element.
+   * Make sure there is at least 1 file selected and it must have the
+   * `Client.txt` name, otherwise, throw notification errors.
+   */
+  public onFileSelected(): void {
+    const fileInputEl = this.$refs['file-input'] as HTMLInputElement;
+    const { files } = fileInputEl;
+
+    if (files) {
+      const file = files.item(0);
+
+      if (file && file.name === 'Client.txt') {
+        this.logfilePath = file.path;
+      } else {
+        this.logfilePath = '';
+
+        this.$notify({
+          group: 'CHARACTER',
+          title: 'No Client.txt file selected or invalid file',
+          text: 'Make sure you selected the Client.txt file in your Path of Exile game directory.',
+          type: 'error'
+        });
+      }
+    } else {
+      this.logfilePath = '';
+
+      this.$notify({
+        group: 'CHARACTER',
+        title: 'No Client.txt file selected',
+        text: 'You need to select the Client.txt file in your Path of Exile game directory.',
+        type: 'error'
+      });
+    }
   }
 }
 </script>

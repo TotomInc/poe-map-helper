@@ -13,6 +13,7 @@ module.exports = {
     'class-methods-use-this': 'off',
     'import/no-extraneous-dependencies': 'off',
     'import/prefer-default-export': 'off',
+    'vue/html-self-closing': 'off',
     'vue/max-attributes-per-line': [
       2,
       {
