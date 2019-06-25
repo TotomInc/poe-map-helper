@@ -1,4 +1,14 @@
 /**
+ * Detect if the content in the clipboard is a map item, by checking if it
+ * contains the `Travel to this Map by using it...` description at the end.
+ *
+ * @param details full description of a potential map item
+ */
+export function isMapItem(details: string): boolean {
+  return details.indexOf('Travel to this Map by using it') > -1;
+}
+
+/**
  * Returns a rarity index where:
  * - `-1` is unknown
  * - `0` is normal
