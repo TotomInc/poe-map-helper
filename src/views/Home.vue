@@ -4,7 +4,9 @@
       PoE Mapper Assistant
     </h1>
 
-    <character-overview />
+    <character-overview class="mb-4" />
+
+    <map-status class="mb-4" />
   </div>
 </template>
 
@@ -12,10 +14,12 @@
 import { Vue, Component } from 'vue-property-decorator';
 
 import CharacterOverview from '@/components/CharacterOverview.vue';
+import MapStatus from '@/components/MapStatus.vue';
 
 @Component({
   components: {
-    CharacterOverview
+    CharacterOverview,
+    MapStatus
   }
 })
 export default class HomeView extends Vue {}

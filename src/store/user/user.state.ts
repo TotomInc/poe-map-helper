@@ -1,4 +1,4 @@
-import { POECharacter } from '@/models/PathOfExileAPI';
+import { POECharacter } from '@/models/PathOfExile';
 
 export interface UserState {
   logged: boolean;
