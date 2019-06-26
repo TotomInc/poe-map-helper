@@ -1,3 +1,5 @@
+import { POEMapItem } from '@/models/PathOfExileAPI';
+
 /**
  * Detect if the content in the clipboard is a map item, by checking if it
  * contains the `Travel to this Map by using it...` description at the end.
@@ -110,7 +112,7 @@ export function extractMapModifiers(details: string[]): string[] {
  *
  * @param mapItem full description of the map item
  */
-export function parseMapItem(mapItem: string) {
+export function parseMapItem(mapItem: string): POEMapItem {
   const mapDetails = mapItem.split('\n');
 
   const mapName = extractMapName(mapDetails);
@@ -119,9 +121,9 @@ export function parseMapItem(mapItem: string) {
   const mapModifiers = extractMapModifiers(mapDetails);
 
   return {
+    ...mapData,
     name: mapName,
     rarity: mapRarity,
-    data: mapData,
     modifiers: mapModifiers
   };
 }
