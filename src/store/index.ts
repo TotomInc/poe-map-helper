@@ -6,6 +6,7 @@ import { ipcToStore } from './ipc-to-store';
 import { userModule } from './user';
 import { mapModule } from './map';
 import { leagueModule } from './league';
+import { rateModule } from './rate';
 
 Vue.use(Vuex);
 
@@ -15,7 +16,8 @@ const store = new Vuex.Store({
   modules: {
     user: userModule,
     map: mapModule,
-    league: leagueModule
+    league: leagueModule,
+    rate: rateModule
   }
 });
 
