@@ -14,7 +14,7 @@
 
       <h2 v-if="!map.queuedMap && !map.currentMap" class="text-base text-center">
         Start mapping by pressing
-        <span class="bg-discord-300 rounded p-1">CTRL+C</span>
+        <span class="bg-discord-300 rounded p-1 text-white">CTRL+C</span>
         with your cursor over the map-item you want to run, in order to notify the Mapper Assistant.
       </h2>
 
