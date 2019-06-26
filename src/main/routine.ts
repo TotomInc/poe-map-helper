@@ -5,6 +5,7 @@ import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-buil
 
 import { IpcHttpRequestOption } from '@/models/IpcHttp';
 import { ipcHttpRequest } from './ipc-http-request';
+import { isMapItem, parseMapItem } from './parse-map-item';
 import Clipboard from './clipboard';
 import TailLogfile from './tail-logfile';
 
@@ -94,6 +95,12 @@ export function registerIpcEvents() {
   });
 
   clipboard.on('content', (clipboardData) => {
-    ipcMain.emit('CLIPBOARD_CONTENT', clipboardData);
+    const cliboardDataIsMapItem = isMapItem(clipboardData);
+
+    if (cliboardDataIsMapItem) {
+      const parsedMapItem = parseMapItem(clipboardData);
+
+      ipcMain.emit('MAP_ITEM_COPIED', parsedMapItem);
+    }
   });
 }
