@@ -2,7 +2,7 @@ import { ActionTree } from 'vuex';
 import { ipcRenderer } from 'electron';
 
 import { IpcHttpRequestOption } from '@/models/IpcHttp';
-import { POECharacter } from '@/models/PathOfExileAPI';
+import { POECharacter } from '@/models/PathOfExile';
 import { RootState } from '@/store/state';
 import { ipcHttpRequest } from '@/store/ipc-to-store';
 import { UserState } from './user.state';

@@ -1,4 +1,4 @@
-import { POEMapItem } from '@/models/PathOfExileAPI';
+import { POEMapItem } from '@/models/PathOfExile';
 
 /**
  * Detect if the content in the clipboard is a map item, by checking if it

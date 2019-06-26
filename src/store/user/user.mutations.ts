@@ -1,6 +1,6 @@
 import { MutationTree } from 'vuex';
 
-import { POECharacter } from '@/models/PathOfExileAPI';
+import { POECharacter } from '@/models/PathOfExile';
 import { UserState } from './user.state';
 
 export const userMutations = {

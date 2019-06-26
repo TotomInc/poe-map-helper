@@ -59,7 +59,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 
-import { POECharacter } from '@/models/PathOfExileAPI';
+import { POECharacter } from '@/models/PathOfExile';
 import { UserState } from '@/store/user/user.state';
 import { userActions } from '@/store/user/user.actions';
 import { userMutations } from '@/store/user/user.mutations';
