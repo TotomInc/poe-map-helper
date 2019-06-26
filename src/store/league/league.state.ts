@@ -1,4 +1,4 @@
-import { POELeague } from '@/models/PathOfExileAPI';
+import { POELeague } from '@/models/PathOfExile';
 
 export interface LeagueState {
   loading: boolean;

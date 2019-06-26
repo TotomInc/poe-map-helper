@@ -1,6 +1,6 @@
 import { MutationTree } from 'vuex';
 
-import { POELeague } from '@/models/PathOfExileAPI';
+import { POELeague } from '@/models/PathOfExile';
 import { LeagueState } from './league.state';
 
 export const leagueMutations = {

@@ -2,10 +2,15 @@ import { ipcRenderer, IpcMessageEvent } from 'electron';
 import { Store } from 'vuex';
 
 import { IpcHttpResponse, IpcHttpRequestOption } from '@/models/IpcHttp';
+import { POEMapItem } from '@/models/PathOfExile';
 import { RootState } from './state';
+import { mapActions } from './map/map.actions';
 
 /**
- * Register `HTTP_REQUEST_SUCCESS` and `HTTP_REQUEST_FAIL` IPC events for Vuex.
+ * Register IPC events from main to renderer process and bind them to Vuex:
+ *  - `HTTP_REQUEST_SUCCESS`
+ *  - `HTTP_REQUEST_FAIL`
+ *  - `MAP_ITEM_COPIED`
  *
  * @param store store instance of the Vue app
  */
@@ -20,6 +25,12 @@ export function ipcToStore(store: Store<RootState>): void {
     console.log('Received HTTP_REQUEST_FAIL IPC event:', args);
 
     store.dispatch(args.requestOptions.onFailIpc, args.error);
+  });
+
+  ipcRenderer.on('MAP_ITEM_COPIED', (event: IpcMessageEvent, args: POEMapItem) => {
+    console.log('Received MAP_ITEM_COPIED IPC event:', args);
+
+    store.dispatch(mapActions.MAP_ITEM_COPIED, args);
   });
 }
 

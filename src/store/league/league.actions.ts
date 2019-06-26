@@ -1,7 +1,7 @@
 import { ActionTree } from 'vuex';
 
 import { IpcHttpRequestOption } from '@/models/IpcHttp';
-import { POELeague } from '@/models/PathOfExileAPI';
+import { POELeague } from '@/models/PathOfExile';
 import { ipcHttpRequest } from '@/store/ipc-to-store';
 import { RootState } from '@/store/state';
 import { LeagueState } from './league.state';

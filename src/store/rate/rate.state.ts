@@ -1,4 +1,4 @@
-import { POEWatchCurrency } from '@/models/PathOfExileAPI';
+import { POEWatchCurrency } from '@/models/PathOfExile';
 
 export interface RateState {
   loading: boolean;
