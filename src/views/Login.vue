@@ -64,6 +64,12 @@ export default class LoginView extends Vue {
   }
 
   public mounted(): void {
+    const localPOESESSID = localStorage.getItem('POESESSID');
+
+    if (localPOESESSID) {
+      this.POESESSID = localPOESESSID;
+    }
+
     this.$store.dispatch(leagueActions.LOAD_LEAGUES);
 
     this.$store.subscribeAction({
@@ -83,6 +89,8 @@ export default class LoginView extends Vue {
   }
 
   public login(): void {
+    localStorage.setItem('POESESSID', this.POESESSID);
+
     this.$store.dispatch(userActions.COOKIE_LOGIN, this.POESESSID);
   }
 }
