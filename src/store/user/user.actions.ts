@@ -47,9 +47,18 @@ export const actions: ActionTree<UserState, RootState> = {
     context.commit(userMutations.removeLoading);
   },
 
-  [userActions.COOKIE_LOGIN_SUCCESS](context, payload: void) {
-    context.commit(userMutations.removeLoading);
-    context.commit(userMutations.setLogged);
+  [userActions.COOKIE_LOGIN_SUCCESS](context, payload: string) {
+    // Verify for the account name, if not present send a failed action
+    const accountNameRegex = /\/account\/view-profile\/(.*?)"/;
+    const accountName = payload.match(accountNameRegex);
+
+    if (accountName && accountName[1]) {
+      context.commit(userMutations.setAccountName, accountName[1]);
+      context.commit(userMutations.setLogged);
+      context.commit(userMutations.removeLoading);
+    } else {
+      context.dispatch(userActions.COOKIE_LOGIN_FAILED);
+    }
   },
 
   [userActions.LOAD_CHARACTERS](context, payload: void) {

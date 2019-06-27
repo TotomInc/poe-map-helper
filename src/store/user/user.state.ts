@@ -6,6 +6,7 @@ export interface UserState {
   loading: boolean;
   characters: POECharacter[];
   selectedCharacter: string | undefined;
+  accountName: string | undefined;
 }
 
 export const state: UserState = {
@@ -13,5 +14,6 @@ export const state: UserState = {
   poesessid: undefined,
   loading: false,
   characters: [],
-  selectedCharacter: undefined
+  selectedCharacter: undefined,
+  accountName: undefined
 };

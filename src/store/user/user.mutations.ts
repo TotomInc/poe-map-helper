@@ -16,7 +16,10 @@ export const userMutations = {
   removeCharacters: 'Remove user characters',
 
   setSelectedCharacter: 'Set user selected character',
-  removeSelectedCharacter: 'Remove user selected character'
+  removeSelectedCharacter: 'Remove user selected character',
+
+  setAccountName: 'Set user account name',
+  removeAccountName: 'Remove user account name'
 };
 
 export const mutations: MutationTree<UserState> = {
@@ -54,5 +57,13 @@ export const mutations: MutationTree<UserState> = {
 
   [userMutations.removeSelectedCharacter](state, payload: void) {
     state.selectedCharacter = undefined;
+  },
+
+  [userMutations.setAccountName](state, payload: string) {
+    state.accountName = payload;
+  },
+
+  [userMutations.removeAccountName](state, payload: void) {
+    state.accountName = undefined;
   }
 };
