@@ -6,37 +6,29 @@
       PoE Mapper Assistant
     </h1>
 
-    <div v-if="league.loading">
-      <p class="text-lg text-gray-300">
-        Loading leagues, this should not take too long...
+    <div class="mb-4 text-white">
+      <p>
+        This software needs your POESESSID in order to:
       </p>
+
+      <ul class="list-disc mt-2 ml-10">
+        <li>Retrieve and select your characters</li>
+        <li>Check the state of your player inventory</li>
+      </ul>
     </div>
 
-    <div v-else>
-      <div class="mb-4 text-white">
-        <p>
-          This software needs your POESESSID in order to:
-        </p>
+    <div class="flex">
+      <vue-input
+        v-model="POESESSID"
+        icon-left="lock"
+        placeholder="Your POESESSID"
+        class="w-1/3 mr-2"
+        :disabled="user.loading"
+      />
 
-        <ul class="list-disc mt-2 ml-10">
-          <li>Retrieve and select your characters</li>
-          <li>Check the state of your player inventory</li>
-        </ul>
-      </div>
-
-      <div class="flex">
-        <vue-input
-          v-model="POESESSID"
-          icon-left="lock"
-          placeholder="Your POESESSID"
-          class="w-1/3 mr-2"
-          :disabled="user.loading"
-        />
-
-        <vue-button class="primary" :loading="user.loading" :disabled="user.loading" @click="login()">
-          Login
-        </vue-button>
-      </div>
+      <vue-button class="primary" :loading="user.loading" :disabled="user.loading" @click="login()">
+        Login
+      </vue-button>
     </div>
 
     <notifications group="LOGIN" position="bottom right" />
@@ -48,8 +40,6 @@ import { Vue, Component } from 'vue-property-decorator';
 
 import { UserState } from '@/store/user/user.state';
 import { userActions } from '@/store/user/user.actions';
-import { leagueActions } from '@/store/league/league.actions';
-import { LeagueState } from '@/store/league/league.state';
 
 @Component({})
 export default class LoginView extends Vue {
@@ -59,18 +49,12 @@ export default class LoginView extends Vue {
     return this.$store.state.user;
   }
 
-  get league(): LeagueState {
-    return this.$store.state.league;
-  }
-
   public mounted(): void {
     const localPOESESSID = localStorage.getItem('POESESSID');
 
     if (localPOESESSID) {
       this.POESESSID = localPOESESSID;
     }
-
-    this.$store.dispatch(leagueActions.LOAD_LEAGUES);
 
     this.$store.subscribeAction({
       after: ({ type, payload }) => {
