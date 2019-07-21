@@ -4,6 +4,7 @@ import { app, protocol, BrowserWindow, IpcMessageEvent, ipcMain } from 'electron
 import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib';
 
 import { IpcHttpRequestOption } from '@/models/IpcHttp';
+import { HTTP_REQUEST, LOGFILE_PATH_RECEIVED, MAP_ITEM_COPIED } from '@/consts/ipc-events';
 import { ipcHttpRequest } from './ipc-http-request';
 import { isMapItem, parseMapItem } from './parse-map-item';
 import Clipboard from './clipboard';
@@ -82,13 +83,11 @@ export function registerEvents() {
  * process.
  */
 export function registerIpcEvents() {
-  ipcMain.on('HTTP_REQUEST', (event: IpcMessageEvent, option: IpcHttpRequestOption) => {
+  ipcMain.on(HTTP_REQUEST, (event: IpcMessageEvent, option: IpcHttpRequestOption) => {
     ipcHttpRequest(event, option);
   });
 
-  // When receiving the logfile path during the setup, instanciate a
-  // `TailLogfile` with the logfile path to watch
-  ipcMain.on('LOGFILE_PATH', (event: IpcMessageEvent, path: string) => {
+  ipcMain.on(LOGFILE_PATH_RECEIVED, (event: IpcMessageEvent, path: string) => {
     tail = new TailLogfile(path);
 
     tail.on('line', (line) => console.log('TODO: parser for a PoE line from logfile', line));
@@ -100,7 +99,7 @@ export function registerIpcEvents() {
     if (cliboardDataIsMapItem) {
       const parsedMapItem = parseMapItem(clipboardData);
 
-      ipcMain.emit('MAP_ITEM_COPIED', parsedMapItem);
+      ipcMain.emit(MAP_ITEM_COPIED, parsedMapItem);
     }
   });
 }
