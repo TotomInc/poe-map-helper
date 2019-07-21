@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 
-import { POEWatchCurrency } from '@/models/PathOfExile';
+import { POEWatchCurrency } from '@/models/POEWatch';
 import { IpcHttpRequestOption } from '@/models/IpcHttp';
 import { ipcHttpRequest } from '@/store/ipc-to-store';
 import { RootState } from '../state';

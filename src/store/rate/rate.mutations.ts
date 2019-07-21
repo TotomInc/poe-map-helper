@@ -1,6 +1,6 @@
 import { MutationTree } from 'vuex';
 
-import { POEWatchCurrency } from '@/models/PathOfExile';
+import { POEWatchCurrency } from '@/models/POEWatch';
 import { RateState } from './rate.state';
 
 export const rateMutations = {
