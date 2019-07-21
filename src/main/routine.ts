@@ -4,9 +4,10 @@ import { app, protocol, BrowserWindow, IpcMessageEvent, ipcMain } from 'electron
 import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib';
 
 import { IpcHttpRequestOption } from '@/models/IpcHttp';
-import { HTTP_REQUEST, LOGFILE_PATH_RECEIVED, MAP_ITEM_COPIED } from '@/consts/ipc-events';
+import { HTTP_REQUEST, LOGFILE_PATH_RECEIVED, MAP_ITEM_COPIED, ENTER_MAP, ENTER_HIDEOUT } from '@/consts/ipc-events';
 import { ipcHttpRequest } from './ipc-http-request';
 import { isMapItem, parseMapItem } from './parse-map-item';
+import { parseLogLine } from './parse-log-file';
 import Clipboard from './clipboard';
 import TailLogfile from './tail-logfile';
 
@@ -90,7 +91,15 @@ export function registerIpcEvents() {
   ipcMain.on(LOGFILE_PATH_RECEIVED, (event: IpcMessageEvent, path: string) => {
     tail = new TailLogfile(path);
 
-    tail.on('line', (line) => console.log('TODO: parser for a PoE line from logfile', line));
+    tail.on('line', (line) => {
+      const parsedLine = parseLogLine(line);
+
+      if (parsedLine.enterMap && parsedLine.mapZoneDetails) {
+        ipcMain.emit(ENTER_MAP, parsedLine.mapZoneDetails);
+      } else if (parsedLine.enterHideout) {
+        ipcMain.emit(ENTER_HIDEOUT);
+      }
+    });
   });
 
   clipboard.on('content', (clipboardData) => {

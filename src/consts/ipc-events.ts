@@ -29,6 +29,12 @@ export const MAP_ITEM_COPIED = 'MAP_ITEM_COPIED';
 
 /**
  * IPC event emitted to the renderer process when a user is entering a new
- * zone, by checking the logfile.
+ * map, by checking the logfile.
  */
-export const ENTER_ZONE = 'ENTER_ZONE';
+export const ENTER_MAP = 'ENTER_MAP';
+
+/**
+ * IPC event emitted to the renderer process when a user is entering in an
+ * hideout, by checking the logfile.
+ */
+export const ENTER_HIDEOUT = 'ENTER_HIDEOUT';
