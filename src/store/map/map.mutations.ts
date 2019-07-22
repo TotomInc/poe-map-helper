@@ -1,6 +1,6 @@
 import { MutationTree } from 'vuex';
 
-import { POEMapItem } from '@/models/PathOfExile';
+import { POEMapItem, POEStashItem } from '@/models/PathOfExile';
 import { MapState } from './map.state';
 
 export const mapMutations = {
@@ -33,8 +33,8 @@ export const mutations: MutationTree<MapState> = {
     state.currentMap = undefined;
   },
 
-  [mapMutations.addMapDone](state, payload: POEMapItem) {
-    state.mapsDone.unshift(payload);
+  [mapMutations.addMapDone](state, payload: { map: POEMapItem; items: POEStashItem[] }) {
+    state.mapsHistory.unshift(payload);
   },
 
   [mapMutations.enterMap](state, payload: void) {

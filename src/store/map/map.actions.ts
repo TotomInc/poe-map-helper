@@ -14,16 +14,8 @@ export const mapActions = {
 
 export const actions: ActionTree<MapState, RootState> = {
   [mapActions.MAP_ITEM_COPIED](context, payload: POEMapItem) {
-    // Map item can be copied only when not in map
+    // A map can only be queued when not in map
     if (!context.state.inMap) {
-      // Remove current map and add map done only if there is a current map
-      if (context.state.currentMap) {
-        const mapDonePayload = Object.freeze(context.state.currentMap);
-
-        context.commit(mapMutations.addMapDone, mapDonePayload);
-        context.commit(mapMutations.removeCurrentMap);
-      }
-
       context.commit(mapMutations.setQueuedMap, payload);
     }
   },

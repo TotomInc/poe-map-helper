@@ -1,16 +1,20 @@
-import { POEMapItem } from '@/models/PathOfExile';
+import { POEMapItem, POEStashItem } from '@/models/PathOfExile';
 
 export interface MapState {
   currentMap: POEMapItem | undefined;
   queuedMap: POEMapItem | undefined;
   inMap: boolean;
+
   /** Ordered by the most recent map at 0-index */
-  mapsDone: POEMapItem[];
+  mapsHistory: {
+    map: POEMapItem;
+    items: POEStashItem[];
+  }[];
 }
 
 export const state: MapState = {
   currentMap: undefined,
   queuedMap: undefined,
   inMap: false,
-  mapsDone: []
+  mapsHistory: []
 };
