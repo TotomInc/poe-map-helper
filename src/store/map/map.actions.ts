@@ -14,9 +14,12 @@ export const mapActions = {
 
 export const actions: ActionTree<MapState, RootState> = {
   [mapActions.MAP_ITEM_COPIED](context, payload: POEMapItem) {
-    // A map can only be queued when not in map
+    // Set a new queued map and set the current map as the latest map
     if (!context.state.inMap) {
+      const latestMapPayload = Object.freeze(context.state.currentMap);
+
       context.commit(mapMutations.setQueuedMap, payload);
+      context.commit(mapMutations.setLatestMap, latestMapPayload);
     }
   },
 
@@ -26,7 +29,7 @@ export const actions: ActionTree<MapState, RootState> = {
       const currentMapPayload = Object.freeze(context.state.queuedMap);
 
       context.commit(mapMutations.setCurrentMap, currentMapPayload);
-      context.commit(mapMutations.removedQueuedMap);
+      context.commit(mapMutations.removeQueuedMap);
     }
 
     context.commit(mapMutations.enterMap);

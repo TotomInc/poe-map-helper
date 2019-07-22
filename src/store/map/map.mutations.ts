@@ -5,10 +5,13 @@ import { MapState } from './map.state';
 
 export const mapMutations = {
   setQueuedMap: 'Set queued map',
-  removedQueuedMap: 'Remove queued map',
+  removeQueuedMap: 'Remove queued map',
 
   setCurrentMap: 'Set current map as queued map',
   removeCurrentMap: 'Remove current map',
+
+  setLatestMap: 'Set latest map as queued map',
+  removeLatestMap: 'Remove latest map',
 
   addMapDone: 'Add a map done',
 
@@ -21,7 +24,7 @@ export const mutations: MutationTree<MapState> = {
     state.queuedMap = payload;
   },
 
-  [mapMutations.removedQueuedMap](state, payload: void) {
+  [mapMutations.removeQueuedMap](state, payload: void) {
     state.queuedMap = undefined;
   },
 
@@ -31,6 +34,14 @@ export const mutations: MutationTree<MapState> = {
 
   [mapMutations.removeCurrentMap](state, payload: void) {
     state.currentMap = undefined;
+  },
+
+  [mapMutations.setLatestMap](state, payload: POEMapItem) {
+    state.latestMap = payload;
+  },
+
+  [mapMutations.removeLatestMap](state, payload: void) {
+    state.latestMap = undefined;
   },
 
   [mapMutations.addMapDone](state, payload: { map: POEMapItem; items: POEStashItem[] }) {
