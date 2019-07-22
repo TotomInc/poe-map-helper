@@ -2,8 +2,15 @@ import { ipcRenderer, IpcMessageEvent } from 'electron';
 import { Store } from 'vuex';
 
 import { IpcHttpResponse, IpcHttpRequestOption } from '@/models/IpcHttp';
-import { POEMapItem } from '@/models/PathOfExile';
-import { HTTP_REQUEST_SUCCESS, HTTP_REQUEST_FAILED, MAP_ITEM_COPIED, HTTP_REQUEST } from '@/consts/ipc-events';
+import { POEMapItem, POEMapZone } from '@/models/PathOfExile';
+import {
+  HTTP_REQUEST_SUCCESS,
+  HTTP_REQUEST_FAILED,
+  MAP_ITEM_COPIED,
+  HTTP_REQUEST,
+  ENTER_MAP,
+  ENTER_HIDEOUT
+} from '@/consts/ipc-events';
 import { RootState } from './state';
 import { mapActions } from './map/map.actions';
 
@@ -29,6 +36,18 @@ export function ipcToStore(store: Store<RootState>): void {
     console.log(`Received ${MAP_ITEM_COPIED} IPC event:`, args);
 
     store.dispatch(mapActions.MAP_ITEM_COPIED, args);
+  });
+
+  ipcRenderer.on(ENTER_MAP, (event: IpcMessageEvent, args: POEMapZone) => {
+    console.log(`Received ${ENTER_MAP} IPC event:`, args);
+
+    store.dispatch(mapActions.ENTER_MAP, args);
+  });
+
+  ipcRenderer.on(ENTER_HIDEOUT, (event: IpcMessageEvent, args: void) => {
+    console.log(`Received ${ENTER_HIDEOUT} IPC event:`, args);
+
+    store.dispatch(mapActions.LEAVE_MAP);
   });
 }
 
