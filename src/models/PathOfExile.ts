@@ -22,19 +22,6 @@ export interface POEMapItem {
   mps: number;
 }
 
-export interface POELeague {
-  id: number;
-  name: string;
-  display?: string;
-  hardcore: boolean;
-  upcoming: boolean;
-  active: boolean;
-  event: boolean;
-  challenge: boolean;
-  start?: Date;
-  end?: Date;
-}
-
 /**
  * Zone details where the player is actually.
  */
