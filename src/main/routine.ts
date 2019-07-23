@@ -4,7 +4,7 @@ import { app, protocol, BrowserWindow, IpcMessageEvent, ipcMain } from 'electron
 import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib';
 
 import { IpcHttpRequestOption } from '@/models/IpcHttp';
-import { HTTP_REQUEST, LOGFILE_PATH_RECEIVED, MAP_ITEM_COPIED, ENTER_MAP, ENTER_HIDEOUT } from '@/consts/ipc-events';
+import { HTTP_REQUEST, LOGFILE_PATH_RECEIVED, MAP_ITEM_COPIED, ENTER_MAP, ENTER_HIDEOUT } from '../consts/ipc-events';
 import { ipcHttpRequest } from './ipc-http-request';
 import { isMapItem, parseMapItem } from './parse-map-item';
 import { parseLogLine } from './parse-log-file';

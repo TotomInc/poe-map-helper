@@ -10,7 +10,7 @@ import {
   HTTP_REQUEST,
   ENTER_MAP,
   ENTER_HIDEOUT
-} from '@/consts/ipc-events';
+} from '../consts/ipc-events';
 import { RootState } from './state';
 import { mapActions } from './map/map.actions';
 

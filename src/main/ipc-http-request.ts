@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 import { IpcMessageEvent } from 'electron';
 
 import { IpcHttpRequestOption, IpcHttpResponse } from '@/models/IpcHttp';
-import { HTTP_REQUEST_FAILED, HTTP_REQUEST_SUCCESS } from '@/consts/ipc-events';
+import { HTTP_REQUEST_FAILED, HTTP_REQUEST_SUCCESS } from '../consts/ipc-events';
 
 /**
  * Execute an HTTP request using Axios on the main process.
