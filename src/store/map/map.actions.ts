@@ -3,15 +3,8 @@ import { ActionTree } from 'vuex';
 import { POEMapItem } from '@/models/PathOfExile';
 import { RootState } from '@/store/state';
 import { MapState } from './map.state';
-import { mapMutations } from './map.mutations';
-import { stashActions } from '../stash/stash.actions';
-
-export const mapActions = {
-  MAP_ITEM_COPIED: 'MAP_ITEM_COPIED',
-
-  ENTER_MAP: 'ENTER_MAP',
-  LEAVE_MAP: 'LEAVE_MAP'
-};
+import { mapActions, mapMutations } from './map.consts';
+import { stashActions } from '../stash/stash.consts';
 
 export const actions: ActionTree<MapState, RootState> = {
   [mapActions.MAP_ITEM_COPIED](context, payload: POEMapItem) {

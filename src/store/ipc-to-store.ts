@@ -12,7 +12,7 @@ import {
   ENTER_HIDEOUT
 } from '../consts/ipc-events';
 import { RootState } from './state';
-import { mapActions } from './map/map.actions';
+import { mapActions } from './map/map.consts';
 
 /**
  * Register IPC events from main to renderer process and bind them to Vuex.

@@ -2,25 +2,7 @@ import { MutationTree } from 'vuex';
 
 import { POEMapItem, POEStashItem } from '@/models/PathOfExile';
 import { MapState } from './map.state';
-
-export const mapMutations = {
-  setQueuedMap: 'Set queued map',
-  removeQueuedMap: 'Remove queued map',
-
-  setCurrentMap: 'Set current map as queued map',
-  removeCurrentMap: 'Remove current map',
-
-  setLatestMap: 'Set latest map as queued map',
-  removeLatestMap: 'Remove latest map',
-
-  setLatestMapIncomeCalculated: 'Set latest map income calculated',
-  removeLatestMapIncomeCalculated: 'Remove latest map income calculated',
-
-  addMapDone: 'Add a map done',
-
-  enterMap: 'Set in-map',
-  leaveMap: 'Remove in-map'
-};
+import { mapMutations } from './map.consts';
 
 export const mutations: MutationTree<MapState> = {
   [mapMutations.setQueuedMap](state, payload: POEMapItem) {

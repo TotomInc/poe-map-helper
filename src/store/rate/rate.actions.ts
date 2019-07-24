@@ -5,13 +5,7 @@ import { IpcHttpRequestOption } from '@/models/IpcHttp';
 import { ipcHttpRequest } from '@/store/ipc-to-store';
 import { RootState } from '../state';
 import { RateState } from './rate.state';
-import { rateMutations } from './rate.mutations';
-
-export const rateActions = {
-  LOAD_CURRENCIES_RATE: 'LOAD_CURRENCIES_RATE',
-  LOAD_CURRENCIES_RATE_SUCCESS: 'LOAD_CURRENCIES_RATE_SUCCESS',
-  LOAD_CURRENCIES_RATE_FAILED: 'LOAD_CURRENCIES_RATE_FAILED'
-};
+import { rateActions, rateMutations } from './rate.consts';
 
 export const actions: ActionTree<RateState, RootState> = {
   [rateActions.LOAD_CURRENCIES_RATE](context, payload: void) {

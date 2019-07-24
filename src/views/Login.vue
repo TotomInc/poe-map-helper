@@ -39,7 +39,7 @@
 import { Vue, Component } from 'vue-property-decorator';
 
 import { UserState } from '@/store/user/user.state';
-import { userActions } from '@/store/user/user.actions';
+import { userActions } from '@/store/user/user.consts';
 
 @Component({})
 export default class LoginView extends Vue {

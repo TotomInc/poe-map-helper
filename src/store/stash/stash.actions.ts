@@ -5,18 +5,8 @@ import { IpcHttpRequestOption } from '@/models/IpcHttp';
 import { ipcHttpRequest } from '../ipc-to-store';
 import { RootState } from '../state';
 import { StashState } from './stash.state';
-import { userGetters } from '../user/user.getters';
-import { stashMutations } from './stash.mutations';
-
-export const stashActions = {
-  GET_STASH_ITEMS: 'GET_STASH_ITEMS',
-  GET_STASH_ITEMS_SUCCESS: 'GET_STASH_ITEMS_SUCCESS',
-  GET_STASH_ITEMS_FAILED: 'GET_STASH_ITEMS_FAILED',
-
-  CALCULATE_STASH_DIFF: 'CALCULATE_STASH_DIFF',
-
-  CALCULATE_ITEMS_DIFF_INCOME: 'CALCULATE_ITEMS_DIFF_INCOME'
-};
+import { userGetters } from '../user/user.consts';
+import { stashActions, stashMutations } from './stash.consts';
 
 export const actions: ActionTree<StashState, RootState> = {
   [stashActions.GET_STASH_ITEMS](context, payload: void) {

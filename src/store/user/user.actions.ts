@@ -6,21 +6,7 @@ import { POECharacter } from '@/models/PathOfExile';
 import { RootState } from '@/store/state';
 import { ipcHttpRequest } from '@/store/ipc-to-store';
 import { UserState } from './user.state';
-import { userMutations } from './user.mutations';
-
-export const userActions = {
-  COOKIE_LOGIN: 'COOKIE_LOGIN',
-  COOKIE_LOGIN_SUCCESS: 'COOKIE_LOGIN_SUCCESS',
-  COOKIE_LOGIN_FAILED: 'COOKIE_LOGIN_FAILED',
-
-  LOAD_CHARACTERS: 'LOAD_CHARACTERS',
-  LOAD_CHARACTERS_SUCCESS: 'LOAD_CHARACTERS_SUCCESS',
-  LOAD_CHARACTERS_FAILED: 'LOAD_CHARACTERS_FAILED',
-
-  FINISH_SETUP: 'FINISH_SETUP',
-
-  LOGOUT: 'LOGOUT'
-};
+import { userActions, userMutations } from './user.consts';
 
 export const actions: ActionTree<UserState, RootState> = {
   [userActions.COOKIE_LOGIN](context, payload: string) {

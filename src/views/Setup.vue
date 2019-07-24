@@ -71,10 +71,9 @@ import { Vue, Component } from 'vue-property-decorator';
 
 import { POECharacter } from '@/models/PathOfExile';
 import { UserState } from '@/store/user/user.state';
-import { userActions } from '@/store/user/user.actions';
-import { userMutations } from '@/store/user/user.mutations';
+import { userActions, userMutations } from '@/store/user/user.consts';
 import { RateState } from '@/store/rate/rate.state';
-import { rateActions } from '@/store/rate/rate.actions';
+import { rateActions } from '@/store/rate/rate.consts';
 
 @Component({})
 export default class SetupView extends Vue {

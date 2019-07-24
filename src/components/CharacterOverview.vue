@@ -61,8 +61,7 @@ import { Vue, Component } from 'vue-property-decorator';
 
 import { POECharacter } from '@/models/PathOfExile';
 import { UserState } from '@/store/user/user.state';
-import { userActions } from '@/store/user/user.actions';
-import { userMutations } from '@/store/user/user.mutations';
+import { userActions, userMutations } from '@/store/user/user.consts';
 import { experiencePerLevel } from '@/utils/experience-per-level';
 
 @Component({})
