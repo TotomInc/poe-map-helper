@@ -13,6 +13,9 @@ export const mapMutations = {
   setLatestMap: 'Set latest map as queued map',
   removeLatestMap: 'Remove latest map',
 
+  setLatestMapIncomeCalculated: 'Set latest map income calculated',
+  removeLatestMapIncomeCalculated: 'Remove latest map income calculated',
+
   addMapDone: 'Add a map done',
 
   enterMap: 'Set in-map',
@@ -42,6 +45,14 @@ export const mutations: MutationTree<MapState> = {
 
   [mapMutations.removeLatestMap](state, payload: void) {
     state.latestMap = undefined;
+  },
+
+  [mapMutations.setLatestMapIncomeCalculated](state, payload: void) {
+    state.latestMapIncomeCalculated = true;
+  },
+
+  [mapMutations.removeLatestMapIncomeCalculated](state, payload: void) {
+    state.latestMapIncomeCalculated = false;
   },
 
   [mapMutations.addMapDone](state, payload: { map: POEMapItem; items: POEStashItem[] }) {

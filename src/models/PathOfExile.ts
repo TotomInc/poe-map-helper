@@ -77,6 +77,11 @@ export interface POEStashItem {
   stackSize?: number;
 }
 
+export interface POEPricedStashItem extends POEStashItem {
+  chaos: number;
+  exalt: number;
+}
+
 /**
  * Zone details where the player is actually.
  */

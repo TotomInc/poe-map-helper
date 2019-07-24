@@ -4,6 +4,7 @@ import { POEMapItem } from '@/models/PathOfExile';
 import { RootState } from '@/store/state';
 import { MapState } from './map.state';
 import { mapMutations } from './map.mutations';
+import { stashActions } from '../stash/stash.actions';
 
 export const mapActions = {
   MAP_ITEM_COPIED: 'MAP_ITEM_COPIED',
@@ -16,10 +17,14 @@ export const actions: ActionTree<MapState, RootState> = {
   [mapActions.MAP_ITEM_COPIED](context, payload: POEMapItem) {
     // Set a new queued map and set the current map as the latest map
     if (!context.state.inMap) {
-      const latestMapPayload = Object.freeze(context.state.currentMap);
-
       context.commit(mapMutations.setQueuedMap, payload);
-      context.commit(mapMutations.setLatestMap, latestMapPayload);
+
+      if (context.state.currentMap) {
+        const latestMapPayload = Object.freeze(context.state.currentMap);
+
+        context.commit(mapMutations.setLatestMap, latestMapPayload);
+        context.commit(mapMutations.removeCurrentMap);
+      }
     }
   },
 
@@ -30,6 +35,12 @@ export const actions: ActionTree<MapState, RootState> = {
 
       context.commit(mapMutations.setCurrentMap, currentMapPayload);
       context.commit(mapMutations.removeQueuedMap);
+
+      if (!context.state.latestMapIncomeCalculated) {
+        context.dispatch(stashActions.GET_STASH_ITEMS);
+
+        context.commit(mapMutations.setLatestMapIncomeCalculated);
+      }
     }
 
     context.commit(mapMutations.enterMap);

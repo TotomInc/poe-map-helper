@@ -1,6 +1,6 @@
 import { MutationTree } from 'vuex';
 
-import { POEStashItem } from '@/models/PathOfExile';
+import { POEStashItem, POEPricedStashItem } from '@/models/PathOfExile';
 import { StashState } from './stash.state';
 
 export const stashMutations = {
@@ -11,7 +11,10 @@ export const stashMutations = {
   removeItems: 'Remove stash items',
 
   setItemsDiff: 'Set items diff',
-  removeItemsDiff: 'Remove items diff'
+  removeItemsDiff: 'Remove items diff',
+
+  setItemsDiffIncome: 'Set items diff income',
+  removeItemsDiffIncome: 'Remove items diff income'
 };
 
 export const mutations: MutationTree<StashState> = {
@@ -37,5 +40,13 @@ export const mutations: MutationTree<StashState> = {
 
   [stashMutations.removeItemsDiff](state, payload: void) {
     state.itemsDiff = [];
+  },
+
+  [stashMutations.setItemsDiffIncome](state, payload: POEPricedStashItem[]) {
+    state.itemsDiffIncome = payload;
+  },
+
+  [stashMutations.removeItemsDiffIncome](state, payload: void) {
+    state.itemsDiffIncome = [];
   }
 };
