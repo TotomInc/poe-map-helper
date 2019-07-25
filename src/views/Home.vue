@@ -18,6 +18,8 @@ import { Vue, Component } from 'vue-property-decorator';
 import CharacterOverview from '@/components/CharacterOverview.vue';
 import MapStatus from '@/components/MapStatus.vue';
 import LatestMapIncome from '@/components/LatestMapIncome.vue';
+import { StashState } from '@/store/stash/stash.state';
+import { stashActions } from '@/store/stash/stash.consts';
 
 @Component({
   components: {
@@ -26,5 +28,13 @@ import LatestMapIncome from '@/components/LatestMapIncome.vue';
     LatestMapIncome
   }
 })
-export default class HomeView extends Vue {}
+export default class HomeView extends Vue {
+  get stash(): StashState {
+    return this.$store.state.stash;
+  }
+
+  public mounted(): void {
+    this.$store.dispatch(stashActions.GET_STASH_ITEMS);
+  }
+}
 </script>
