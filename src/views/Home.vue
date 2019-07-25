@@ -7,6 +7,8 @@
     <character-overview class="mb-4" />
 
     <map-status class="mb-4" />
+
+    <latest-map-income class="mb-4" />
   </div>
 </template>
 
@@ -15,11 +17,13 @@ import { Vue, Component } from 'vue-property-decorator';
 
 import CharacterOverview from '@/components/CharacterOverview.vue';
 import MapStatus from '@/components/MapStatus.vue';
+import LatestMapIncome from '@/components/LatestMapIncome.vue';
 
 @Component({
   components: {
     CharacterOverview,
-    MapStatus
+    MapStatus,
+    LatestMapIncome
   }
 })
 export default class HomeView extends Vue {}
