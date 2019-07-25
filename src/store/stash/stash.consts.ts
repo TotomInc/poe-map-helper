@@ -21,3 +21,7 @@ export const stashMutations = {
   setItemsDiffIncome: 'Set items diff income',
   removeItemsDiffIncome: 'Remove items diff income'
 };
+
+export const stashGetters = {
+  getTotalItemsDiffIncome: 'getTotalItemsDiffIncome'
+};
