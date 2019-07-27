@@ -8,6 +8,23 @@ export interface POECharacter {
   name: string;
 }
 
+export interface POEStashTab {
+  hidden: boolean;
+  i: number;
+  id: string;
+  n: string;
+  selected: boolean;
+  srcC: string;
+  srcL: string;
+  srcR: string;
+  type: string;
+  colour: {
+    r: number;
+    g: number;
+    b: number;
+  };
+}
+
 export interface POEMapItem {
   name: string;
   /**

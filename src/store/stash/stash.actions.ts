@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 
-import { POECharacter, POEStashItem, POEPricedStashItem } from '@/models/PathOfExile';
+import { POECharacter, POEStashItem, POEPricedStashItem, POEStashTab } from '@/models/PathOfExile';
 import { IpcHttpRequestOption } from '@/models/IpcHttp';
 import { ipcHttpRequest } from '../ipc-to-store';
 import { RootState } from '../state';
@@ -9,7 +9,10 @@ import { userGetters } from '../user/user.consts';
 import { stashActions, stashMutations } from './stash.consts';
 
 export const actions: ActionTree<StashState, RootState> = {
-  [stashActions.GET_STASH_ITEMS](context, payload: void) {
+  /**
+   * Load all available stash-tabs of a specific league.
+   */
+  [stashActions.GET_STASH_TABS](context, payload: void) {
     const selectedCharacter: POECharacter | undefined = context.rootGetters[userGetters.poeSelectedCharacter];
 
     const { accountName, poesessid } = context.rootState.user;
@@ -19,6 +22,46 @@ export const actions: ActionTree<StashState, RootState> = {
 
       const requestPayload: IpcHttpRequestOption = {
         url: `https://www.pathofexile.com/character-window/get-stash-items?accountName=${accountName}&realm=pc&league=${league}&tabs=1&tabIndex=0&public=false`,
+        onSuccessIpc: stashActions.GET_STASH_ITEMS_SUCCESS,
+        onFailIpc: stashActions.GET_STASH_ITEMS_FAILED,
+        axiosOptions: {
+          method: 'GET',
+          maxRedirects: 0,
+          headers: {
+            Cookie: `POESESSID=${poesessid}`
+          }
+        }
+      };
+
+      context.commit(stashMutations.setLoading);
+
+      ipcHttpRequest(requestPayload);
+    }
+  },
+
+  [stashActions.GET_STASH_TABS_SUCCESS](context, payload: POEStashTab[]) {
+    context.commit(stashMutations.setStashTabs, payload);
+    context.commit(stashMutations.removeLoading);
+  },
+
+  [stashActions.GET_STASH_TABS_FAILED](context, payload: POEStashTab[]) {
+    context.commit(stashMutations.removeLoading);
+  },
+
+  /**
+   * Load all items from the selected stash-tab.
+   */
+  [stashActions.GET_STASH_ITEMS](context, payload: void) {
+    const selectedCharacter: POECharacter | undefined = context.rootGetters[userGetters.poeSelectedCharacter];
+
+    const { accountName, poesessid } = context.rootState.user;
+    const { selectedStashTab } = context.state;
+
+    if (selectedCharacter && accountName && poesessid && selectedStashTab) {
+      const { league } = selectedCharacter;
+
+      const requestPayload: IpcHttpRequestOption = {
+        url: `https://www.pathofexile.com/character-window/get-stash-items?accountName=${accountName}&realm=pc&league=${league}&tabs=0&tabIndex=${selectedStashTab}&public=false`,
         onSuccessIpc: stashActions.GET_STASH_ITEMS_SUCCESS,
         onFailIpc: stashActions.GET_STASH_ITEMS_FAILED,
         axiosOptions: {

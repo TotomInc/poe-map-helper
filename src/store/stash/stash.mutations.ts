@@ -1,6 +1,6 @@
 import { MutationTree } from 'vuex';
 
-import { POEStashItem, POEPricedStashItem } from '@/models/PathOfExile';
+import { POEStashItem, POEPricedStashItem, POEStashTab } from '@/models/PathOfExile';
 import { StashState } from './stash.state';
 import { stashMutations } from './stash.consts';
 
@@ -11,6 +11,22 @@ export const mutations: MutationTree<StashState> = {
 
   [stashMutations.removeLoading](state, payload: void) {
     state.loading = false;
+  },
+
+  [stashMutations.setStashTabs](state, payload: POEStashTab[]) {
+    state.stashTabs = payload;
+  },
+
+  [stashMutations.removeStashTabs](state, payload: void) {
+    state.stashTabs = [];
+  },
+
+  [stashMutations.selectStashTab](state, payload: number) {
+    state.selectedStashTab = payload;
+  },
+
+  [stashMutations.unselectStashTab](state, payload: void) {
+    state.selectedStashTab = -1;
   },
 
   [stashMutations.setItems](state, payload: POEStashItem[]) {
