@@ -3,7 +3,7 @@ import { POEStashItem, POEPricedStashItem, POEStashTab } from '@/models/PathOfEx
 export interface StashState {
   loading: boolean;
   stashTabs: POEStashTab[];
-  selectedStashTab: number;
+  selectedStashTab: string | undefined;
   items: POEStashItem[];
   itemsDiff: POEStashItem[];
   itemsDiffIncome: POEPricedStashItem[];
@@ -12,7 +12,7 @@ export interface StashState {
 export const state: StashState = {
   loading: false,
   stashTabs: [],
-  selectedStashTab: -1,
+  selectedStashTab: undefined,
   items: [],
   itemsDiff: [],
   itemsDiffIncome: []

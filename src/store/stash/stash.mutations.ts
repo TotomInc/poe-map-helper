@@ -21,12 +21,12 @@ export const mutations: MutationTree<StashState> = {
     state.stashTabs = [];
   },
 
-  [stashMutations.selectStashTab](state, payload: number) {
+  [stashMutations.selectStashTab](state, payload: string) {
     state.selectedStashTab = payload;
   },
 
   [stashMutations.unselectStashTab](state, payload: void) {
-    state.selectedStashTab = -1;
+    state.selectedStashTab = undefined;
   },
 
   [stashMutations.setItems](state, payload: POEStashItem[]) {

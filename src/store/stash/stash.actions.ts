@@ -22,8 +22,8 @@ export const actions: ActionTree<StashState, RootState> = {
 
       const requestPayload: IpcHttpRequestOption = {
         url: `https://www.pathofexile.com/character-window/get-stash-items?accountName=${accountName}&realm=pc&league=${league}&tabs=1&tabIndex=0&public=false`,
-        onSuccessIpc: stashActions.GET_STASH_ITEMS_SUCCESS,
-        onFailIpc: stashActions.GET_STASH_ITEMS_FAILED,
+        onSuccessIpc: stashActions.GET_STASH_TABS_SUCCESS,
+        onFailIpc: stashActions.GET_STASH_TABS_FAILED,
         axiosOptions: {
           method: 'GET',
           maxRedirects: 0,
@@ -39,8 +39,8 @@ export const actions: ActionTree<StashState, RootState> = {
     }
   },
 
-  [stashActions.GET_STASH_TABS_SUCCESS](context, payload: POEStashTab[]) {
-    context.commit(stashMutations.setStashTabs, payload);
+  [stashActions.GET_STASH_TABS_SUCCESS](context, payload: { tabs: POEStashTab[] }) {
+    context.commit(stashMutations.setStashTabs, payload.tabs);
     context.commit(stashMutations.removeLoading);
   },
 
