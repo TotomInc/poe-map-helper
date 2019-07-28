@@ -1,5 +1,5 @@
 <template>
-  <div id="setup-view" class="flex flex-col justify-center items-center h-full w-full text-white">
+  <div id="setup-character-view" class="flex flex-col justify-center items-center h-full w-full text-white">
     <div v-if="user.loading">
       <h1 class="text-xl text-white">
         Retrieving your account characters...
@@ -54,7 +54,7 @@
             class="primary"
             :loading="user.loading"
             :disabled="!poeSelectedCharacter || !logfilePath"
-            @click="finishSetup()"
+            @click="finishSetupCharacter()"
           >
             Finish setup
           </vue-button>
@@ -76,7 +76,7 @@ import { RateState } from '@/store/rate/rate.state';
 import { rateActions } from '@/store/rate/rate.consts';
 
 @Component({})
-export default class SetupView extends Vue {
+export default class SetupCharacterView extends Vue {
   private selectedCharacter = '';
 
   private logfilePath = '';
@@ -121,7 +121,7 @@ export default class SetupView extends Vue {
    * Set the selected character and the logfile path in the store, make sure to
    * load rates before accessing the Home view.
    */
-  public finishSetup(): void {
+  public finishSetupCharacter(): void {
     const payload = {
       selectedCharacter: this.selectedCharacter,
       logfilePath: this.logfilePath
