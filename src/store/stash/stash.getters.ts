@@ -17,5 +17,9 @@ export const getters: GetterTree<StashState, RootState> = {
     });
 
     return totalItemsDiffIncome;
+  },
+
+  [stashGetters.getStashTabIndex](state): number {
+    return state.stashTabs.findIndex((tab) => tab.id === state.selectedStashTab);
   }
 };

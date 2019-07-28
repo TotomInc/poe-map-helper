@@ -33,5 +33,7 @@ export const stashMutations = {
 };
 
 export const stashGetters = {
-  getTotalItemsDiffIncome: 'getTotalItemsDiffIncome'
+  getTotalItemsDiffIncome: 'getTotalItemsDiffIncome',
+
+  getStashTabIndex: 'getStashTabIndex'
 };
