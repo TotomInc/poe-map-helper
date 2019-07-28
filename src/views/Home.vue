@@ -1,6 +1,6 @@
 <template>
   <div id="home-view" class="container mx-auto py-8">
-    <h1 class="text-gray-300 text-center text-4xl mb-4">
+    <h1 class="text-gray-300 text-center text-4xl mb-4 select-none">
       PoE Mapper Assistant
     </h1>
 
