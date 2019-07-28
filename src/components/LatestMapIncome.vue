@@ -5,12 +5,6 @@
       class="max-w-2xl mx-auto p-4 rounded text-discord-100 bg-discord-700 shadow-2xl select-none"
     >
       <div v-if="stash.loading">
-        <h1 class="mb-2 text-xl text-center text-gray-300">
-          Latest map:
-          {{ map.latestMap.name }}
-          (T{{ map.latestMap.tier }})
-        </h1>
-
         <h2 class="text-lg text-center">
           Loading stash-tab data and calculating latest map income...
         </h2>
