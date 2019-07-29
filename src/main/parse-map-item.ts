@@ -45,10 +45,10 @@ export function extractMapRarity(details: string[]): number {
  * @param details splitted lines from the map item
  */
 export function extractMapName(details: string[]): string {
-  const separatorIndex = details.indexOf('--------');
+  const separatorIndex = details.indexOf('--------\r');
 
   // The name of the map is always before the first separator
-  const mapName = details[separatorIndex - 1];
+  const mapName = details[separatorIndex - 1].trim();
 
   return mapName;
 }
