@@ -14,6 +14,9 @@ export const getters: GetterTree<StashState, RootState> = {
     state.itemsDiffIncome.forEach((item) => {
       totalItemsDiffIncome.chaos += item.chaos;
       totalItemsDiffIncome.exalt += item.exalt;
+
+      totalItemsDiffIncome.chaos = Math.round(totalItemsDiffIncome.chaos * 100) / 100;
+      totalItemsDiffIncome.exalt = Math.round(totalItemsDiffIncome.exalt * 1000) / 1000;
     });
 
     return totalItemsDiffIncome;

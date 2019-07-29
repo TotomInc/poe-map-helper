@@ -153,10 +153,12 @@ export const actions: ActionTree<StashState, RootState> = {
       const itemCurrency = currencies.find((currency) => currency.name === item.typeLine);
 
       if (itemCurrency) {
+        const itemAmount = item.stackSize ? item.stackSize : 1;
+
         const itemDiffIncome: POEPricedStashItem = {
           ...item,
-          chaos: itemCurrency.mean,
-          exalt: itemCurrency.exalted
+          chaos: Math.round(itemCurrency.mean * itemAmount * 100) / 100,
+          exalt: Math.round(itemCurrency.exalted * itemAmount * 1000) / 1000
         };
 
         itemsDiffIncomePayload.push(itemDiffIncome);
