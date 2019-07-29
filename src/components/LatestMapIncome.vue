@@ -10,7 +10,7 @@
         </h2>
       </div>
 
-      <div v-else-if="!map.latestMap && !map.latestMapIncomeCalculated">
+      <div v-else-if="!map.latestMap && totalItemsDiffIncome.chaos <= 0">
         <h1 class="mb-2 text-xl text-center text-gray-300">
           No latest map found.
         </h1>
@@ -20,7 +20,7 @@
         </h2>
       </div>
 
-      <div v-else-if="map.latestMap && !map.latestMapIncomeCalculated">
+      <div v-else-if="map.latestMap && totalItemsDiffIncome.chaos <= 0">
         <h1 class="mb-2 text-xl text-center text-gray-300">
           Latest map:
           {{ map.latestMap.name }}
@@ -32,7 +32,7 @@
         </h2>
       </div>
 
-      <div v-else-if="map.latestMap && map.latestMapIncomeCalculated">
+      <div v-else-if="map.latestMap && totalItemsDiffIncome.chaos > 0">
         <h1 class="mb-2 text-xl text-center text-gray-300">
           Latest map:
           {{ map.latestMap.name }}
@@ -49,6 +49,7 @@
 import { Vue, Component } from 'vue-property-decorator';
 
 import { MapState } from '@/store/map/map.state';
+import { stashGetters } from '@/store/stash/stash.consts';
 import { StashState } from '@/store/stash/stash.state';
 import MapIncomeTable from '@/components/MapIncomeTable.vue';
 
@@ -64,6 +65,10 @@ export default class LatestMapIncomeComponent extends Vue {
 
   get stash(): StashState {
     return this.$store.state.stash;
+  }
+
+  get totalItemsDiffIncome(): { chaos: number; exalt: number } {
+    return this.$store.getters[stashGetters.getTotalItemsDiffIncome];
   }
 }
 </script>
