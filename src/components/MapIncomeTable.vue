@@ -10,7 +10,7 @@
         <img :src="cleanIconURL(item.icon)" class="h-6 mr-1" />
         <p>
           {{ item.typeLine }}
-          <span class="text-vue-500">x{{ item.stackSize }}</span>
+          <span class="text-vue-500">x{{ item.stackSize ? item.stackSize : 1 }}</span>
         </p>
       </div>
 
