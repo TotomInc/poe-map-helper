@@ -29,12 +29,13 @@ export const actions: ActionTree<MapState, RootState> = {
   [mapActions.ENTER_MAP](context, payload: void) {
     // Set the current map only if there is a queued map
     if (context.state.queuedMap) {
+      const { latestMapIncomeCalculated, mapsHistory } = context.state;
       const currentMapPayload = Object.freeze(context.state.queuedMap);
 
       context.commit(mapMutations.setCurrentMap, currentMapPayload);
       context.commit(mapMutations.removeQueuedMap);
 
-      if (!context.state.latestMapIncomeCalculated) {
+      if (!latestMapIncomeCalculated && mapsHistory.length > 0) {
         context.dispatch(stashActions.GET_STASH_ITEMS);
 
         context.commit(mapMutations.setLatestMapIncomeCalculated);

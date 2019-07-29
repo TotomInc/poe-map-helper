@@ -7,6 +7,7 @@ import { RootState } from '../state';
 import { StashState } from './stash.state';
 import { userGetters } from '../user/user.consts';
 import { stashActions, stashMutations, stashGetters } from './stash.consts';
+import { mapMutations } from '../map/map.consts';
 
 export const actions: ActionTree<StashState, RootState> = {
   /**
@@ -166,5 +167,6 @@ export const actions: ActionTree<StashState, RootState> = {
     });
 
     context.commit(stashMutations.setItemsDiffIncome, itemsDiffIncomePayload);
+    context.commit(mapMutations.removeLatestMapIncomeCalculated);
   }
 };
