@@ -1,4 +1,4 @@
-import { POEMapItem, POEStashItem } from '@/models/PathOfExile';
+import { POEMapItem, POEPricedStashItem } from '@/models/PathOfExile';
 
 export interface MapState {
   currentMap: POEMapItem | undefined;
@@ -10,7 +10,7 @@ export interface MapState {
   /** Ordered by the most recent map at 0-index */
   mapsHistory: {
     map: POEMapItem;
-    items: POEStashItem[];
+    items: POEPricedStashItem[];
   }[];
 }
 

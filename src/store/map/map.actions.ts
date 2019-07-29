@@ -14,8 +14,13 @@ export const actions: ActionTree<MapState, RootState> = {
 
       if (context.state.currentMap) {
         const latestMapPayload = Object.freeze(context.state.currentMap);
+        const mapDonePayload = {
+          map: latestMapPayload,
+          items: Object.freeze(context.rootState.stash.itemsDiffIncome)
+        };
 
         context.commit(mapMutations.setLatestMap, latestMapPayload);
+        context.commit(mapMutations.addMapDone, mapDonePayload);
         context.commit(mapMutations.removeCurrentMap);
       }
     }
