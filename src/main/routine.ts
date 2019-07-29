@@ -75,6 +75,7 @@ export function registerEvents() {
     }
 
     createWindow();
+
     ee.emit('ready');
   });
 }
@@ -92,12 +93,14 @@ export function registerIpcEvents() {
     tail = new TailLogfile(path);
 
     tail.on('line', (line) => {
-      const parsedLine = parseLogLine(line);
+      if (win) {
+        const parsedLine = parseLogLine(line);
 
-      if (parsedLine.enterMap && parsedLine.mapZoneDetails) {
-        ipcMain.emit(ENTER_MAP, parsedLine.mapZoneDetails);
-      } else if (parsedLine.enterHideout) {
-        ipcMain.emit(ENTER_HIDEOUT);
+        if (parsedLine.enterMap && parsedLine.mapZoneDetails) {
+          win.webContents.send(ENTER_MAP, parsedLine.mapZoneDetails);
+        } else if (parsedLine.enterHideout) {
+          win.webContents.send(ENTER_HIDEOUT);
+        }
       }
     });
   });
@@ -105,10 +108,10 @@ export function registerIpcEvents() {
   clipboard.on('content', (clipboardData) => {
     const cliboardDataIsMapItem = isMapItem(clipboardData);
 
-    if (cliboardDataIsMapItem) {
+    if (cliboardDataIsMapItem && win) {
       const parsedMapItem = parseMapItem(clipboardData);
 
-      ipcMain.emit(MAP_ITEM_COPIED, parsedMapItem);
+      win.webContents.send(MAP_ITEM_COPIED, parsedMapItem);
     }
   });
 }
