@@ -70,6 +70,8 @@ export default class CharacterOverviewComponent extends Vue {
 
   private experiencePercentage = 0;
 
+  private lastLevelExperienceRequired = 0;
+
   get user(): UserState {
     return this.$store.state.user;
   }
@@ -102,6 +104,7 @@ export default class CharacterOverviewComponent extends Vue {
   private updateRequiredExperience(): void {
     if (this.poeCharacter) {
       this.experienceRequired = experiencePerLevel[this.poeCharacter.level];
+      this.lastLevelExperienceRequired = experiencePerLevel[this.poeCharacter.level - 1];
     }
   }
 
@@ -109,7 +112,10 @@ export default class CharacterOverviewComponent extends Vue {
     let width = '0%';
 
     if (this.poeCharacter) {
-      const widthPercentage = Math.floor((this.poeCharacter.experience / this.experienceRequired) * 100);
+      const { experience } = this.poeCharacter;
+
+      // eslint-disable-next-line
+      const widthPercentage = ((this.poeCharacter.experience - this.lastLevelExperienceRequired) / (this.experienceRequired - this.lastLevelExperienceRequired)) * 100;
 
       this.experiencePercentage = widthPercentage;
       width = `${widthPercentage}%`;
