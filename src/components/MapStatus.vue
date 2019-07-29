@@ -103,7 +103,9 @@ export default class MapStatusComponent extends Vue {
   }
 
   private getMapIconURL(map: POEMapItem): string {
-    const rawMapImageURL = rawMapsImageURL.find((rawMap) => rawMap.name === map.name);
+    // Map name contains the "Map" suffix, we need to cut this suffix
+    const mapName = map.name.substring(0, map.name.indexOf('Map') - 1);
+    const rawMapImageURL = rawMapsImageURL.find((rawMap) => rawMap.name === mapName);
 
     if (rawMapImageURL) {
       return `https:${rawMapImageURL.url}?mn=4&mt=${map.tier}&mr=0`;
