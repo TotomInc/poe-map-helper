@@ -77,7 +77,9 @@
 
     <div class="flex flex-row px-2 py-1 rounded">
       <div class="flex flex-row items-center w-1/2">
-        <p>Total:</p>
+        <p class="text-lg">
+          Total:
+        </p>
       </div>
 
       <div class="flex flex-row items-center justify-end w-1/4">
