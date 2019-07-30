@@ -2,25 +2,7 @@ import { MutationTree } from 'vuex';
 
 import { POECharacter } from '@/models/PathOfExile';
 import { UserState } from './user.state';
-
-export const userMutations = {
-  setLoading: 'Set user loading',
-  removeLoading: 'Remove user loading',
-
-  setLogged: 'Set user logged',
-  removeLogged: 'Remove user logged',
-
-  setPOESESSID: 'Set user POESESSID',
-
-  setCharacters: 'Set user characters',
-  removeCharacters: 'Remove user characters',
-
-  setSelectedCharacter: 'Set user selected character',
-  removeSelectedCharacter: 'Remove user selected character',
-
-  setAccountName: 'Set user account name',
-  removeAccountName: 'Remove user account name'
-};
+import { userMutations } from './user.consts';
 
 export const mutations: MutationTree<UserState> = {
   [userMutations.setLoading](state, payload: void) {

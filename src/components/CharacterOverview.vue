@@ -61,8 +61,7 @@ import { Vue, Component } from 'vue-property-decorator';
 
 import { POECharacter } from '@/models/PathOfExile';
 import { UserState } from '@/store/user/user.state';
-import { userActions } from '@/store/user/user.actions';
-import { userMutations } from '@/store/user/user.mutations';
+import { userActions, userMutations } from '@/store/user/user.consts';
 import { experiencePerLevel } from '@/utils/experience-per-level';
 
 @Component({})
@@ -70,6 +69,8 @@ export default class CharacterOverviewComponent extends Vue {
   private experienceRequired = 0;
 
   private experiencePercentage = 0;
+
+  private lastLevelExperienceRequired = 0;
 
   get user(): UserState {
     return this.$store.state.user;
@@ -97,12 +98,13 @@ export default class CharacterOverviewComponent extends Vue {
 
   public changeCharacter(): void {
     this.$store.commit(userMutations.removeSelectedCharacter);
-    this.$router.push('setup');
+    this.$router.push('setup-character');
   }
 
   private updateRequiredExperience(): void {
     if (this.poeCharacter) {
       this.experienceRequired = experiencePerLevel[this.poeCharacter.level];
+      this.lastLevelExperienceRequired = experiencePerLevel[this.poeCharacter.level - 1];
     }
   }
 
@@ -110,7 +112,10 @@ export default class CharacterOverviewComponent extends Vue {
     let width = '0%';
 
     if (this.poeCharacter) {
-      const widthPercentage = Math.floor((this.poeCharacter.experience / this.experienceRequired) * 100);
+      const { experience } = this.poeCharacter;
+
+      // eslint-disable-next-line
+      const widthPercentage = ((this.poeCharacter.experience - this.lastLevelExperienceRequired) / (this.experienceRequired - this.lastLevelExperienceRequired)) * 100;
 
       this.experiencePercentage = widthPercentage;
       width = `${widthPercentage}%`;

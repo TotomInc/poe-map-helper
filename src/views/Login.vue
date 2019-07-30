@@ -39,7 +39,7 @@
 import { Vue, Component } from 'vue-property-decorator';
 
 import { UserState } from '@/store/user/user.state';
-import { userActions } from '@/store/user/user.actions';
+import { userActions } from '@/store/user/user.consts';
 
 @Component({})
 export default class LoginView extends Vue {
@@ -59,7 +59,7 @@ export default class LoginView extends Vue {
     this.$store.subscribeAction({
       after: ({ type, payload }) => {
         if (type === userActions.COOKIE_LOGIN_SUCCESS) {
-          this.$router.push('setup');
+          this.$router.push('setup-character');
         } else if (type === userActions.COOKIE_LOGIN_FAILED) {
           this.$notify({
             group: 'LOGIN',

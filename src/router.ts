@@ -4,7 +4,8 @@ import Router from 'vue-router';
 import store from '@/store';
 import HomeView from '@/views/Home.vue';
 import LoginView from '@/views/Login.vue';
-import SetupView from '@/views/Setup.vue';
+import SetupCharacterView from '@/views/SetupCharacter.vue';
+import SetupStashView from '@/views/SetupStash.vue';
 
 Vue.use(Router);
 
@@ -27,8 +28,19 @@ export default new Router({
       component: LoginView
     },
     {
-      path: '/setup',
-      component: SetupView,
+      path: '/setup-character',
+      component: SetupCharacterView,
+      beforeEnter: (to, from, next) => {
+        if (!store.state.user.logged) {
+          next('/login');
+        } else {
+          next();
+        }
+      }
+    },
+    {
+      path: '/setup-stash',
+      component: SetupStashView,
       beforeEnter: (to, from, next) => {
         if (!store.state.user.logged) {
           next('/login');

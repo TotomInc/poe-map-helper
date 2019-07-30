@@ -1,27 +1,15 @@
 import { MutationTree } from 'vuex';
 
-import { POEMapItem } from '@/models/PathOfExile';
+import { POEMapItem, POEPricedStashItem } from '@/models/PathOfExile';
 import { MapState } from './map.state';
-
-export const mapMutations = {
-  setQueuedMap: 'Set queued map',
-  removedQueuedMap: 'Remove queued map',
-
-  setCurrentMap: 'Set current map as queued map',
-  removeCurrentMap: 'Remove current map',
-
-  addMapDone: 'Add a map done',
-
-  enterMap: 'Set in-map',
-  leaveMap: 'Remove in-map'
-};
+import { mapMutations } from './map.consts';
 
 export const mutations: MutationTree<MapState> = {
   [mapMutations.setQueuedMap](state, payload: POEMapItem) {
     state.queuedMap = payload;
   },
 
-  [mapMutations.removedQueuedMap](state, payload: void) {
+  [mapMutations.removeQueuedMap](state, payload: void) {
     state.queuedMap = undefined;
   },
 
@@ -33,8 +21,24 @@ export const mutations: MutationTree<MapState> = {
     state.currentMap = undefined;
   },
 
-  [mapMutations.addMapDone](state, payload: POEMapItem) {
-    state.mapsDone.unshift(payload);
+  [mapMutations.setLatestMap](state, payload: POEMapItem) {
+    state.latestMap = payload;
+  },
+
+  [mapMutations.removeLatestMap](state, payload: void) {
+    state.latestMap = undefined;
+  },
+
+  [mapMutations.setLatestMapIncomeCalculated](state, payload: void) {
+    state.latestMapIncomeCalculated = true;
+  },
+
+  [mapMutations.removeLatestMapIncomeCalculated](state, payload: void) {
+    state.latestMapIncomeCalculated = false;
+  },
+
+  [mapMutations.addMapDone](state, payload: { map: POEMapItem; items: POEPricedStashItem[] }) {
+    state.mapsHistory.unshift(payload);
   },
 
   [mapMutations.enterMap](state, payload: void) {

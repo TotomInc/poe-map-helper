@@ -2,14 +2,7 @@ import { MutationTree } from 'vuex';
 
 import { POEWatchCurrency } from '@/models/POEWatch';
 import { RateState } from './rate.state';
-
-export const rateMutations = {
-  setLoading: 'Set rate loading',
-  removeLoading: 'Remove rate loading',
-
-  setCurrenciesRate: 'Set currencies rate',
-  removeCurrenciesRate: 'Remove currencies rate'
-};
+import { rateMutations } from './rate.consts';
 
 export const mutations: MutationTree<RateState> = {
   [rateMutations.setLoading](state, payload: void) {

@@ -25,7 +25,7 @@
               Current
             </p>
 
-            <img :src="generateCurrentMapImageURL()" class="p-2 rounded bg-discord-500" />
+            <img :src="getMapIconURL(map.currentMap)" class="p-2 h-16 rounded bg-discord-500" />
           </div>
 
           <div class="flex flex-col flex-grow justify-center">
@@ -58,7 +58,7 @@
               Queued
             </p>
 
-            <img :src="generateQueuedMapImageURL()" class="p-2 rounded bg-discord-500" />
+            <img :src="getMapIconURL(map.queuedMap)" class="p-2 h-16 rounded bg-discord-500" />
           </div>
 
           <div class="flex flex-col flex-grow justify-center">
@@ -92,7 +92,9 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 
+import { POEMapItem } from '@/models/PathOfExile';
 import { MapState } from '@/store/map/map.state';
+import { rawMapsImageURL } from '../consts/zones';
 
 @Component({})
 export default class MapStatusComponent extends Vue {
@@ -100,29 +102,13 @@ export default class MapStatusComponent extends Vue {
     return this.$store.state.map;
   }
 
-  private generateQueuedMapImageURL(): string {
-    if (this.map.queuedMap) {
-      const mapName = this.map.queuedMap.name.split(' ');
-      const mapTier = this.map.queuedMap.tier;
+  private getMapIconURL(map: POEMapItem): string {
+    // Map name contains the "Map" suffix, we need to cut this suffix
+    const mapName = map.name.substring(0, map.name.indexOf('Map') - 1);
+    const rawMapImageURL = rawMapsImageURL.find((rawMap) => rawMap.name === mapName);
 
-      mapName.pop();
-      mapName.join('');
-
-      return `https://web.poecdn.com/image/Art/2DItems/Maps/Atlas2Maps/New/${mapName}.png?scale=1&w=1&h=1&mr=0&mn=4&mt=${mapTier}`;
-    }
-
-    return 'https://gamepedia.cursecdn.com/pathofexile_gamepedia/0/09/Untainted_Paradise_inventory_icon.png';
-  }
-
-  private generateCurrentMapImageURL(): string {
-    if (this.map.currentMap) {
-      const mapName = this.map.currentMap.name.split(' ');
-      const mapTier = this.map.currentMap.tier;
-
-      mapName.pop();
-      mapName.join('');
-
-      return `https://web.poecdn.com/image/Art/2DItems/Maps/Atlas2Maps/New/${mapName}.png?scale=1&w=1&h=1&mr=0&mn=4&mt=${mapTier}`;
+    if (rawMapImageURL) {
+      return `https:${rawMapImageURL.url}?mn=4&mt=${map.tier}&mr=0`;
     }
 
     return 'https://gamepedia.cursecdn.com/pathofexile_gamepedia/0/09/Untainted_Paradise_inventory_icon.png';

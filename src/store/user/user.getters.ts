@@ -3,10 +3,7 @@ import { GetterTree } from 'vuex';
 import { POECharacter } from '@/models/PathOfExile';
 import { RootState } from '../state';
 import { UserState } from './user.state';
-
-export const userGetters = {
-  poeSelectedCharacter: 'poeSelectedCharacter'
-};
+import { userGetters } from './user.consts';
 
 export const getters: GetterTree<UserState, RootState> = {
   [userGetters.poeSelectedCharacter](state): POECharacter | undefined {

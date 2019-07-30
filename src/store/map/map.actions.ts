@@ -3,38 +3,43 @@ import { ActionTree } from 'vuex';
 import { POEMapItem } from '@/models/PathOfExile';
 import { RootState } from '@/store/state';
 import { MapState } from './map.state';
-import { mapMutations } from './map.mutations';
-
-export const mapActions = {
-  MAP_ITEM_COPIED: 'MAP_ITEM_COPIED',
-
-  ENTER_MAP: 'ENTER_MAP',
-  LEAVE_MAP: 'LEAVE_MAP'
-};
+import { mapActions, mapMutations } from './map.consts';
+import { stashActions } from '../stash/stash.consts';
 
 export const actions: ActionTree<MapState, RootState> = {
   [mapActions.MAP_ITEM_COPIED](context, payload: POEMapItem) {
-    // Map item can be copied only when not in map
+    // Set a new queued map and set the current map as the latest map
     if (!context.state.inMap) {
-      // Remove current map and add map done only if there is a current map
-      if (context.state.currentMap) {
-        const mapDonePayload = Object.freeze(context.state.currentMap);
+      context.commit(mapMutations.setQueuedMap, payload);
 
+      if (context.state.currentMap) {
+        const latestMapPayload = Object.freeze(context.state.currentMap);
+        const mapDonePayload = {
+          map: latestMapPayload,
+          items: Object.freeze(context.rootState.stash.itemsDiffIncome)
+        };
+
+        context.commit(mapMutations.setLatestMap, latestMapPayload);
         context.commit(mapMutations.addMapDone, mapDonePayload);
         context.commit(mapMutations.removeCurrentMap);
       }
-
-      context.commit(mapMutations.setQueuedMap, payload);
     }
   },
 
   [mapActions.ENTER_MAP](context, payload: void) {
     // Set the current map only if there is a queued map
     if (context.state.queuedMap) {
+      const { latestMapIncomeCalculated, mapsHistory } = context.state;
       const currentMapPayload = Object.freeze(context.state.queuedMap);
 
       context.commit(mapMutations.setCurrentMap, currentMapPayload);
-      context.commit(mapMutations.removedQueuedMap);
+      context.commit(mapMutations.removeQueuedMap);
+
+      if (!latestMapIncomeCalculated && mapsHistory.length > 0) {
+        context.dispatch(stashActions.GET_STASH_ITEMS);
+
+        context.commit(mapMutations.setLatestMapIncomeCalculated);
+      }
     }
 
     context.commit(mapMutations.enterMap);

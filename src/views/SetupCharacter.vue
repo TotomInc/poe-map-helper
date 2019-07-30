@@ -1,20 +1,12 @@
 <template>
-  <div id="setup-view" class="flex flex-col justify-center items-center h-full w-full text-white">
+  <div id="setup-character-view" class="flex flex-col justify-center items-center h-full w-full text-white">
     <div v-if="user.loading">
       <h1 class="text-xl text-white">
         Retrieving your account characters...
       </h1>
     </div>
 
-    <div v-if="rate.loading">
-      <h1 class="text-xl text-white">
-        Loading items rates for
-        <span class="text-vue-500">{{ poeSelectedCharacter.league }}</span>
-        league...
-      </h1>
-    </div>
-
-    <div v-if="!user.loading && !rate.loading" class="flex flex-col justify-center items-center">
+    <div v-else-if="!user.loading" class="flex flex-col justify-center items-center">
       <p class="text-center mb-4">
         Choose the character you want to play with:
       </p>
@@ -54,7 +46,7 @@
             class="primary"
             :loading="user.loading"
             :disabled="!poeSelectedCharacter || !logfilePath"
-            @click="finishSetup()"
+            @click="finishSetupCharacter()"
           >
             Finish setup
           </vue-button>
@@ -71,23 +63,16 @@ import { Vue, Component } from 'vue-property-decorator';
 
 import { POECharacter } from '@/models/PathOfExile';
 import { UserState } from '@/store/user/user.state';
-import { userActions } from '@/store/user/user.actions';
-import { userMutations } from '@/store/user/user.mutations';
-import { RateState } from '@/store/rate/rate.state';
-import { rateActions } from '@/store/rate/rate.actions';
+import { userActions, userMutations } from '@/store/user/user.consts';
 
 @Component({})
-export default class SetupView extends Vue {
+export default class SetupCharacterView extends Vue {
   private selectedCharacter = '';
 
   private logfilePath = '';
 
   get user(): UserState {
     return this.$store.state.user;
-  }
-
-  get rate(): RateState {
-    return this.$store.state.rate;
   }
 
   get poeSelectedCharacter(): POECharacter | undefined {
@@ -105,31 +90,23 @@ export default class SetupView extends Vue {
           text: 'Unable to load characters from your PoE account, please restart the app.',
           type: 'error'
         });
-      } else if (type === rateActions.LOAD_CURRENCIES_RATE_SUCCESS) {
-        this.$router.push('/');
-      } else if (type === rateActions.LOAD_CURRENCIES_RATE_FAILED) {
-        this.$notify({
-          group: 'CHARACTER',
-          title: 'Unable to load currency rates',
-          text: 'Unable to load currency rates from poe.watch, is the API down? Try to restart the app.',
-          type: 'error'
-        });
       }
     });
   }
 
   /**
-   * Set the selected character and the logfile path in the store, make sure to
-   * load rates before accessing the Home view.
+   * Set the selected character and the logfile path in the store, then go to
+   * the `setup-stash` view.
    */
-  public finishSetup(): void {
+  public finishSetupCharacter(): void {
     const payload = {
       selectedCharacter: this.selectedCharacter,
       logfilePath: this.logfilePath
     };
 
     this.$store.dispatch(userActions.FINISH_SETUP, payload);
-    this.$store.dispatch(rateActions.LOAD_CURRENCIES_RATE);
+
+    this.$router.push('/setup-stash');
   }
 
   /**
