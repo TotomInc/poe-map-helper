@@ -57,6 +57,12 @@ export function createWindow() {
 
   win.on('closed', () => {
     win = null;
+
+    // Make sure to delete the Tail instance when the window is closed
+    if (tail) {
+      tail.unwatch();
+      tail = null;
+    }
   });
 }
 
