@@ -6,6 +6,7 @@ import HomeView from '@/views/Home.vue';
 import LoginView from '@/views/Login.vue';
 import SetupCharacterView from '@/views/SetupCharacter.vue';
 import SetupStashView from '@/views/SetupStash.vue';
+import MappingHistoryView from '@/views/MappingHistory.vue';
 
 Vue.use(Router);
 
@@ -41,6 +42,17 @@ export default new Router({
     {
       path: '/setup-stash',
       component: SetupStashView,
+      beforeEnter: (to, from, next) => {
+        if (!store.state.user.logged) {
+          next('/login');
+        } else {
+          next();
+        }
+      }
+    },
+    {
+      path: '/mapping-history',
+      component: MappingHistoryView,
       beforeEnter: (to, from, next) => {
         if (!store.state.user.logged) {
           next('/login');
