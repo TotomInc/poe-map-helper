@@ -6,14 +6,8 @@
           Item name
         </p>
 
-        <div class="ml-2 fill-current">
-          <div v-if="sortBy === 'name'">
-            <ArrowDownIcon />
-          </div>
-
-          <div v-else>
-            <ArrowUpIcon />
-          </div>
+        <div class="flex items-center">
+          <i class="dropdown-rotation material-icons" :class="{ active: sortBy === 'name' }">arrow_drop_up</i>
         </div>
       </div>
 
@@ -22,14 +16,8 @@
           Chaos income
         </p>
 
-        <div class="ml-2 fill-current cursor-pointer">
-          <div v-if="sortBy === 'chaos'">
-            <ArrowDownIcon />
-          </div>
-
-          <div v-else>
-            <ArrowUpIcon />
-          </div>
+        <div class="flex items-center">
+          <i class="dropdown-rotation material-icons" :class="{ active: sortBy === 'chaos' }">arrow_drop_up</i>
         </div>
       </div>
 
@@ -38,14 +26,8 @@
           Exalt income
         </p>
 
-        <div class="ml-2 fill-current cursor-pointer">
-          <div v-if="sortBy === 'exalt'">
-            <ArrowDownIcon />
-          </div>
-
-          <div v-else>
-            <ArrowUpIcon />
-          </div>
+        <div class="flex items-center">
+          <i class="dropdown-rotation material-icons" :class="{ active: sortBy === 'exalt' }">arrow_drop_up</i>
         </div>
       </div>
     </div>
@@ -97,8 +79,6 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import IosArrowDownIcon from 'vue-ionicons/dist/ios-arrow-down.vue';
-import IosArrowUpIcon from 'vue-ionicons/dist/ios-arrow-up.vue';
 
 import { RateState } from '@/store/rate/rate.state';
 import { StashState } from '@/store/stash/stash.state';
@@ -106,12 +86,7 @@ import { stashGetters } from '@/store/stash/stash.consts';
 import { POEWatchCurrency } from '../models/POEWatch';
 import { POEPricedStashItem } from '../models/PathOfExile';
 
-@Component({
-  components: {
-    ArrowDownIcon: IosArrowDownIcon,
-    ArrowUpIcon: IosArrowUpIcon
-  }
-})
+@Component({})
 export default class MapIncomeTableComponent extends Vue {
   private sortBy: 'name' | 'chaos' | 'exalt' = 'chaos';
 
@@ -199,3 +174,13 @@ export default class MapIncomeTableComponent extends Vue {
   }
 }
 </script>
+
+<style scoped>
+.dropdown-rotation {
+  transform: rotate(0deg);
+}
+
+.dropdown-rotation.active {
+  transform: rotate(180deg);
+}
+</style>
