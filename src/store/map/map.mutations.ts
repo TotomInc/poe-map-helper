@@ -37,7 +37,17 @@ export const mutations: MutationTree<MapState> = {
     state.latestMapIncomeCalculated = false;
   },
 
-  [mapMutations.addMapDone](state, payload: { map: POEMapItem; items: POEPricedStashItem[] }) {
+  [mapMutations.addMapDone](
+    state,
+    payload: {
+      map: POEMapItem;
+      items: POEPricedStashItem[];
+      income: {
+        chaos: number;
+        exalt: number;
+      };
+    }
+  ) {
     state.mapsHistory.unshift(payload);
   },
 

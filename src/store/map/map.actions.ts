@@ -4,7 +4,7 @@ import { POEMapItem } from '@/models/PathOfExile';
 import { RootState } from '@/store/state';
 import { MapState } from './map.state';
 import { mapActions, mapMutations } from './map.consts';
-import { stashActions } from '../stash/stash.consts';
+import { stashActions, stashGetters } from '../stash/stash.consts';
 
 export const actions: ActionTree<MapState, RootState> = {
   [mapActions.MAP_ITEM_COPIED](context, payload: POEMapItem) {
@@ -16,7 +16,11 @@ export const actions: ActionTree<MapState, RootState> = {
         const latestMapPayload = Object.freeze(context.state.currentMap);
         const mapDonePayload = {
           map: latestMapPayload,
-          items: Object.freeze(context.rootState.stash.itemsDiffIncome)
+          items: Object.freeze(context.rootState.stash.itemsDiffIncome),
+          income: {
+            chaos: context.rootGetters[stashGetters.getTotalItemsDiffIncome].chaos,
+            exalt: context.rootGetters[stashGetters.getTotalItemsDiffIncome].exalt
+          }
         };
 
         context.commit(mapMutations.setLatestMap, latestMapPayload);
