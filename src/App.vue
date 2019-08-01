@@ -21,4 +21,5 @@ export default class App extends Vue {}
 
 @import 'assets/styles/tailwind.postcss';
 @import 'assets/styles/vue-ui.postcss';
+@import 'assets/styles/vue-good-table.postcss';
 </style>
