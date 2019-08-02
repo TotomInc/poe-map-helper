@@ -1,7 +1,7 @@
 <template>
   <div id="map-income-table-component">
     <div
-      v-for="(item, index) in stash.itemsDiffIncome"
+      v-for="(item, index) in itemsDiffIncome"
       :key="'item-' + index"
       class="flex flex-row px-2 py-1 rounded"
       :class="{ 'bg-discord-900': index % 2 === 1 }"
@@ -44,25 +44,33 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 
+import { POEPricedStashItem } from '@/models/PathOfExile';
+import { POEWatchCurrency } from '@/models/POEWatch';
 import { RateState } from '@/store/rate/rate.state';
-import { StashState } from '@/store/stash/stash.state';
-import { stashGetters } from '@/store/stash/stash.consts';
-import { POEWatchCurrency } from '../models/POEWatch';
 
 @Component({})
 export default class MapIncomeTableComponent extends Vue {
+  @Prop() readonly itemsDiffIncome!: POEPricedStashItem[];
+
   get rate(): RateState {
     return this.$store.state.rate;
   }
 
-  get stash(): StashState {
-    return this.$store.state.stash;
-  }
-
   get totalItemsDiffIncome(): { chaos: number; exalt: number } {
-    return this.$store.getters[stashGetters.getTotalItemsDiffIncome];
+    let chaos = 0;
+    let exalt = 0;
+
+    this.itemsDiffIncome.forEach((item) => {
+      chaos += item.chaos;
+      exalt += item.exalt;
+    });
+
+    chaos = Math.round(chaos * 100) / 100;
+    exalt = Math.round(exalt * 1000) / 1000;
+
+    return { chaos, exalt };
   }
 
   private cleanIconURL(iconURL: string): string {

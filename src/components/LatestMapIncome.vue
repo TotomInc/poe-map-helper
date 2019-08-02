@@ -46,7 +46,7 @@
           (T{{ map.latestMap.tier }})
         </h1>
 
-        <map-income-table />
+        <map-income-table :items-diff-income="stash.itemsDiffIncome" />
       </div>
     </div>
   </transition>
