@@ -15,6 +15,10 @@
       Mapping history
     </h1>
 
+    <p class="mb-4 text-center text-discord-100 select-none">
+      Click on a row for detailed income of this specific map.
+    </p>
+
     <vue-good-table
       class="max-w-2xl mx-auto"
       :columns="columns"
