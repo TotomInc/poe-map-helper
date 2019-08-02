@@ -16,6 +16,7 @@
     </h1>
 
     <vue-good-table
+      class="max-w-2xl mx-auto"
       :columns="columns"
       :rows="rows"
       :pagination-options="{
