@@ -7,6 +7,7 @@ import LoginView from '@/views/Login.vue';
 import SetupCharacterView from '@/views/SetupCharacter.vue';
 import SetupStashView from '@/views/SetupStash.vue';
 import MappingHistoryView from '@/views/MappingHistory.vue';
+import MapItemsIncomeView from '@/views/MapItemsIncome.vue';
 
 Vue.use(Router);
 
@@ -53,6 +54,17 @@ export default new Router({
     {
       path: '/mapping-history',
       component: MappingHistoryView,
+      beforeEnter: (to, from, next) => {
+        if (!store.state.user.logged) {
+          next('/login');
+        } else {
+          next();
+        }
+      }
+    },
+    {
+      path: '/map-income/:id',
+      component: MapItemsIncomeView,
       beforeEnter: (to, from, next) => {
         if (!store.state.user.logged) {
           next('/login');

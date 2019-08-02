@@ -26,6 +26,7 @@
         dropdownAllowAll: false,
         rowsPerPageLabel: 'Maps per page'
       }"
+      @on-row-click="onRowClick"
     >
       <template slot="table-row" slot-scope="props">
         <span v-if="props.column.field == 'map.name'" class="flex flex-row items-center">
@@ -71,6 +72,12 @@ export default class MappingHistoryView extends Mixins(POEMapIconURLMixin) {
 
   get rows() {
     return this.map.mapsHistory;
+  }
+
+  public onRowClick(params: any) {
+    const { originalIndex } = params.row;
+
+    this.$router.push(`/map-income/${originalIndex}`);
   }
 
   public goToHome() {
