@@ -8,7 +8,7 @@
         class="map-history-view absolute w-6 h-6 rounded bg-discord-500 cursor-pointer"
         @click="goToMappingHistory()"
       >
-        <i class="material-icons">poll</i>
+        <i class="material-icons poll-icon-fix">poll</i>
       </div>
 
       <div v-if="stash.loading">
@@ -88,5 +88,9 @@ export default class LatestMapIncomeComponent extends Vue {
 .map-history-view {
   top: 8px;
   right: 8px;
+}
+
+.poll-icon-fix {
+  margin-left: 0.5px;
 }
 </style>
