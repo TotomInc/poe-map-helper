@@ -20,22 +20,33 @@
     </p>
 
     <vue-good-table
-      class="max-w-2xl mx-auto"
+      class="max-w-2xl mx-auto shadow-2xl"
       :columns="columns"
       :rows="rows"
       :pagination-options="{
         enabled: true,
         perPage: 10,
-        perPageDropdown: [5, 10, 20],
+        perPageDropdown: [10, 20, 40],
         dropdownAllowAll: false,
         rowsPerPageLabel: 'Maps per page'
       }"
+      style-class="vgt-table striped"
       @on-row-click="onRowClick"
     >
       <template slot="table-row" slot-scope="props">
         <span v-if="props.column.field == 'map.name'" class="flex flex-row items-center">
-          <img :src="getMapIconURL(props.row.map)" class="w-8 h-8 mr-2" />
+          <img :src="getMapIconURL(props.row.map)" class="w-8 h-8 mr-3" />
           <span>{{ props.row.map.name }}</span>
+        </span>
+
+        <span v-if="props.column.field == 'income.chaos'" class="flex flex-row items-center float-right">
+          <span class="mr-2">{{ props.row.income.chaos }}</span>
+          <img :src="require('@/assets/images/orbs/chaos-orb.png')" class="w-6 h-6" />
+        </span>
+
+        <span v-if="props.column.field == 'income.exalt'" class="flex flex-row items-center float-right">
+          <span class="mr-2">{{ props.row.income.exalt }}</span>
+          <img :src="require('@/assets/images/orbs/exalted-orb.png')" class="w-6 h-6" />
         </span>
       </template>
     </vue-good-table>
@@ -59,12 +70,12 @@ export default class MappingHistoryView extends Mixins(POEMapIconURLMixin) {
       sortable: false
     },
     {
-      label: 'Chaos',
+      label: 'Chaos income',
       field: 'income.chaos',
       type: 'decimal'
     },
     {
-      label: 'Exalt',
+      label: 'Exalt income',
       field: 'income.exalt',
       type: 'decimal'
     }
