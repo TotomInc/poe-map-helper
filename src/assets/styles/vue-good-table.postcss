@@ -1,3 +1,8 @@
+/* Table wrapper */
+.vgt-wrap {
+  @apply select-none;
+}
+
 /* Table style */
 table.vgt-table {
   border: none;
@@ -9,34 +14,31 @@ table.vgt-table {
   @apply text-gray-300;
 }
 
-table.vgt-table tr:hover {
-  @apply bg-discord-700;
-}
-
-table.vgt-table tr.clickable:hover {
-  @apply bg-discord-900;
-}
-
-table.vgt-table td,
-.vgt-text-disabled {
-  @apply text-gray-300;
-}
-
-.vgt-table.bordered td,
-.vgt-table.bordered th {
+/* Table header style */
+.vgt-table th {
   border: none;
-  user-select: none;
-}
 
-.vgt-table.bordered th {
-  cursor: pointer;
+  @apply px-6;
+  @apply py-2;
+  @apply text-base;
+  @apply font-normal;
+  @apply cursor-pointer;
 }
 
 .vgt-table thead th {
   background: none;
+  border: none;
 
   @apply bg-discord-700;
   @apply text-gray-300;
+}
+
+.vgt-table thead th:first-child {
+  border-top-left-radius: 4px;
+}
+
+.vgt-table thead th:last-child {
+  border-top-right-radius: 4px;
 }
 
 .vgt-table thead th.sorting-asc,
@@ -44,11 +46,11 @@ table.vgt-table td,
   @apply text-gray-300;
 }
 
-.vgt-table.bordered th:first-child {
+.vgt-table th:first-child {
   border-top-left-radius: 4px;
 }
 
-.vgt-table.bordered th:last-child {
+.vgt-table th:last-child {
   border-top-right-radius: 4px;
 }
 
@@ -61,6 +63,31 @@ table.vgt-table td,
   border-top-color: #42b983;
 }
 
+/* Table content style */
+table.vgt-table tr:hover {
+  @apply bg-discord-700;
+}
+
+table.vgt-table tr.clickable:hover {
+  @apply bg-discord-900;
+}
+
+.vgt-table.striped tbody tr:nth-of-type(odd) {
+  @apply bg-discord-900;
+}
+
+table.vgt-table td {
+  border: none;
+
+  @apply px-3;
+  @apply py-2;
+  @apply text-gray-300;
+}
+
+.vgt-text-disabled {
+  @apply text-gray-300;
+}
+
 /* Pagination style */
 .vgt-wrap__footer {
   background: none;
@@ -69,4 +96,35 @@ table.vgt-table td,
   border-bottom-right-radius: 4px;
 
   @apply bg-discord-700;
+}
+
+.vgt-wrap__footer .footer__row-count__label {
+  @apply text-gray-300 !important;
+}
+
+.vgt-wrap__footer .footer__row-count__select {
+  @apply text-gray-300;
+  @apply font-normal;
+}
+
+.vgt-wrap__footer .footer__row-count__select option {
+  @apply bg-discord-900;
+  @apply text-gray-300;
+}
+
+.vgt-wrap__footer .footer__navigation__info {
+  @apply text-gray-300;
+}
+
+.vgt-wrap__footer .footer__navigation__page-btn {
+  @apply text-gray-300;
+  @apply font-normal;
+}
+
+.vgt-wrap__footer .footer__navigation__page-btn .chevron.right::after {
+  border-left-color: #42b983;
+}
+
+.vgt-wrap__footer .footer__navigation__page-btn .chevron.left::after {
+  border-right-color: #42b983;
 }
