@@ -26,13 +26,13 @@ export function extractMapRarity(details: string[]): number {
 
   let rarityIndex = -1;
 
-  if (rarity === 'Normal') {
+  if (rarity.indexOf('Normal') > -1) {
     rarityIndex = 0;
-  } else if (rarity === 'Magic') {
+  } else if (rarity.indexOf('Magic') > -1) {
     rarityIndex = 1;
-  } else if (rarity === 'Rare') {
+  } else if (rarity.indexOf('Rare') > -1) {
     rarityIndex = 2;
-  } else if (rarity === 'Unique') {
+  } else if (rarity.indexOf('Unique') > -1) {
     rarityIndex = 3;
   }
 
