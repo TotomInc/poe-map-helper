@@ -29,7 +29,30 @@ export const actions: ActionTree<RateState, RootState> = {
   },
 
   [rateActions.LOAD_CURRENCIES_RATE_SUCCESS](context, payload: POEWatchCurrency[]) {
-    context.commit(rateMutations.setCurrenciesRate, payload);
+    const exaltRate = payload.find((rate) => rate.name === 'Exalted Orb')!;
+
+    const chaosRate: POEWatchCurrency = {
+      id: -1,
+      name: 'Chaos Orb',
+      category: 'currency',
+      group: 'currency',
+      frame: 5,
+      icon: 'https://web.poecdn.com/image/Art/2DItems/Currency/CurrencyRerollRare.png',
+      daily: 1,
+      mean: 1,
+      median: 1,
+      mode: -1,
+      min: 1,
+      max: 1,
+      exalted: 1 / exaltRate.median,
+      total: 1,
+      current: 1,
+      accepted: -1,
+      stackSize: 10,
+      history: [1, 1, 1, 1, 1, 1]
+    };
+
+    context.commit(rateMutations.setCurrenciesRate, [...payload, chaosRate]);
     context.commit(rateMutations.removeLoading);
   },
 

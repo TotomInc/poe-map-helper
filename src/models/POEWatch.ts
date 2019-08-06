@@ -23,7 +23,7 @@ export interface POEWatchItemData {
   name: string;
   category: string;
   group: string;
-  frame: string;
+  frame: number;
   icon: string;
 }
 
