@@ -11,7 +11,8 @@
       <template slot="table-row" slot-scope="props">
         <span v-if="props.column.field == 'typeLine'" class="flex flex-row items-center">
           <img :src="cleanIconURL(props.row.icon)" class="h-6 mr-1" />
-          <span>{{ props.row.typeLine }}</span>
+          <span class="mr-2">{{ props.row.typeLine }}</span>
+          <span class="text-vue-500">x{{ props.row.stackSize ? props.row.stackSize : 1 }}</span>
         </span>
 
         <span v-if="props.column.field == 'chaos'" class="flex flex-row items-center float-right">
