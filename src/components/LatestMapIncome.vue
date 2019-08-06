@@ -2,8 +2,15 @@
   <transition name="smooth" appear>
     <div
       id="latest-map-income-component"
-      class="max-w-2xl mx-auto p-4 rounded text-discord-100 bg-discord-700 shadow-2xl select-none"
+      class="max-w-2xl mx-auto relative p-4 rounded text-discord-100 bg-discord-700 shadow-2xl select-none"
     >
+      <div
+        class="map-history-view absolute w-6 h-6 rounded bg-discord-500 cursor-pointer"
+        @click="goToMappingHistory()"
+      >
+        <i class="material-icons poll-icon-fix">poll</i>
+      </div>
+
       <div v-if="stash.loading">
         <h2 class="text-lg text-center">
           Loading stash-tab data and calculating latest map income...
@@ -39,7 +46,7 @@
           (T{{ map.latestMap.tier }})
         </h1>
 
-        <map-income-table />
+        <map-income-table :items-diff-income="stash.itemsDiffIncome" />
       </div>
     </div>
   </transition>
@@ -70,5 +77,20 @@ export default class LatestMapIncomeComponent extends Vue {
   get totalItemsDiffIncome(): { chaos: number; exalt: number } {
     return this.$store.getters[stashGetters.getTotalItemsDiffIncome];
   }
+
+  public goToMappingHistory() {
+    this.$router.push('/mapping-history');
+  }
 }
 </script>
+
+<style scoped>
+.map-history-view {
+  top: 8px;
+  right: 8px;
+}
+
+.poll-icon-fix {
+  margin-left: 0.5px;
+}
+</style>

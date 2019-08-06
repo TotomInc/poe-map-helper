@@ -11,6 +11,10 @@ export interface MapState {
   mapsHistory: {
     map: POEMapItem;
     items: POEPricedStashItem[];
+    income: {
+      chaos: number;
+      exalt: number;
+    };
   }[];
 }
 

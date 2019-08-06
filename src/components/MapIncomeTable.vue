@@ -1,122 +1,176 @@
 <template>
   <div id="map-income-table-component">
-    <div class="flex flex-row px-2 py-1 rounded bg-discord-900">
-      <div class="flex flex-row items-center w-1/2 cursor-pointer" @click="changeSortBy('name')">
-        <p class="text-lg">
-          Item name
-        </p>
-
-        <div class="flex items-center">
-          <i class="dropdown-rotation material-icons" :class="{ active: sortBy === 'name' }">arrow_drop_up</i>
-        </div>
-      </div>
-
-      <div class="flex flex-row items-center justify-end w-1/4 cursor-pointer" @click="changeSortBy('chaos')">
-        <p class="text-lg cursor-pointer">
-          Chaos income
-        </p>
-
-        <div class="flex items-center">
-          <i class="dropdown-rotation material-icons" :class="{ active: sortBy === 'chaos' }">arrow_drop_up</i>
-        </div>
-      </div>
-
-      <div class="flex flex-row items-center justify-end w-1/4 cursor-pointer" @click="changeSortBy('exalt')">
-        <p class="text-lg cursor-pointer">
-          Exalt income
-        </p>
-
-        <div class="flex items-center">
-          <i class="dropdown-rotation material-icons" :class="{ active: sortBy === 'exalt' }">arrow_drop_up</i>
-        </div>
-      </div>
-    </div>
-
-    <div
-      v-for="(item, index) in sortedItemsDiffIncome"
-      :key="'item-' + index"
-      class="flex flex-row px-2 py-1 rounded"
-      :class="{ 'bg-discord-900': index % 2 === 1 }"
+    <vue-good-table
+      ref="vgt"
+      :columns="columns"
+      :rows="itemsDiffIncome"
+      :pagination-options="paginationOptions"
+      :sort-options="sortOptions"
+      style-class="vgt-table striped"
     >
-      <div class="flex flex-row items-center w-1/2">
-        <img :src="cleanIconURL(item.icon)" class="h-6 mr-1" />
-        <p>
-          {{ item.typeLine }}
-          <span class="text-vue-500">x{{ item.stackSize ? item.stackSize : 1 }}</span>
-        </p>
-      </div>
+      <template slot="table-row" slot-scope="props">
+        <span v-if="props.column.field == 'typeLine'" class="flex flex-row items-center">
+          <img :src="cleanIconURL(props.row.icon)" class="h-6 mr-1" />
+          <span>{{ props.row.typeLine }}</span>
+        </span>
 
-      <div class="flex flex-row items-center justify-end w-1/4">
-        <p>{{ item.chaos }}</p>
-        <img :src="require('@/assets/images/orbs/chaos-orb.png')" class="h-6 ml-1" />
-      </div>
+        <span v-if="props.column.field == 'chaos'" class="flex flex-row items-center float-right">
+          <span class="mr-2">{{ props.row.chaos }}</span>
+          <img :src="require('@/assets/images/orbs/chaos-orb.png')" class="w-6 h-6" />
+        </span>
 
-      <div class="flex flex-row items-center justify-end w-1/4">
-        <p>{{ item.exalt }}</p>
-        <img :src="require('@/assets/images/orbs/exalted-orb.png')" class="h-6 ml-1" />
-      </div>
-    </div>
+        <span v-if="props.column.field == 'exalt'" class="flex flex-row items-center float-right">
+          <span class="mr-2">{{ props.row.exalt }}</span>
+          <img :src="require('@/assets/images/orbs/exalted-orb.png')" class="w-6 h-6" />
+        </span>
+      </template>
 
-    <div class="flex flex-row px-2 py-1 rounded">
-      <div class="flex flex-row items-center w-1/2">
-        <p class="text-lg">
-          Total:
-        </p>
-      </div>
+      <template slot="pagination-bottom" slot-scope="props">
+        <div class="flex flex-row px-3 py-1 rounded">
+          <div class="flex flex-row items-center w-1/2">
+            <p class="ml-2 text-gray-300">
+              Total
+            </p>
+          </div>
 
-      <div class="flex flex-row items-center justify-end w-1/4">
-        <p>{{ totalItemsDiffIncome.chaos }}</p>
-        <img :src="require('@/assets/images/orbs/chaos-orb.png')" class="h-6 ml-1" />
-      </div>
+          <div class="flex flex-row items-center justify-end w-1/4">
+            <p class="text-gray-300">
+              {{ totalItemsDiffIncome.chaos }}
+            </p>
+          </div>
 
-      <div class="flex flex-row items-center justify-end w-1/4">
-        <p>{{ totalItemsDiffIncome.exalt }}</p>
-        <img :src="require('@/assets/images/orbs/exalted-orb.png')" class="h-6 ml-1" />
-      </div>
-    </div>
+          <div class="flex flex-row items-center justify-end w-1/4">
+            <p class="text-gray-300">
+              {{ totalItemsDiffIncome.exalt }}
+            </p>
+          </div>
+        </div>
+
+        <div class="flex flex-row justify-between mt-2">
+          <div class="flex">
+            <p class="mr-4">
+              Items per page
+            </p>
+
+            <select
+              id="pagination-select"
+              v-model="itemsPerPage"
+              class="rounded text-gray-300 bg-discord-900 outline-none"
+              @change="paginationPerPageChanged(props.perPageChanged, props.pageChanged)"
+            >
+              <option
+                v-for="(perPage, index) in paginationOptions.perPageDropdown"
+                :key="'pagination-option-' + index"
+                :value="perPage"
+                class="text-gray-300 bg-discord-700"
+              >
+                {{ perPage }}
+              </option>
+            </select>
+          </div>
+
+          <div class="flex">
+            <i
+              class="material-icons mr-2 rounded bg-discord-900 cursor-pointer"
+              :class="{ 'text-discord-500': currentPage <= 1, 'cursor-not-allowed': currentPage <= 1 }"
+              @click="paginationPageChanged(props.pageChanged, props.total, 'decrease')"
+            >
+              keyboard_arrow_left
+            </i>
+
+            <p class="mr-2">
+              {{ currentPage }}
+              /
+              {{ pages }}
+            </p>
+
+            <i
+              class="material-icons rounded bg-discord-900 cursor-pointer"
+              :class="{ 'text-discord-500': currentPage >= pages, 'cursor-not-allowed': currentPage >= pages }"
+              @click="paginationPageChanged(props.pageChanged, props.total, 'increase')"
+            >
+              keyboard_arrow_right
+            </i>
+          </div>
+        </div>
+      </template>
+    </vue-good-table>
   </div>
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 
+import { POEPricedStashItem } from '@/models/PathOfExile';
+import { POEWatchCurrency } from '@/models/POEWatch';
 import { RateState } from '@/store/rate/rate.state';
-import { StashState } from '@/store/stash/stash.state';
-import { stashGetters } from '@/store/stash/stash.consts';
-import { POEWatchCurrency } from '../models/POEWatch';
-import { POEPricedStashItem } from '../models/PathOfExile';
 
 @Component({})
 export default class MapIncomeTableComponent extends Vue {
-  private sortBy: 'name' | 'chaos' | 'exalt' = 'chaos';
+  @Prop() readonly itemsDiffIncome!: POEPricedStashItem[];
+
+  private columns = [
+    {
+      label: 'Item name',
+      field: 'typeLine',
+      sortable: false
+    },
+    {
+      label: 'Chaos income',
+      field: 'chaos',
+      type: 'decimal'
+    },
+    {
+      label: 'Exalt income',
+      field: 'exalt',
+      type: 'decimal'
+    }
+  ];
+
+  private paginationOptions = {
+    enabled: true,
+    perPage: 10,
+    perPageDropdown: [10, 20, 40],
+    dropdownAllowAll: false,
+    rowsPerPageLabel: 'Items per page'
+  };
+
+  private sortOptions = {
+    initialSortBy: {
+      field: 'chaos',
+      type: 'desc'
+    }
+  };
+
+  private currentPage = 1;
+
+  private itemsPerPage = 10;
+
+  private pages = 1;
+
+  public mounted(): void {
+    this.recalculatePages();
+
+    this.currentPage = this.pages <= 0 ? 0 : 1;
+  }
 
   get rate(): RateState {
     return this.$store.state.rate;
   }
 
-  get stash(): StashState {
-    return this.$store.state.stash;
-  }
-
   get totalItemsDiffIncome(): { chaos: number; exalt: number } {
-    return this.$store.getters[stashGetters.getTotalItemsDiffIncome];
-  }
+    let chaos = 0;
+    let exalt = 0;
 
-  get sortedItemsDiffIncome(): POEPricedStashItem[] {
-    const { itemsDiffIncome } = this.stash;
-    const frozenItemsDiffIncome = itemsDiffIncome.map((item) => Object.freeze(item));
+    this.itemsDiffIncome.forEach((item) => {
+      chaos += item.chaos;
+      exalt += item.exalt;
+    });
 
-    let sortedItems: POEPricedStashItem[] = [];
+    chaos = Math.round(chaos * 100) / 100;
+    exalt = Math.round(exalt * 1000) / 1000;
 
-    if (this.sortBy === 'name') {
-      sortedItems = this.sortAlphabetically(frozenItemsDiffIncome);
-    } else if (this.sortBy === 'chaos') {
-      sortedItems = this.sortChaos(frozenItemsDiffIncome);
-    } else if (this.sortBy === 'exalt') {
-      sortedItems = this.sortExalt(frozenItemsDiffIncome);
-    }
-
-    return sortedItems;
+    return { chaos, exalt };
   }
 
   private cleanIconURL(iconURL: string): string {
@@ -127,60 +181,34 @@ export default class MapIncomeTableComponent extends Vue {
     return url.href;
   }
 
-  private changeSortBy(type: 'name' | 'chaos' | 'exalt') {
-    this.sortBy = type;
+  private paginationPerPageChanged(perPageChanged: (...args: any) => any, pageChanged: (...args: any) => any): void {
+    this.currentPage = 1;
+
+    this.recalculatePages();
+
+    perPageChanged({ currentPerPage: this.itemsPerPage });
+
+    this.paginationPageChanged(pageChanged);
   }
 
-  private sortAlphabetically(items: POEPricedStashItem[]): POEPricedStashItem[] {
-    return items.sort((a, b) => {
-      if (a.typeLine < b.typeLine) {
-        return -1;
-      }
+  private paginationPageChanged(
+    pageChanged: (...args: any) => any,
+    total?: number,
+    type?: 'increase' | 'decrease'
+  ): void {
+    if (type === 'decrease') {
+      this.currentPage = this.currentPage <= 1 ? 1 : this.currentPage - 1;
+    }
 
-      if (a.typeLine > b.typeLine) {
-        return 1;
-      }
+    if (type === 'increase') {
+      this.currentPage = this.currentPage >= this.pages ? this.currentPage : this.currentPage + 1;
+    }
 
-      return 0;
-    });
+    pageChanged({ currentPage: this.currentPage });
   }
 
-  private sortChaos(items: POEPricedStashItem[]): POEPricedStashItem[] {
-    return items.sort((a, b) => {
-      if (a.chaos < b.chaos) {
-        return 1;
-      }
-
-      if (a.chaos > b.chaos) {
-        return -1;
-      }
-
-      return 0;
-    });
-  }
-
-  private sortExalt(items: POEPricedStashItem[]): POEPricedStashItem[] {
-    return items.sort((a, b) => {
-      if (a.exalt < b.exalt) {
-        return 1;
-      }
-
-      if (a.exalt > b.exalt) {
-        return -1;
-      }
-
-      return 0;
-    });
+  private recalculatePages(): void {
+    this.pages = Math.ceil(this.itemsDiffIncome.length / this.itemsPerPage);
   }
 }
 </script>
-
-<style scoped>
-.dropdown-rotation {
-  transform: rotate(0deg);
-}
-
-.dropdown-rotation.active {
-  transform: rotate(180deg);
-}
-</style>

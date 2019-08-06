@@ -90,28 +90,17 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Mixins } from 'vue-property-decorator';
 
+import POEMapIconURLMixin from '@/mixins/POEMapIconURL';
 import { POEMapItem } from '@/models/PathOfExile';
 import { MapState } from '@/store/map/map.state';
 import { rawMapsImageURL } from '../consts/zones';
 
 @Component({})
-export default class MapStatusComponent extends Vue {
+export default class MapStatusComponent extends Mixins(POEMapIconURLMixin) {
   get map(): MapState {
     return this.$store.state.map;
-  }
-
-  private getMapIconURL(map: POEMapItem): string {
-    // Map name contains the "Map" suffix, we need to cut this suffix
-    const mapName = map.name.substring(0, map.name.indexOf('Map') - 1);
-    const rawMapImageURL = rawMapsImageURL.find((rawMap) => rawMap.name === mapName);
-
-    if (rawMapImageURL) {
-      return `https:${rawMapImageURL.url}?mn=4&mt=${map.tier}&mr=0`;
-    }
-
-    return 'https://gamepedia.cursecdn.com/pathofexile_gamepedia/0/09/Untainted_Paradise_inventory_icon.png';
   }
 }
 </script>
