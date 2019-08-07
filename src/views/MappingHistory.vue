@@ -16,11 +16,11 @@
     </h1>
 
     <p class="mb-4 text-center text-discord-100 select-none">
-      Click on a row for detailed income of this specific map.
+      Click on a row for a list of detailed income items.
     </p>
 
     <vue-good-table
-      class="max-w-2xl mx-auto shadow-2xl"
+      class="max-w shadow-2xl"
       :columns="columns"
       :rows="rows"
       :pagination-options="{
@@ -48,6 +48,14 @@
           <span class="mr-2">{{ props.row.income.exalt }}</span>
           <img :src="require('@/assets/images/orbs/exalted-orb.png')" class="w-6 h-6" />
         </span>
+
+        <span v-if="props.column.field == 'duration'" class="flex flex-row items-center float-right">
+          <span class="mr-2">{{ props.row.duration | moment('mm:ss') }}</span>
+        </span>
+
+        <span v-if="props.column.field == 'endDate'" class="flex flex-row items-center float-right">
+          <span class="mr-2">{{ props.row.endDate | moment('DD-MM-YYYY') }}</span>
+        </span>
       </template>
     </vue-good-table>
   </div>
@@ -57,8 +65,9 @@
 import { Vue, Component, Mixins } from 'vue-property-decorator';
 
 import POEMapIconURLMixin from '@/mixins/POEMapIconURL';
+import { mapGetters } from '@/store/map/map.consts';
 import { MapState } from '@/store/map/map.state';
-import { POEMapItem } from '@/models/PathOfExile';
+import { POEMapItem, POEMapHistoryDate } from '@/models/PathOfExile';
 import { rawMapsImageURL } from '../consts/zones';
 
 @Component({})
@@ -78,6 +87,19 @@ export default class MappingHistoryView extends Mixins(POEMapIconURLMixin) {
       label: 'Exalt income',
       field: 'income.exalt',
       type: 'decimal'
+    },
+    {
+      label: 'Run duration',
+      field: 'duration',
+      type: 'number'
+    },
+    {
+      label: 'Run date',
+      field: 'endDate',
+      type: 'date',
+      dateInputFormat: 'DD-MM-YYYY HH:mm:ss',
+      dateOutputFormat: 'DD-MM-YYYY',
+      sortable: false
     }
   ];
 
@@ -85,8 +107,8 @@ export default class MappingHistoryView extends Mixins(POEMapIconURLMixin) {
     return this.$store.state.map;
   }
 
-  get rows() {
-    return this.map.mapsHistory;
+  get rows(): POEMapHistoryDate[] {
+    return this.$store.getters[mapGetters.mapsHistoryDate];
   }
 
   public onRowClick(params: any) {
