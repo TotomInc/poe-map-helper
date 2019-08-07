@@ -1,4 +1,4 @@
-import { POEMapItem, POEPricedStashItem } from '@/models/PathOfExile';
+import { POEMapItem, POEMapHistory } from '@/models/PathOfExile';
 
 export interface MapState {
   currentMap: POEMapItem | undefined;
@@ -6,16 +6,10 @@ export interface MapState {
   latestMap: POEMapItem | undefined;
   latestMapIncomeCalculated: boolean;
   inMap: boolean;
+  mapStartedTime: number | undefined;
 
   /** Ordered by the most recent map at 0-index */
-  mapsHistory: {
-    map: POEMapItem;
-    items: POEPricedStashItem[];
-    income: {
-      chaos: number;
-      exalt: number;
-    };
-  }[];
+  mapsHistory: POEMapHistory[];
 }
 
 export const state: MapState = {
@@ -24,5 +18,6 @@ export const state: MapState = {
   latestMap: undefined,
   latestMapIncomeCalculated: false,
   inMap: false,
+  mapStartedTime: undefined,
   mapsHistory: []
 };

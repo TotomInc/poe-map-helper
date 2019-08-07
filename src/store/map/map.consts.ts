@@ -18,8 +18,15 @@ export const mapMutations = {
   setLatestMapIncomeCalculated: 'Set latest map income calculated',
   removeLatestMapIncomeCalculated: 'Remove latest map income calculated',
 
+  setMapStartedTime: 'Set map started time',
+  removeMapStartedTime: 'Remove map started time',
+
   addMapDone: 'Add a map done',
 
   enterMap: 'Set in-map',
   leaveMap: 'Remove in-map'
+};
+
+export const mapGetters = {
+  mapsHistoryDate: 'mapsHistoryDate'
 };
