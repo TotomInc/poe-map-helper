@@ -125,9 +125,7 @@ export const actions: ActionTree<StashState, RootState> = {
    * stash items.
    */
   [stashActions.GET_STASH_ITEMS_SUCCESS](context, payload: { items: POEStashItem[] }) {
-    if (context.state.items.length > 0) {
-      context.dispatch(stashActions.CALCULATE_STASH_DIFF, payload.items);
-    } else {
+    if (context.state.items.length <= 0) {
       context.commit(stashMutations.setItems, payload.items);
     }
 
@@ -173,8 +171,6 @@ export const actions: ActionTree<StashState, RootState> = {
 
     context.commit(stashMutations.setItems, payload);
     context.commit(stashMutations.setItemsDiff, itemsDiffPayload);
-
-    context.dispatch(stashActions.CALCULATE_ITEMS_DIFF_INCOME);
   },
 
   /**
@@ -205,6 +201,5 @@ export const actions: ActionTree<StashState, RootState> = {
     });
 
     context.commit(stashMutations.setItemsDiffIncome, itemsDiffIncomePayload);
-    context.commit(mapMutations.removeLatestMapIncomeCalculated);
   }
 };

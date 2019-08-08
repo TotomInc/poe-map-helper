@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 
-import { POEMapItem } from '@/models/PathOfExile';
+import { POEMapItem, POEStashItem, POEMapHistory } from '@/models/PathOfExile';
 import { RootState } from '@/store/state';
 import { MapState } from './map.state';
 import { mapActions, mapMutations } from './map.consts';
@@ -11,13 +11,44 @@ export const actions: ActionTree<MapState, RootState> = {
     // Set a new queued map and set the current map as the latest map
     if (!context.state.inMap) {
       context.commit(mapMutations.setQueuedMap, payload);
+    }
+  },
 
+  /**
+   * When player enter a map and it it's a new map:
+   *
+   * - Retrieve stash-items in order to calculate items diff with the most recent map-run
+   * - Move current-map to latest-map
+   * - Move queued-map to current-map
+   * - Calculate stash-items diff and the diff items income
+   * - Add the latest-map to the `mapsHistory` array
+   */
+  async [mapActions.ENTER_MAP](context, payload: void) {
+    if (context.state.queuedMap) {
+      const stashItems: { items: POEStashItem[] } | undefined = await context.dispatch(stashActions.GET_STASH_ITEMS);
+
+      const frozenCurrentMap = Object.freeze(context.state.currentMap);
+      const frozenQueuedMap = Object.freeze(context.state.queuedMap);
+
+      // If there is a current map, move it to the latest-map state
       if (context.state.currentMap) {
-        const latestMapPayload = Object.freeze(context.state.currentMap);
-        const mapDonePayload = {
-          map: latestMapPayload,
+        context.commit(mapMutations.setLatestMap, frozenCurrentMap);
+        context.commit(mapMutations.removeCurrentMap);
+      }
+
+      context.commit(mapMutations.setCurrentMap, frozenQueuedMap);
+      context.commit(mapMutations.removeQueuedMap);
+
+      if (stashItems && stashItems.items) {
+        await context.dispatch(stashActions.CALCULATE_STASH_DIFF, stashItems.items);
+        await context.dispatch(stashActions.CALCULATE_ITEMS_DIFF_INCOME);
+      }
+
+      if (frozenCurrentMap) {
+        const mapDonePayload: POEMapHistory = {
+          map: frozenCurrentMap,
           items: Object.freeze(context.rootState.stash.itemsDiffIncome),
-          startTime: Object.freeze(context.state.mapStartedTime),
+          startTime: context.state.mapStartedTime ? context.state.mapStartedTime : Date.now(),
           endTime: Date.now(),
           income: {
             chaos: context.rootGetters[stashGetters.getTotalItemsDiffIncome].chaos,
@@ -25,34 +56,20 @@ export const actions: ActionTree<MapState, RootState> = {
           }
         };
 
-        context.commit(mapMutations.setLatestMap, latestMapPayload);
         context.commit(mapMutations.addMapDone, mapDonePayload);
-        context.commit(mapMutations.removeCurrentMap);
       }
-    }
-  },
 
-  [mapActions.ENTER_MAP](context, payload: void) {
-    // Set the current map only if there is a queued map
-    if (context.state.queuedMap) {
-      const { latestMapIncomeCalculated, mapsHistory } = context.state;
-      const currentMapPayload = Object.freeze(context.state.queuedMap);
-
-      context.commit(mapMutations.setCurrentMap, currentMapPayload);
-      context.commit(mapMutations.removeQueuedMap);
       context.commit(mapMutations.setMapStartedTime, Date.now());
-
-      if (!latestMapIncomeCalculated && mapsHistory.length > 0) {
-        context.dispatch(stashActions.GET_STASH_ITEMS);
-
-        context.commit(mapMutations.setLatestMapIncomeCalculated);
-      }
     }
 
-    context.commit(mapMutations.enterMap);
+    if (!context.state.inMap) {
+      context.commit(mapMutations.enterMap);
+    }
   },
 
   [mapActions.LEAVE_MAP](context, payload: void) {
-    context.commit(mapMutations.leaveMap);
+    if (context.state.inMap) {
+      context.commit(mapMutations.leaveMap);
+    }
   }
 };
