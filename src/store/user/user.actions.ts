@@ -1,5 +1,6 @@
 import { ActionTree } from 'vuex';
 import { ipcRenderer } from 'electron';
+import to from 'await-to-js';
 
 import { IpcHttpRequestOption } from '@/models/IpcHttp';
 import { POECharacter } from '@/models/PathOfExile';
@@ -10,24 +11,40 @@ import { userActions, userMutations } from './user.consts';
 import { LOGFILE_PATH_RECEIVED } from '../../consts/ipc-events';
 
 export const actions: ActionTree<UserState, RootState> = {
-  [userActions.COOKIE_LOGIN](context, payload: string) {
-    const requestPayload: IpcHttpRequestOption = {
-      url: 'https://www.pathofexile.com/my-account',
-      onSuccessIpc: userActions.COOKIE_LOGIN_SUCCESS,
-      onFailIpc: userActions.COOKIE_LOGIN_FAILED,
-      axiosOptions: {
-        method: 'GET',
-        maxRedirects: 0,
-        headers: {
-          Cookie: `POESESSID=${payload}`
-        }
-      }
-    };
+  async [userActions.COOKIE_LOGIN](context, payload: string) {
+    const [err, homepage] = await to<string>(
+      new Promise((resolve, reject) => {
+        const requestPayload: IpcHttpRequestOption = {
+          url: 'https://www.pathofexile.com/my-account',
+          onSuccessIpc: userActions.COOKIE_LOGIN_SUCCESS,
+          onFailIpc: userActions.COOKIE_LOGIN_FAILED,
+          axiosOptions: {
+            method: 'GET',
+            maxRedirects: 0,
+            headers: {
+              Cookie: `POESESSID=${payload}`
+            }
+          }
+        };
 
-    context.commit(userMutations.setLoading);
-    context.commit(userMutations.setPOESESSID, payload);
+        context.commit(userMutations.setLoading);
+        context.commit(userMutations.setPOESESSID, payload);
 
-    ipcHttpRequest(requestPayload);
+        ipcHttpRequest(requestPayload);
+
+        ipcRenderer.once(userActions.COOKIE_LOGIN_SUCCESS, (ipcPayload: string) => resolve(ipcPayload));
+        ipcRenderer.once(userActions.COOKIE_LOGIN_FAILED, (ipcPayload: any) => reject(ipcPayload));
+      })
+    );
+
+    ipcRenderer.removeAllListeners(userActions.COOKIE_LOGIN_SUCCESS);
+    ipcRenderer.removeAllListeners(userActions.COOKIE_LOGIN_FAILED);
+
+    if (err || !homepage) {
+      context.dispatch(userActions.COOKIE_LOGIN_FAILED, err);
+    } else {
+      context.dispatch(userActions.COOKIE_LOGIN_SUCCESS, homepage);
+    }
   },
 
   [userActions.COOKIE_LOGIN_FAILED](context, payload: void) {
@@ -48,23 +65,39 @@ export const actions: ActionTree<UserState, RootState> = {
     }
   },
 
-  [userActions.LOAD_CHARACTERS](context, payload: void) {
-    const requestPayload: IpcHttpRequestOption = {
-      url: 'https://www.pathofexile.com/character-window/get-characters',
-      onSuccessIpc: userActions.LOAD_CHARACTERS_SUCCESS,
-      onFailIpc: userActions.LOAD_CHARACTERS_FAILED,
-      axiosOptions: {
-        method: 'GET',
-        maxRedirects: 0,
-        headers: {
-          Cookie: `POESESSID=${context.state.poesessid}`
-        }
-      }
-    };
+  async [userActions.LOAD_CHARACTERS](context, payload: void) {
+    const [err, characters] = await to<POECharacter[]>(
+      new Promise((resolve, reject) => {
+        const requestPayload: IpcHttpRequestOption = {
+          url: 'https://www.pathofexile.com/character-window/get-characters',
+          onSuccessIpc: userActions.LOAD_CHARACTERS_SUCCESS,
+          onFailIpc: userActions.LOAD_CHARACTERS_FAILED,
+          axiosOptions: {
+            method: 'GET',
+            maxRedirects: 0,
+            headers: {
+              Cookie: `POESESSID=${context.state.poesessid}`
+            }
+          }
+        };
 
-    context.commit(userMutations.setLoading);
+        context.commit(userMutations.setLoading);
 
-    ipcHttpRequest(requestPayload);
+        ipcHttpRequest(requestPayload);
+
+        ipcRenderer.once(userActions.LOAD_CHARACTERS_SUCCESS, (ipcPayload: POECharacter[]) => resolve(ipcPayload));
+        ipcRenderer.once(userActions.LOAD_CHARACTERS_FAILED, (ipcPayload: any) => reject(ipcPayload));
+      })
+    );
+
+    ipcRenderer.removeAllListeners(userActions.LOAD_CHARACTERS_SUCCESS);
+    ipcRenderer.removeAllListeners(userActions.LOAD_CHARACTERS_FAILED);
+
+    if (err || !characters) {
+      context.dispatch(userActions.LOAD_CHARACTERS_FAILED, err);
+    } else {
+      context.dispatch(userActions.LOAD_CHARACTERS_SUCCESS, characters);
+    }
   },
 
   [userActions.LOAD_CHARACTERS_FAILED](context, payload: void) {
