@@ -1,6 +1,6 @@
 import { MutationTree } from 'vuex';
 
-import { POEMapItem, POEPricedStashItem } from '@/models/PathOfExile';
+import { POEMapItem, POEMapHistory } from '@/models/PathOfExile';
 import { MapState } from './map.state';
 import { mapMutations } from './map.consts';
 
@@ -37,17 +37,15 @@ export const mutations: MutationTree<MapState> = {
     state.latestMapIncomeCalculated = false;
   },
 
-  [mapMutations.addMapDone](
-    state,
-    payload: {
-      map: POEMapItem;
-      items: POEPricedStashItem[];
-      income: {
-        chaos: number;
-        exalt: number;
-      };
-    }
-  ) {
+  [mapMutations.setMapStartedTime](state, payload: number) {
+    state.mapStartedTime = payload;
+  },
+
+  [mapMutations.removeMapStartedTime](state, payload: void) {
+    state.mapStartedTime = undefined;
+  },
+
+  [mapMutations.addMapDone](state, payload: POEMapHistory) {
     state.mapsHistory.unshift(payload);
   },
 

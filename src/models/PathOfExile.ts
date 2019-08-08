@@ -107,3 +107,30 @@ export interface POEMapZone {
   tier: number;
   unique: boolean;
 }
+
+/**
+ * Map history item used in the store
+ */
+export interface POEMapHistory {
+  map: POEMapItem;
+  items: POEPricedStashItem[];
+  /** Timestamp that will be converted as a Date object */
+  startTime: number;
+  /** Timestamp that will be converted as a Date object */
+  endTime: number;
+  income: {
+    chaos: number;
+    exalt: number;
+  };
+}
+
+/**
+ * Map history item but with timestamps converted into Date objects by a store
+ * getter.
+ */
+export interface POEMapHistoryDate extends POEMapHistory {
+  startDate: Date;
+  endDate: Date;
+  /** Map run duration in seconds */
+  duration: number;
+}

@@ -17,6 +17,8 @@ export const actions: ActionTree<MapState, RootState> = {
         const mapDonePayload = {
           map: latestMapPayload,
           items: Object.freeze(context.rootState.stash.itemsDiffIncome),
+          startTime: Object.freeze(context.state.mapStartedTime),
+          endTime: Date.now(),
           income: {
             chaos: context.rootGetters[stashGetters.getTotalItemsDiffIncome].chaos,
             exalt: context.rootGetters[stashGetters.getTotalItemsDiffIncome].exalt
@@ -38,6 +40,7 @@ export const actions: ActionTree<MapState, RootState> = {
 
       context.commit(mapMutations.setCurrentMap, currentMapPayload);
       context.commit(mapMutations.removeQueuedMap);
+      context.commit(mapMutations.setMapStartedTime, Date.now());
 
       if (!latestMapIncomeCalculated && mapsHistory.length > 0) {
         context.dispatch(stashActions.GET_STASH_ITEMS);
