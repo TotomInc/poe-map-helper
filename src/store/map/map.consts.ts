@@ -15,9 +15,6 @@ export const mapMutations = {
   setLatestMap: 'Set latest map',
   removeLatestMap: 'Remove latest map',
 
-  setLatestMapIncomeCalculated: 'Set latest map income calculated',
-  removeLatestMapIncomeCalculated: 'Remove latest map income calculated',
-
   setMapStartedTime: 'Set map started time',
   removeMapStartedTime: 'Remove map started time',
 
