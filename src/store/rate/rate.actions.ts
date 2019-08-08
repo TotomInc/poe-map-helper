@@ -49,6 +49,8 @@ export const actions: ActionTree<RateState, RootState> = {
     } else {
       context.dispatch(rateActions.LOAD_CURRENCIES_RATE_SUCCESS, currencyRates);
     }
+
+    return err || currencyRates;
   },
 
   [rateActions.LOAD_CURRENCIES_RATE_SUCCESS](context, payload: POEWatchCurrency[]) {

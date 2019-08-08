@@ -57,6 +57,8 @@ export const actions: ActionTree<StashState, RootState> = {
     } else {
       context.dispatch(stashActions.GET_STASH_TABS_SUCCESS, stashTabs);
     }
+
+    return err || stashTabs;
   },
 
   [stashActions.GET_STASH_TABS_SUCCESS](context, payload: { tabs: POEStashTab[] }) {
@@ -114,6 +116,8 @@ export const actions: ActionTree<StashState, RootState> = {
     } else {
       context.dispatch(stashActions.GET_STASH_ITEMS_SUCCESS, stashItems);
     }
+
+    return err || stashItems;
   },
 
   /**
@@ -143,9 +147,7 @@ export const actions: ActionTree<StashState, RootState> = {
    *    their stack-size count to diff of them.
    */
   [stashActions.CALCULATE_STASH_DIFF](context, payload: POEStashItem[]) {
-    /**
-     * This array contains new items and items with a different stack-size.
-     */
+    // This array contains new items and items with a different stack-size
     const itemsDiff: POEStashItem[] = payload.filter((newItem) => {
       return !context.state.items.find((item) => item.id === newItem.id);
     });

@@ -45,6 +45,8 @@ export const actions: ActionTree<UserState, RootState> = {
     } else {
       context.dispatch(userActions.COOKIE_LOGIN_SUCCESS, homepage);
     }
+
+    return err || homepage;
   },
 
   [userActions.COOKIE_LOGIN_FAILED](context, payload: void) {
@@ -98,6 +100,8 @@ export const actions: ActionTree<UserState, RootState> = {
     } else {
       context.dispatch(userActions.LOAD_CHARACTERS_SUCCESS, characters);
     }
+
+    return err || characters;
   },
 
   [userActions.LOAD_CHARACTERS_FAILED](context, payload: void) {
