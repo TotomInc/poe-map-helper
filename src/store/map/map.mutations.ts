@@ -29,20 +29,8 @@ export const mutations: MutationTree<MapState> = {
     state.latestMap = undefined;
   },
 
-  [mapMutations.setLatestMapIncomeCalculated](state, payload: void) {
-    state.latestMapIncomeCalculated = true;
-  },
-
-  [mapMutations.removeLatestMapIncomeCalculated](state, payload: void) {
-    state.latestMapIncomeCalculated = false;
-  },
-
   [mapMutations.setMapStartedTime](state, payload: number) {
     state.mapStartedTime = payload;
-  },
-
-  [mapMutations.removeMapStartedTime](state, payload: void) {
-    state.mapStartedTime = undefined;
   },
 
   [mapMutations.addMapDone](state, payload: POEMapHistory) {

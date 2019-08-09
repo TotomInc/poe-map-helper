@@ -42,7 +42,7 @@ export default class mapItemsIncomeView extends Vue {
     return this.$store.state.map;
   }
 
-  get mapItemsIncome(): POEPricedStashItem[] {
+  get mapItemsIncome(): Readonly<POEPricedStashItem[]> {
     return this.map.mapsHistory[this.mapParamIndex].items;
   }
 

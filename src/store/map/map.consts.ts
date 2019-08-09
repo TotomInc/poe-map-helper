@@ -9,17 +9,13 @@ export const mapMutations = {
   setQueuedMap: 'Set queued map',
   removeQueuedMap: 'Remove queued map',
 
-  setCurrentMap: 'Set current map as queued map',
+  setCurrentMap: 'Set current map',
   removeCurrentMap: 'Remove current map',
 
-  setLatestMap: 'Set latest map as queued map',
+  setLatestMap: 'Set latest map',
   removeLatestMap: 'Remove latest map',
 
-  setLatestMapIncomeCalculated: 'Set latest map income calculated',
-  removeLatestMapIncomeCalculated: 'Remove latest map income calculated',
-
   setMapStartedTime: 'Set map started time',
-  removeMapStartedTime: 'Remove map started time',
 
   addMapDone: 'Add a map done',
 

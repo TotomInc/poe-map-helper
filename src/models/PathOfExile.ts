@@ -112,8 +112,8 @@ export interface POEMapZone {
  * Map history item used in the store
  */
 export interface POEMapHistory {
-  map: POEMapItem;
-  items: POEPricedStashItem[];
+  map: Readonly<POEMapItem>;
+  items: Readonly<POEPricedStashItem[]>;
   /** Timestamp that will be converted as a Date object */
   startTime: number;
   /** Timestamp that will be converted as a Date object */

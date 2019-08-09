@@ -4,7 +4,6 @@ export interface MapState {
   currentMap: POEMapItem | undefined;
   queuedMap: POEMapItem | undefined;
   latestMap: POEMapItem | undefined;
-  latestMapIncomeCalculated: boolean;
   inMap: boolean;
   mapStartedTime: number | undefined;
 
@@ -16,7 +15,6 @@ export const state: MapState = {
   currentMap: undefined,
   queuedMap: undefined,
   latestMap: undefined,
-  latestMapIncomeCalculated: false,
   inMap: false,
   mapStartedTime: undefined,
   mapsHistory: []
