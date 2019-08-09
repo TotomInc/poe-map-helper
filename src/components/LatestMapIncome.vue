@@ -17,7 +17,7 @@
         </h2>
       </div>
 
-      <div v-else-if="!map.latestMap && totalItemsDiffIncome.chaos <= 0">
+      <div v-else-if="!map.latestMap">
         <h1 class="mb-2 text-xl text-center text-gray-300">
           No latest map found.
         </h1>
