@@ -1,0 +1,8 @@
+{
+  "appId": "io.totominc.mapperassistant",
+  "productName": "PoE Mapper Assistant",
+  "artifactName": "MapperAssistant-${version}.${ext}",
+  "win": {
+    "icon": "build/icons/icon.ico"
+  }
+}
