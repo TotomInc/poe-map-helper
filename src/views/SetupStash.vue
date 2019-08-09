@@ -22,14 +22,19 @@
       </p>
 
       <div class="flex mb-4">
-        <vue-select v-model="selectedTab" placeholder="Select a stash-tab..." icon-left="vpn_key" class="w-48 mr-2">
-          <vue-select-button
-            v-for="(tab, index) in stash.stashTabs"
-            :key="'stash-tab-option-' + index"
-            :value="tab.id"
-            :label="`${tab.n} (${tab.type ? tab.type : 'UnkownStashType'})`"
-          />
-        </vue-select>
+        <v-select
+          v-model="selectedTab"
+          class="mr-4"
+          label="n"
+          placeholder="Select a stash-tab..."
+          :options="stash.stashTabs"
+          :reduce="(stashTab) => stashTab.id"
+        >
+          <template slot="option" slot-scope="option">
+            {{ option.n }}
+            <span class="text-xs text-discord-100">({{ option.type }})</span>
+          </template>
+        </v-select>
 
         <vue-button class="primary" :disabled="!selectedTab" @click="finishSetup()">
           Finish setup

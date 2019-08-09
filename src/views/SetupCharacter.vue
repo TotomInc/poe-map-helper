@@ -12,19 +12,18 @@
       </p>
 
       <div class="mb-4">
-        <vue-select
+        <v-select
           v-model="selectedCharacter"
+          label="name"
           placeholder="Select your character..."
-          icon-left="perm_identity"
-          class="w-64 mr-2"
+          :options="user.characters"
+          :reduce="(character) => character.name"
         >
-          <vue-select-button
-            v-for="(character, index) in user.characters"
-            :key="'character-option-' + index"
-            :value="character.name"
-            :label="character.name"
-          />
-        </vue-select>
+          <template slot="option" slot-scope="option">
+            {{ option.name }}
+            <span class="text-xs text-discord-100">({{ option.league }})</span>
+          </template>
+        </v-select>
       </div>
 
       <div>
@@ -74,6 +73,12 @@ export default class SetupCharacterView extends Vue {
   get user(): UserState {
     return this.$store.state.user;
   }
+
+  // get charactersOptions() {
+  //   return this.user.characters.map((character) => ({
+
+  //   }));
+  // }
 
   get poeSelectedCharacter(): POECharacter | undefined {
     return this.user.characters.find((char) => char.name === this.selectedCharacter);
