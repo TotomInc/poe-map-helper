@@ -5,6 +5,7 @@ import { RootState } from '@/store/state';
 import { MapState } from './map.state';
 import { mapActions, mapMutations } from './map.consts';
 import { stashActions, stashGetters } from '../stash/stash.consts';
+import { userActions } from '../user/user.consts';
 
 export const actions: ActionTree<MapState, RootState> = {
   [mapActions.MAP_ITEM_COPIED](context, payload: POEMapItem) {
@@ -60,6 +61,8 @@ export const actions: ActionTree<MapState, RootState> = {
       }
 
       context.commit(mapMutations.setMapStartedTime, Date.now());
+
+      context.dispatch(userActions.UPDATE_CHARACTER);
     }
 
     if (!context.state.inMap) {

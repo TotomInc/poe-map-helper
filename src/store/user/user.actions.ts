@@ -113,6 +113,10 @@ export const actions: ActionTree<UserState, RootState> = {
     context.commit(userMutations.setCharacters, payload);
   },
 
+  async [userActions.UPDATE_CHARACTER](context, payload: void) {
+    await context.dispatch(userActions.LOAD_CHARACTERS);
+  },
+
   [userActions.FINISH_SETUP](
     context,
     payload: {
