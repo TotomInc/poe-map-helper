@@ -33,10 +33,6 @@ export const mutations: MutationTree<MapState> = {
     state.mapStartedTime = payload;
   },
 
-  [mapMutations.removeMapStartedTime](state, payload: void) {
-    state.mapStartedTime = undefined;
-  },
-
   [mapMutations.addMapDone](state, payload: POEMapHistory) {
     state.mapsHistory.unshift(payload);
   },
