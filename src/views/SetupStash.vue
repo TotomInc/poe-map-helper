@@ -36,9 +36,9 @@
           </template>
         </v-select>
 
-        <vue-button class="primary" :disabled="!selectedTab" @click="finishSetup()">
+        <v-button :disabled="!selectedTab" @click="finishSetup">
           Finish setup
-        </vue-button>
+        </v-button>
       </div>
     </div>
 
@@ -55,8 +55,13 @@ import { stashActions, stashMutations } from '@/store/stash/stash.consts';
 import { RateState } from '@/store/rate/rate.state';
 import { rateActions } from '@/store/rate/rate.consts';
 import { userGetters } from '@/store/user/user.consts';
+import Button from '@/components/ui-components/Button.vue';
 
-@Component({})
+@Component({
+  components: {
+    VButton: Button
+  }
+})
 export default class SetupView extends Vue {
   private selectedTab = '';
 
