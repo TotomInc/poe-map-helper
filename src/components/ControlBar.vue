@@ -47,10 +47,14 @@ export default class ControlBarComponent extends Vue {
 
   public maximize(): void {
     if (this.browserWindow) {
-      if (this.browserWindow.isMaximized()) {
-        this.browserWindow.unmaximize();
-      } else {
-        this.browserWindow.maximize();
+      if (process.platform === 'darwin') {
+        this.browserWindow.setFullScreen(!this.browserWindow.isFullScreen());
+      } else if (process.platform === 'win32') {
+        if (this.browserWindow.isMaximized()) {
+          this.browserWindow.unmaximize();
+        } else {
+          this.browserWindow.maximize();
+        }
       }
     }
   }
