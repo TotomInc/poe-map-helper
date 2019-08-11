@@ -8,7 +8,7 @@
         class="map-history-view absolute w-6 h-6 rounded bg-discord-500 cursor-pointer"
         @click="goToMappingHistory()"
       >
-        <i class="material-icons poll-icon-fix">poll</i>
+        <i class="material-icons poll-icon-fix flex items-center justify-center text-xl w-6 h-6">poll</i>
       </div>
 
       <div v-if="stash.loading">
