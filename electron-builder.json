@@ -1,8 +1,13 @@
 {
   "appId": "io.totominc.mapperassistant",
   "productName": "PoE Mapper Assistant",
-  "artifactName": "MapperAssistant-${version}.${ext}",
+  "artifactName": "PoE Mapper Assistant ${version}.${ext}",
   "win": {
     "icon": "build/icons/icon.ico"
+  },
+  "nsis": {
+    "oneClick": false,
+    "installerIcon": "build/icons/icon.ico",
+    "uninstallerIcon": "build/icons/icon.ico"
   }
 }
