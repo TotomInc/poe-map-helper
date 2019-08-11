@@ -28,14 +28,6 @@
           :disabled="user.loading"
         />
 
-        <!-- <vue-input
-          v-model="POESESSID"
-          icon-left="lock"
-          placeholder="Your POESESSID"
-          class="w-1/3 mr-2"
-          :disabled="user.loading"
-        /> -->
-
         <v-button :loading="user.loading" :disabled="user.loading" @click="login()">
           Login
         </v-button>
