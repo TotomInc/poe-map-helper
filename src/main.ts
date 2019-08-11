@@ -1,5 +1,4 @@
 import Vue from 'vue';
-import VueUI from '@vue/ui';
 import VueNotification from 'vue-notification';
 import VueGoodTable from 'vue-good-table';
 import VueMoment from 'vue-moment';
@@ -14,7 +13,6 @@ import router from './router';
 
 Vue.config.productionTip = false;
 
-Vue.use(VueUI);
 Vue.use(VueNotification);
 Vue.use(VueGoodTable);
 Vue.use(VueMoment);
