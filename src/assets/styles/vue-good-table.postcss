@@ -78,6 +78,7 @@ table.vgt-table tr.clickable:hover {
 
 table.vgt-table td {
   border: none;
+  vertical-align: middle;
 
   @apply px-3;
   @apply py-2;
@@ -90,10 +91,12 @@ table.vgt-table td {
 
 /* Pagination style */
 .vgt-wrap__footer {
-  background: none;
+  display: block;
+  height: 56px;
   border: 0;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
+  background: none;
 
   @apply bg-discord-700;
 }
