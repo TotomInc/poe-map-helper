@@ -19,13 +19,22 @@
       </div>
 
       <div class="flex">
-        <vue-input
+        <v-input
+          v-model="POESESSID"
+          class="mr-2"
+          type="text"
+          placeholder="Set your POESESSID..."
+          icon="lock"
+          :disabled="user.loading"
+        />
+
+        <!-- <vue-input
           v-model="POESESSID"
           icon-left="lock"
           placeholder="Your POESESSID"
           class="w-1/3 mr-2"
           :disabled="user.loading"
-        />
+        /> -->
 
         <v-button :loading="user.loading" :disabled="user.loading" @click="login()">
           Login
@@ -43,10 +52,12 @@ import { Vue, Component } from 'vue-property-decorator';
 import { UserState } from '@/store/user/user.state';
 import { userActions } from '@/store/user/user.consts';
 import Button from '@/components/ui-components/Button.vue';
+import Input from '@/components/ui-components/Input.vue';
 
 @Component({
   components: {
-    VButton: Button
+    VButton: Button,
+    VInput: Input
   }
 })
 export default class LoginView extends Vue {
