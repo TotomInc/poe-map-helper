@@ -36,7 +36,8 @@ module.exports = {
         'Segoe UI Symbol',
         'Noto Color Emoji'
       ]
-    }
+    },
+    minWidth: (theme) => theme('width')
   },
   variants: {
     appearance: ['responsive'],
