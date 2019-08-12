@@ -12,19 +12,18 @@
       </p>
 
       <div class="mb-4">
-        <vue-select
+        <v-select
           v-model="selectedCharacter"
+          label="name"
           placeholder="Select your character..."
-          icon-left="perm_identity"
-          class="w-64 mr-2"
+          :options="user.characters"
+          :reduce="(character) => character.name"
         >
-          <vue-select-button
-            v-for="(character, index) in user.characters"
-            :key="'character-option-' + index"
-            :value="character.name"
-            :label="character.name"
-          />
-        </vue-select>
+          <template slot="option" slot-scope="option">
+            {{ option.name }}
+            <span class="text-xs text-discord-100">({{ option.league }})</span>
+          </template>
+        </v-select>
       </div>
 
       <div>
@@ -35,21 +34,19 @@
         <div class="flex flex-row justify-between">
           <input id="file" ref="file-input" type="file" accept=".txt" class="hidden" @change="onFileSelected" />
 
-          <label
-            for="file"
-            class="flex items-center px-3 py-1 rounded text-sm cursor-pointer bg-vue-500 focus:bg-vue-700 hover:bg-vue-300"
-          >
-            Select Client.txt
+          <label for="file">
+            <v-button>
+              Select Client.txt
+            </v-button>
           </label>
 
-          <vue-button
-            class="primary"
+          <v-button
             :loading="user.loading"
-            :disabled="!poeSelectedCharacter || !logfilePath"
-            @click="finishSetupCharacter()"
+            :disabled="!poeSelectedCharacter || !logfilePath || user.loading"
+            @click="finishSetupCharacter"
           >
             Finish setup
-          </vue-button>
+          </v-button>
         </div>
       </div>
     </div>
@@ -64,8 +61,13 @@ import { Vue, Component } from 'vue-property-decorator';
 import { POECharacter } from '@/models/PathOfExile';
 import { UserState } from '@/store/user/user.state';
 import { userActions, userMutations } from '@/store/user/user.consts';
+import Button from '@/components/ui-components/Button.vue';
 
-@Component({})
+@Component({
+  components: {
+    VButton: Button
+  }
+})
 export default class SetupCharacterView extends Vue {
   private selectedCharacter = '';
 
@@ -74,6 +76,12 @@ export default class SetupCharacterView extends Vue {
   get user(): UserState {
     return this.$store.state.user;
   }
+
+  // get charactersOptions() {
+  //   return this.user.characters.map((character) => ({
+
+  //   }));
+  // }
 
   get poeSelectedCharacter(): POECharacter | undefined {
     return this.user.characters.find((char) => char.name === this.selectedCharacter);

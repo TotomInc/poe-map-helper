@@ -24,13 +24,11 @@ export default class App extends Vue {}
 </script>
 
 <style lang="postcss">
-@import '../node_modules/@vue/ui/dist/vue-ui.css';
-
 @import 'assets/css/fonts.css';
 @import 'assets/css/transitions.css';
 
 @import 'assets/styles/tailwind.postcss';
-@import 'assets/styles/vue-ui.postcss';
 @import 'assets/styles/vue-good-table.postcss';
+@import 'assets/styles/vue-select.postcss';
 @import 'assets/styles/scrollbar.postcss';
 </style>
