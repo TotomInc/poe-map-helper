@@ -7,7 +7,15 @@ module.exports = {
     require('tailwindcss')(),
     IN_PRODUCTION &&
       require('@fullhuman/postcss-purgecss')({
-        content: [`./public/**/*.html`, `./src/**/*.vue`, `./node_modules/vue-good-table/dist/vue-good-table.css`],
+        content: [
+          `./public/**/*.html`,
+          `./src/**/*.vue`,
+          `./src/**/*.postcss`,
+          `./node_modules/vue-good-table/dist/vue-good-table.css`,
+          `./node_modules/vue-select/dist/vue-select.css`,
+          `./node_modules/epic-spinners/**/*.vue`,
+          `./node_modules/epic-spinners/dist/lib/epic-spinners.min.css`
+        ],
         defaultExtractor(content) {
           const contentWithoutStyleBlocks = content.replace(/<style[^]+?<\/style>/gi, '');
           return contentWithoutStyleBlocks.match(/[A-Za-z0-9-_/:]*[A-Za-z0-9-_/]+/g) || [];
