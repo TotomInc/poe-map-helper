@@ -1,7 +1,7 @@
 <template>
   <transition name="smooth" appear>
     <div
-      id="map-status-component"
+      id="mapping-status-component"
       class="max-w-2xl mx-auto p-4 rounded text-discord-100 bg-discord-700 shadow-2xl select-none"
     >
       <h1 v-if="!map.inMap" class="mb-2 text-xl text-center text-gray-300">
@@ -98,7 +98,7 @@ import { MapState } from '@/store/map/map.state';
 import { rawMapsImageURL } from '../consts/zones';
 
 @Component({})
-export default class MapStatusComponent extends Mixins(POEMapIconURLMixin) {
+export default class MappingStatusComponent extends Mixins(POEMapIconURLMixin) {
   get map(): MapState {
     return this.$store.state.map;
   }
