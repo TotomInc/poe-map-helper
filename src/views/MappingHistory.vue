@@ -4,7 +4,7 @@
       class="back-home absolute inline-flex text-gray-300 py-1 px-3 rounded-full bg-discord-500 cursor-pointer"
       @click="goToHome()"
     >
-      <i class="material-icons mr-2">
+      <i class="material-icons flex items-center mr-2">
         arrow_back
       </i>
 

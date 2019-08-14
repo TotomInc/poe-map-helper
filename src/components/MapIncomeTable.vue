@@ -72,7 +72,7 @@
 
           <div class="flex">
             <i
-              class="material-icons mr-2 rounded bg-discord-900 cursor-pointer"
+              class="material-icons flex items-center justify-center mr-2 rounded bg-discord-900 cursor-pointer"
               :class="{ 'text-discord-500': currentPage <= 1, 'cursor-not-allowed': currentPage <= 1 }"
               @click="paginationPageChanged(props.pageChanged, props.total, 'decrease')"
             >
@@ -86,7 +86,7 @@
             </p>
 
             <i
-              class="material-icons rounded bg-discord-900 cursor-pointer"
+              class="material-icons flex items-center justify-center rounded bg-discord-900 cursor-pointer"
               :class="{ 'text-discord-500': currentPage >= pages, 'cursor-not-allowed': currentPage >= pages }"
               @click="paginationPageChanged(props.pageChanged, props.total, 'increase')"
             >

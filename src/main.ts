@@ -22,5 +22,11 @@ Vue.component('v-select', VueSelect);
 new Vue({
   router,
   store,
+
+  // Fix for Electron app not redirecting by default to '/'
+  mounted() {
+    this.$router.push('/');
+  },
+
   render: (h) => h(App)
 }).$mount('#app');
