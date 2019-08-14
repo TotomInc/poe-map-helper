@@ -1,2 +1,1 @@
-declare module '@vue/ui';
-declare module 'vue-moment';
+declare module 'vue-date-fns';
