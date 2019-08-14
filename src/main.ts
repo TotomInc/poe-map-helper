@@ -2,7 +2,7 @@ import Vue from 'vue';
 import VueNotification from 'vue-notification';
 import VueGoodTable from 'vue-good-table';
 import VueSelect from 'vue-select';
-import { dateFiler } from 'vue-date-fns';
+import { dateFilter } from 'vue-date-fns';
 
 import 'vue-good-table/dist/vue-good-table.css';
 import 'vue-select/dist/vue-select.css';
@@ -18,7 +18,7 @@ Vue.use(VueGoodTable);
 
 Vue.component('v-select', VueSelect);
 
-Vue.filter('date', dateFiler);
+Vue.filter('date', dateFilter);
 
 new Vue({
   router,
