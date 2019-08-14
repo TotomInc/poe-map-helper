@@ -6,7 +6,7 @@
 
     <character-overview class="mb-4" />
 
-    <map-status class="mb-4" />
+    <mapping-status class="mb-4" />
 
     <latest-map-income class="mb-4" />
   </div>
@@ -16,7 +16,7 @@
 import { Vue, Component } from 'vue-property-decorator';
 
 import CharacterOverview from '@/components/CharacterOverview.vue';
-import MapStatus from '@/components/MapStatus.vue';
+import MappingStatus from '@/components/MappingStatus.vue';
 import LatestMapIncome from '@/components/LatestMapIncome.vue';
 import { StashState } from '@/store/stash/stash.state';
 import { stashActions } from '@/store/stash/stash.consts';
@@ -24,7 +24,7 @@ import { stashActions } from '@/store/stash/stash.consts';
 @Component({
   components: {
     CharacterOverview,
-    MapStatus,
+    MappingStatus,
     LatestMapIncome
   }
 })

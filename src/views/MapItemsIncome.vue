@@ -15,8 +15,10 @@
       Map income report
     </h1>
 
+    <map-details :map="mapHistory.map" class="mb-4" />
+
     <div class="max-w-2xl mx-auto p-4 rounded text-discord-100 bg-discord-700 shadow-2xl select-none">
-      <map-income-table :items-diff-income="mapItemsIncome" />
+      <map-income-table :items-diff-income="mapHistory.items" />
     </div>
   </div>
 </template>
@@ -24,16 +26,18 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 
-import { POEPricedStashItem } from '@/models/PathOfExile';
+import { POEPricedStashItem, POEMapHistory } from '@/models/PathOfExile';
 import { MapState } from '@/store/map/map.state';
 import MapIncomeTable from '@/components/MapIncomeTable.vue';
+import MapDetails from '@/components/MapDetails.vue';
 
 @Component({
   components: {
-    MapIncomeTable
+    MapIncomeTable,
+    MapDetails
   }
 })
-export default class mapItemsIncomeView extends Vue {
+export default class MapItemsIncomeView extends Vue {
   get mapParamIndex(): number {
     return parseInt(this.$route.params.id, 10);
   }
@@ -42,8 +46,8 @@ export default class mapItemsIncomeView extends Vue {
     return this.$store.state.map;
   }
 
-  get mapItemsIncome(): Readonly<POEPricedStashItem[]> {
-    return this.map.mapsHistory[this.mapParamIndex].items;
+  get mapHistory(): Readonly<POEMapHistory> {
+    return this.map.mapsHistory[this.mapParamIndex];
   }
 
   public goBack() {
