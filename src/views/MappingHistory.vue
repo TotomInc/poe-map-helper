@@ -50,11 +50,11 @@
         </span>
 
         <span v-if="props.column.field == 'duration'" class="flex flex-row items-center float-right">
-          <span class="mr-2">{{ props.row.duration | moment('mm:ss') }}</span>
+          <span class="mr-2">{{ props.row.duration | date('mm:ss') }}</span>
         </span>
 
         <span v-if="props.column.field == 'endDate'" class="flex flex-row items-center float-right">
-          <span class="mr-2">{{ props.row.endDate | moment('DD-MM-YYYY') }}</span>
+          <span class="mr-2">{{ props.row.endDate | date('DD-MM-YYYY') }}</span>
         </span>
       </template>
     </vue-good-table>
