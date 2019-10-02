@@ -20,7 +20,7 @@
     </p>
 
     <vue-good-table
-      class="max-w shadow-2xl"
+      class="max-w shadow-2xl mb-4"
       :columns="columns"
       :rows="rows"
       :pagination-options="{
@@ -58,6 +58,22 @@
         </span>
       </template>
     </vue-good-table>
+
+    <div class="max-w mx-auto p-4 rounded text-discord-100 bg-discord-700 shadow-2xl select-none">
+      <h2 class="mb-2 text-gray-300 text-xl text-center">
+        Income of your 50 most recent maps
+      </h2>
+
+      <line-chart :height="150" :colors="['#3daa79']" :labels="chartLabels" :datasets="chartDatasets" />
+
+      <div class="flex items-center justify-center">
+        <div class="w-8 h-4 rounded mr-2 bg-green-500" />
+
+        <p class="text-base">
+          Chaos income
+        </p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -67,10 +83,15 @@ import { Vue, Component, Mixins } from 'vue-property-decorator';
 import POEMapIconURLMixin from '@/mixins/POEMapIconURL';
 import { mapGetters } from '@/store/map/map.consts';
 import { MapState } from '@/store/map/map.state';
-import { POEMapItem, POEMapHistoryDate } from '@/models/PathOfExile';
+import { POEMapItem, POEMapHistoryDate, POEMapHistory } from '@/models/PathOfExile';
 import { rawMapsImageURL } from '../consts/zones';
+import LineChart from '@/components/charts/LineChart.vue';
 
-@Component({})
+@Component({
+  components: {
+    LineChart
+  }
+})
 export default class MappingHistoryView extends Mixins(POEMapIconURLMixin) {
   private columns = [
     {
@@ -109,6 +130,28 @@ export default class MappingHistoryView extends Mixins(POEMapIconURLMixin) {
 
   get rows(): POEMapHistoryDate[] {
     return this.$store.getters[mapGetters.mapsHistoryDate];
+  }
+
+  /**
+   * Charts labels, return only the 50 most recent maps.
+   */
+  get chartLabels(): string[] {
+    const mapsHistory: POEMapHistory[] = JSON.parse(JSON.stringify(this.map.mapsHistory));
+
+    return mapsHistory.slice(0, 50).map((mapHistory, i) => `#${i + 1}`);
+  }
+
+  /**
+   * Generate dataset, return only the 50 most recent maps.
+   */
+  get chartDatasets() {
+    const mapsHistory: POEMapHistory[] = JSON.parse(JSON.stringify(this.map.mapsHistory));
+
+    return [
+      {
+        values: mapsHistory.slice(0, 50).map((mapHistory) => mapHistory.income.chaos)
+      }
+    ];
   }
 
   public onRowClick(params: any) {
