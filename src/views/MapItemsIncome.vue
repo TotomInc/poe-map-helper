@@ -1,15 +1,6 @@
 <template>
   <div id="maps-items-income-view" class="relative container mx-auto py-8">
-    <div
-      class="back-home absolute inline-flex text-gray-300 py-1 px-3 rounded-full bg-discord-500 cursor-pointer"
-      @click="goBack()"
-    >
-      <i class="material-icons flex items-center mr-2">
-        arrow_back
-      </i>
-
-      <p>Back</p>
-    </div>
+    <back-button :label="'Back'" @on-click="goBack" />
 
     <h1 class="text-gray-300 text-center text-4xl mb-4 select-none">
       Map income report
@@ -30,11 +21,13 @@ import { POEPricedStashItem, POEMapHistory } from '@/models/PathOfExile';
 import { MapState } from '@/store/map/map.state';
 import MapIncomeTable from '@/components/MapIncomeTable.vue';
 import MapDetails from '@/components/MapDetails.vue';
+import BackButton from '@/components/ui-components/BackButton.vue';
 
 @Component({
   components: {
     MapIncomeTable,
-    MapDetails
+    MapDetails,
+    BackButton
   }
 })
 export default class MapItemsIncomeView extends Vue {
@@ -55,9 +48,3 @@ export default class MapItemsIncomeView extends Vue {
   }
 }
 </script>
-
-<style scoped>
-.back-home {
-  top: 42px;
-}
-</style>

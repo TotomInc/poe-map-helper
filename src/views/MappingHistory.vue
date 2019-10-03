@@ -1,15 +1,6 @@
 <template>
   <div id="mapping-history-view" class="relative container mx-auto py-8">
-    <div
-      class="back-home absolute inline-flex text-gray-300 py-1 px-3 rounded-full bg-discord-500 cursor-pointer"
-      @click="goToHome()"
-    >
-      <i class="material-icons flex items-center mr-2">
-        arrow_back
-      </i>
-
-      <p>Home</p>
-    </div>
+    <back-button :label="'Home'" @on-click="goToHome" />
 
     <h1 class="text-gray-300 text-center text-4xl mb-4 select-none">
       Mapping history
@@ -86,10 +77,12 @@ import { MapState } from '@/store/map/map.state';
 import { POEMapItem, POEMapHistoryDate, POEMapHistory } from '@/models/PathOfExile';
 import { rawMapsImageURL } from '../consts/zones';
 import LineChart from '@/components/charts/LineChart.vue';
+import BackButton from '@/components/ui-components/BackButton.vue';
 
 @Component({
   components: {
-    LineChart
+    LineChart,
+    BackButton
   }
 })
 export default class MappingHistoryView extends Mixins(POEMapIconURLMixin) {
