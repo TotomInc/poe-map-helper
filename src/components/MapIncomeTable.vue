@@ -16,12 +16,12 @@
         </span>
 
         <span v-if="props.column.field == 'chaos'" class="flex flex-row items-center float-right">
-          <span class="mr-2">{{ props.row.chaos }}</span>
+          <span class="mr-2">{{ round(props.row.chaos) }}</span>
           <img :src="require('@/assets/images/orbs/chaos-orb.png')" class="w-6 h-6" />
         </span>
 
         <span v-if="props.column.field == 'exalt'" class="flex flex-row items-center float-right">
-          <span class="mr-2">{{ props.row.exalt }}</span>
+          <span class="mr-2">{{ round(props.row.exalt) }}</span>
           <img :src="require('@/assets/images/orbs/exalted-orb.png')" class="w-6 h-6" />
         </span>
       </template>
@@ -153,6 +153,10 @@ export default class MapIncomeTableComponent extends Vue {
     this.recalculatePages();
 
     this.currentPage = this.pages <= 0 ? 0 : 1;
+  }
+
+  public round(value: number): number {
+    return Math.round(value * 100) / 100;
   }
 
   get rate(): RateState {
