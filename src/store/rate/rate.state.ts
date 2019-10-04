@@ -7,5 +7,5 @@ export interface RateState {
 
 export const state: RateState = {
   loading: false,
-  currencies: []
+  currencies: [],
 };

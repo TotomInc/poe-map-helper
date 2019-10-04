@@ -47,5 +47,5 @@ export const mutations: MutationTree<UserState> = {
 
   [userMutations.removeAccountName](state, payload: void) {
     state.accountName = undefined;
-  }
+  },
 };

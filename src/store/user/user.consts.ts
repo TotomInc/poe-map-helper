@@ -11,7 +11,7 @@ export const userActions = {
 
   FINISH_SETUP: 'FINISH_SETUP',
 
-  LOGOUT: 'LOGOUT'
+  LOGOUT: 'LOGOUT',
 };
 
 export const userMutations = {
@@ -30,9 +30,9 @@ export const userMutations = {
   removeSelectedCharacter: 'Remove user selected character',
 
   setAccountName: 'Set user account name',
-  removeAccountName: 'Remove user account name'
+  removeAccountName: 'Remove user account name',
 };
 
 export const userGetters = {
-  poeSelectedCharacter: 'poeSelectedCharacter'
+  poeSelectedCharacter: 'poeSelectedCharacter',
 };

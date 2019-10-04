@@ -8,5 +8,5 @@ import { mutations } from './rate.mutations';
 export const rateModule: Module<RateState, RootState> = {
   state,
   actions,
-  mutations
+  mutations,
 };

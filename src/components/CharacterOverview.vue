@@ -90,7 +90,7 @@ export default class CharacterOverviewComponent extends Vue {
         if (type === userActions.LOAD_CHARACTERS_SUCCESS) {
           this.updateRequiredExperience();
         }
-      }
+      },
     });
 
     this.updateRequiredExperience();

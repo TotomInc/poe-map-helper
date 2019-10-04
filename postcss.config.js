@@ -14,7 +14,7 @@ module.exports = {
           `./node_modules/vue-good-table/dist/vue-good-table.css`,
           `./node_modules/vue-select/dist/vue-select.css`,
           `./node_modules/epic-spinners/**/*.vue`,
-          `./node_modules/epic-spinners/dist/lib/epic-spinners.min.css`
+          `./node_modules/epic-spinners/dist/lib/epic-spinners.min.css`,
         ],
         defaultExtractor(content) {
           const contentWithoutStyleBlocks = content.replace(/<style[^]+?<\/style>/gi, '');
@@ -24,9 +24,9 @@ module.exports = {
         whitelistPatterns: [
           /-(leave|enter|appear)(|-(to|from|active))$/,
           /^(?!(|.*?:)cursor-move).+-move$/,
-          /^router-link(|-exact)-active$/
-        ]
+          /^router-link(|-exact)-active$/,
+        ],
       }),
-    require('autoprefixer')()
-  ]
+    require('autoprefixer')(),
+  ],
 };

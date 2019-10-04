@@ -43,5 +43,5 @@ export const mutations: MutationTree<MapState> = {
 
   [mapMutations.leaveMap](state, payload: void) {
     state.inMap = false;
-  }
+  },
 };

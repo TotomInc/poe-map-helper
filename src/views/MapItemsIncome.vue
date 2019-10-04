@@ -34,8 +34,8 @@ import MapDetails from '@/components/MapDetails.vue';
 @Component({
   components: {
     MapIncomeTable,
-    MapDetails
-  }
+    MapDetails,
+  },
 })
 export default class MapItemsIncomeView extends Vue {
   get mapParamIndex(): number {

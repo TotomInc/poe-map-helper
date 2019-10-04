@@ -15,5 +15,5 @@ export const state: StashState = {
   selectedStashTab: undefined,
   items: [],
   itemsDiff: [],
-  itemsDiffIncome: []
+  itemsDiffIncome: [],
 };

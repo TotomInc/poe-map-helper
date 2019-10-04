@@ -114,18 +114,18 @@ export default class MapIncomeTableComponent extends Vue {
     {
       label: 'Item name',
       field: 'typeLine',
-      sortable: false
+      sortable: false,
     },
     {
       label: 'Chaos income',
       field: 'chaos',
-      type: 'decimal'
+      type: 'decimal',
     },
     {
       label: 'Exalt income',
       field: 'exalt',
-      type: 'decimal'
-    }
+      type: 'decimal',
+    },
   ];
 
   private paginationOptions = {
@@ -133,14 +133,14 @@ export default class MapIncomeTableComponent extends Vue {
     perPage: 10,
     perPageDropdown: [10, 20, 40],
     dropdownAllowAll: false,
-    rowsPerPageLabel: 'Items per page'
+    rowsPerPageLabel: 'Items per page',
   };
 
   private sortOptions = {
     initialSortBy: {
       field: 'chaos',
-      type: 'desc'
-    }
+      type: 'desc',
+    },
   };
 
   private currentPage = 1;
@@ -195,7 +195,7 @@ export default class MapIncomeTableComponent extends Vue {
   private paginationPageChanged(
     pageChanged: (...args: any) => any,
     total?: number,
-    type?: 'increase' | 'decrease'
+    type?: 'increase' | 'decrease',
   ): void {
     if (type === 'decrease') {
       this.currentPage = this.currentPage <= 1 ? 1 : this.currentPage - 1;

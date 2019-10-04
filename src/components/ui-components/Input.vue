@@ -22,25 +22,25 @@ import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 export default class InputComponent extends Vue {
   @Prop({
     type: Boolean,
-    required: false
+    required: false,
   })
   readonly disabled!: boolean | undefined;
 
   @Prop({
     type: String,
-    required: false
+    required: false,
   })
   readonly type!: string | undefined;
 
   @Prop({
     type: String,
-    required: false
+    required: false,
   })
   readonly placeholder!: string | undefined;
 
   @Prop({
     type: String,
-    required: false
+    required: false,
   })
   readonly icon!: string | undefined;
 

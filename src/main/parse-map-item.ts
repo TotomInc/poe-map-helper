@@ -80,7 +80,7 @@ export function extractMapData(details: string[]) {
     tier: parseInt(mapTier, 10),
     iq: parseInt(iq, 10),
     ir: parseInt(ir, 10),
-    mps: parseInt(mps, 10)
+    mps: parseInt(mps, 10),
   };
 }
 
@@ -124,6 +124,6 @@ export function parseMapItem(mapItem: string): POEMapItem {
     ...mapData,
     name: mapName,
     rarity: mapRarity,
-    modifiers: mapModifiers
+    modifiers: mapModifiers,
   };
 }
