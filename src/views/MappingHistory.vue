@@ -68,7 +68,6 @@ import POEMapIconURLMixin from '@/mixins/POEMapIconURL';
 import { mapGetters } from '@/store/map/map.consts';
 import { MapState } from '@/store/map/map.state';
 import { POEMapItem, POEMapHistoryDate } from '@/models/PathOfExile';
-import { rawMapsImageURL } from '../consts/zones';
 
 @Component({})
 export default class MappingHistoryView extends Mixins(POEMapIconURLMixin) {
