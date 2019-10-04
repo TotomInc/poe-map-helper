@@ -19,5 +19,5 @@ export const mutations: MutationTree<RateState> = {
 
   [rateMutations.removeCurrenciesRate](state, payload: void) {
     state.currencies = [];
-  }
+  },
 };

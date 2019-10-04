@@ -49,8 +49,8 @@ import Input from '@/components/ui-components/Input.vue';
 @Component({
   components: {
     VButton: Button,
-    VInput: Input
-  }
+    VInput: Input,
+  },
 })
 export default class LoginView extends Vue {
   private POESESSID = '';
@@ -75,10 +75,10 @@ export default class LoginView extends Vue {
             group: 'LOGIN',
             title: 'Unable to login',
             text: 'Invalid or expired POESESSID, try to generate a new one.',
-            type: 'error'
+            type: 'error',
           });
         }
-      }
+      },
     });
   }
 

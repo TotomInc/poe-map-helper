@@ -8,7 +8,7 @@ export const getters: GetterTree<StashState, RootState> = {
   [stashGetters.getTotalItemsDiffIncome](state): { chaos: number; exalt: number } {
     const totalItemsDiffIncome = {
       chaos: 0,
-      exalt: 0
+      exalt: 0,
     };
 
     state.itemsDiffIncome.forEach((item) => {
@@ -24,5 +24,5 @@ export const getters: GetterTree<StashState, RootState> = {
 
   [stashGetters.getStashTabIndex](state): number {
     return state.stashTabs.findIndex((tab) => tab.id === state.selectedStashTab);
-  }
+  },
 };

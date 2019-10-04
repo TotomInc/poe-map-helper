@@ -17,5 +17,5 @@ export const state: MapState = {
   latestMap: undefined,
   inMap: false,
   mapStartedTime: undefined,
-  mapsHistory: []
+  mapsHistory: [],
 };

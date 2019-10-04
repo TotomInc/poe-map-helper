@@ -22,8 +22,8 @@ export const actions: ActionTree<RateState, RootState> = {
             onSuccessIpc: rateActions.LOAD_CURRENCIES_RATE_SUCCESS,
             onFailIpc: rateActions.LOAD_CURRENCIES_RATE_FAILED,
             axiosOptions: {
-              method: 'GET'
-            }
+              method: 'GET',
+            },
           };
 
           context.commit(rateMutations.setLoading);
@@ -34,11 +34,11 @@ export const actions: ActionTree<RateState, RootState> = {
         }
 
         ipcRenderer.once(rateActions.LOAD_CURRENCIES_RATE_SUCCESS, (ipcPayload: POEWatchCurrency[]) =>
-          resolve(ipcPayload)
+          resolve(ipcPayload),
         );
 
         ipcRenderer.once(rateActions.LOAD_CURRENCIES_RATE_FAILED, (ipcPayload: any) => reject(ipcPayload));
-      })
+      }),
     );
 
     ipcRenderer.removeAllListeners(rateActions.LOAD_CURRENCIES_RATE_SUCCESS);
@@ -74,7 +74,7 @@ export const actions: ActionTree<RateState, RootState> = {
       current: 1,
       accepted: -1,
       stackSize: 10,
-      history: [1, 1, 1, 1, 1, 1]
+      history: [1, 1, 1, 1, 1, 1],
     };
 
     context.commit(rateMutations.setCurrenciesRate, [...payload, chaosRate]);
@@ -83,5 +83,5 @@ export const actions: ActionTree<RateState, RootState> = {
 
   [rateActions.LOAD_CURRENCIES_RATE_FAILED](context, payload: void) {
     context.commit(rateMutations.removeLoading);
-  }
+  },
 };

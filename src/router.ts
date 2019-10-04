@@ -23,11 +23,11 @@ export default new Router({
         } else {
           next();
         }
-      }
+      },
     },
     {
       path: '/login',
-      component: LoginView
+      component: LoginView,
     },
     {
       path: '/setup-character',
@@ -38,7 +38,7 @@ export default new Router({
         } else {
           next();
         }
-      }
+      },
     },
     {
       path: '/setup-stash',
@@ -49,7 +49,7 @@ export default new Router({
         } else {
           next();
         }
-      }
+      },
     },
     {
       path: '/mapping-history',
@@ -60,7 +60,7 @@ export default new Router({
         } else {
           next();
         }
-      }
+      },
     },
     {
       path: '/map-income/:id',
@@ -71,7 +71,7 @@ export default new Router({
         } else {
           next();
         }
-      }
-    }
-  ]
+      },
+    },
+  ],
 });

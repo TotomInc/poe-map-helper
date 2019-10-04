@@ -10,5 +10,5 @@ export const stashModule: Module<StashState, RootState> = {
   state,
   actions,
   mutations,
-  getters
+  getters,
 };

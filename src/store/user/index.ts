@@ -10,5 +10,5 @@ export const userModule: Module<UserState, RootState> = {
   state,
   actions,
   mutations,
-  getters
+  getters,
 };

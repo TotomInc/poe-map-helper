@@ -25,8 +25,8 @@ import { stashActions } from '@/store/stash/stash.consts';
   components: {
     CharacterOverview,
     MappingStatus,
-    LatestMapIncome
-  }
+    LatestMapIncome,
+  },
 })
 export default class HomeView extends Vue {
   get stash(): StashState {

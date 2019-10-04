@@ -27,8 +27,8 @@ import BackButton from '@/components/ui-components/BackButton.vue';
   components: {
     MapIncomeTable,
     MapDetails,
-    BackButton
-  }
+    BackButton,
+  },
 })
 export default class MapItemsIncomeView extends Vue {
   get mapParamIndex(): number {

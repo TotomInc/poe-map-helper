@@ -59,8 +59,8 @@ import Button from '@/components/ui-components/Button.vue';
 
 @Component({
   components: {
-    VButton: Button
-  }
+    VButton: Button,
+  },
 })
 export default class SetupView extends Vue {
   private selectedTab = '';
@@ -86,7 +86,7 @@ export default class SetupView extends Vue {
           group: 'STASH',
           title: 'Unable to load stash-tabs',
           text: 'Unable to load stash-tabs from your PoE account, is the PoE API down? Try to restart the app.',
-          type: 'error'
+          type: 'error',
         });
       } else if (type === rateActions.LOAD_CURRENCIES_RATE_SUCCESS) {
         this.$router.push('/');
@@ -95,7 +95,7 @@ export default class SetupView extends Vue {
           group: 'STASH',
           title: 'Unable to load rates',
           text: 'Unable to load rates from poe.watch, is the API down? Try to restart the app.',
-          type: 'error'
+          type: 'error',
         });
       }
     });

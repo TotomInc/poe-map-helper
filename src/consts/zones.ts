@@ -45,7 +45,7 @@ export const hideouts = [
   'Sunspire Hideout',
   'Towering Hideout',
   'Undercity Hideout',
-  'Unearthed Hideout'
+  'Unearthed Hideout',
 ];
 
 /**
@@ -194,7 +194,7 @@ export const maps: POEMapZone[] = [
   { name: 'Forge of the Phoenix', tier: 16, unique: false },
   { name: 'Maze of the Minotaur', tier: 16, unique: false },
   { name: 'Pit of the Chimera', tier: 16, unique: false },
-  { name: 'Lair of the Hydra', tier: 16, unique: false }
+  { name: 'Lair of the Hydra', tier: 16, unique: false },
 ];
 
 /**
@@ -224,7 +224,7 @@ export const uniqueMaps: POEMapZone[] = [
   { name: "Poorjoy's Asylum", tier: 10, unique: true },
   { name: 'The Putrid Cloister', tier: 11, unique: true },
   { name: 'Hallowed Ground', tier: 12, unique: true },
-  { name: 'Vaults of Atziri', tier: 12, unique: true }
+  { name: 'Vaults of Atziri', tier: 12, unique: true },
 ];
 
 /**
@@ -387,5 +387,5 @@ export const rawMapsImageURL = [
   { name: 'Forge of the Phoenix', url: '//web.poecdn.com/image/Art/2DItems/Maps/Atlas2Maps/New/Phoenix.png' },
   { name: 'Vaal Temple', url: '//web.poecdn.com/image/Art/2DItems/Maps/Atlas2Maps/New/VaalTempleBase.png' },
   { name: 'Arachnid Tomb', url: '//web.poecdn.com/image/Art/2DItems/Maps/Atlas2Maps/New/Arachnid.png' },
-  { name: 'Lava Lake', url: '//web.poecdn.com/image/Art/2DItems/Maps/Atlas2Maps/New/Corpse.png' }
+  { name: 'Lava Lake', url: '//web.poecdn.com/image/Art/2DItems/Maps/Atlas2Maps/New/Corpse.png' },
 ];

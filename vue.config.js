@@ -8,6 +8,6 @@ module.exports = {
       // new BundleAnalyzerPlugin({
       //   analyzerPort: IN_PRODUCTION ? 8889 : 8888
       // })
-    ]
-  }
+    ],
+  },
 };

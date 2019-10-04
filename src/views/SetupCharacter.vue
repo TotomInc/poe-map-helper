@@ -65,8 +65,8 @@ import Button from '@/components/ui-components/Button.vue';
 
 @Component({
   components: {
-    VButton: Button
-  }
+    VButton: Button,
+  },
 })
 export default class SetupCharacterView extends Vue {
   private selectedCharacter = '';
@@ -96,7 +96,7 @@ export default class SetupCharacterView extends Vue {
           group: 'CHARACTER',
           title: 'Unable to load characters',
           text: 'Unable to load characters from your PoE account, please restart the app.',
-          type: 'error'
+          type: 'error',
         });
       }
     });
@@ -109,7 +109,7 @@ export default class SetupCharacterView extends Vue {
   public finishSetupCharacter(): void {
     const payload = {
       selectedCharacter: this.selectedCharacter,
-      logfilePath: this.logfilePath
+      logfilePath: this.logfilePath,
     };
 
     this.$store.dispatch(userActions.FINISH_SETUP, payload);
@@ -138,7 +138,7 @@ export default class SetupCharacterView extends Vue {
           group: 'CHARACTER',
           title: 'No Client.txt file selected or invalid file',
           text: 'Make sure you selected the Client.txt file in your Path of Exile game directory.',
-          type: 'error'
+          type: 'error',
         });
       }
     } else {
@@ -148,7 +148,7 @@ export default class SetupCharacterView extends Vue {
         group: 'CHARACTER',
         title: 'No Client.txt file selected',
         text: 'You need to select the Client.txt file in your Path of Exile game directory.',
-        type: 'error'
+        type: 'error',
       });
     }
   }

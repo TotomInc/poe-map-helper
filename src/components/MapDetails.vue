@@ -62,7 +62,7 @@ import { userGetters } from '@/store/user/user.consts';
 export default class MapDetailsComponent extends Mixins(POEMapIconURLMixin) {
   @Prop({
     type: Object,
-    required: true
+    required: true,
   })
   readonly map!: POEMapItem;
 

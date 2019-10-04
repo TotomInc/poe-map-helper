@@ -15,5 +15,5 @@ export const state: UserState = {
   loading: false,
   characters: [],
   selectedCharacter: undefined,
-  accountName: undefined
+  accountName: undefined,
 };

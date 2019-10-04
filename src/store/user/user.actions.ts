@@ -22,9 +22,9 @@ export const actions: ActionTree<UserState, RootState> = {
             method: 'GET',
             maxRedirects: 0,
             headers: {
-              Cookie: `POESESSID=${payload}`
-            }
-          }
+              Cookie: `POESESSID=${payload}`,
+            },
+          },
         };
 
         context.commit(userMutations.setLoading);
@@ -34,7 +34,7 @@ export const actions: ActionTree<UserState, RootState> = {
 
         ipcRenderer.once(userActions.COOKIE_LOGIN_SUCCESS, (ipcPayload: string) => resolve(ipcPayload));
         ipcRenderer.once(userActions.COOKIE_LOGIN_FAILED, (ipcPayload: any) => reject(ipcPayload));
-      })
+      }),
     );
 
     ipcRenderer.removeAllListeners(userActions.COOKIE_LOGIN_SUCCESS);
@@ -78,9 +78,9 @@ export const actions: ActionTree<UserState, RootState> = {
             method: 'GET',
             maxRedirects: 0,
             headers: {
-              Cookie: `POESESSID=${context.state.poesessid}`
-            }
-          }
+              Cookie: `POESESSID=${context.state.poesessid}`,
+            },
+          },
         };
 
         context.commit(userMutations.setLoading);
@@ -89,7 +89,7 @@ export const actions: ActionTree<UserState, RootState> = {
 
         ipcRenderer.once(userActions.LOAD_CHARACTERS_SUCCESS, (ipcPayload: POECharacter[]) => resolve(ipcPayload));
         ipcRenderer.once(userActions.LOAD_CHARACTERS_FAILED, (ipcPayload: any) => reject(ipcPayload));
-      })
+      }),
     );
 
     ipcRenderer.removeAllListeners(userActions.LOAD_CHARACTERS_SUCCESS);
@@ -122,7 +122,7 @@ export const actions: ActionTree<UserState, RootState> = {
     payload: {
       selectedCharacter: string;
       logfilePath: string;
-    }
+    },
   ) {
     context.commit(userMutations.setSelectedCharacter, payload.selectedCharacter);
 
@@ -132,5 +132,5 @@ export const actions: ActionTree<UserState, RootState> = {
   [userActions.LOGOUT](context, payload: void) {
     context.commit(userMutations.removeCharacters);
     context.commit(userMutations.removeLogged);
-  }
+  },
 };

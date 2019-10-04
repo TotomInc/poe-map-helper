@@ -32,9 +32,9 @@ export const actions: ActionTree<StashState, RootState> = {
               method: 'GET',
               maxRedirects: 0,
               headers: {
-                Cookie: `POESESSID=${poesessid}`
-              }
-            }
+                Cookie: `POESESSID=${poesessid}`,
+              },
+            },
           };
 
           context.commit(stashMutations.setLoading);
@@ -46,7 +46,7 @@ export const actions: ActionTree<StashState, RootState> = {
         } else {
           reject();
         }
-      })
+      }),
     );
 
     ipcRenderer.removeAllListeners(stashActions.GET_STASH_TABS_SUCCESS);
@@ -91,9 +91,9 @@ export const actions: ActionTree<StashState, RootState> = {
               method: 'GET',
               maxRedirects: 0,
               headers: {
-                Cookie: `POESESSID=${poesessid}`
-              }
-            }
+                Cookie: `POESESSID=${poesessid}`,
+              },
+            },
           };
 
           context.commit(stashMutations.setLoading);
@@ -105,7 +105,7 @@ export const actions: ActionTree<StashState, RootState> = {
         } else {
           reject();
         }
-      })
+      }),
     );
 
     ipcRenderer.removeAllListeners(stashActions.GET_STASH_ITEMS_SUCCESS);
@@ -162,7 +162,7 @@ export const actions: ActionTree<StashState, RootState> = {
       ) {
         itemsDiff.push({
           ...newStacksizeItem,
-          stackSize: newStacksizeItem.stackSize - item.stackSize
+          stackSize: newStacksizeItem.stackSize - item.stackSize,
         });
       }
     });
@@ -193,7 +193,7 @@ export const actions: ActionTree<StashState, RootState> = {
         const itemDiffIncome: POEPricedStashItem = {
           ...item,
           chaos: Math.round(itemCurrency.mean * itemAmount * 100) / 100,
-          exalt: Math.round(itemCurrency.exalted * itemAmount * 1000) / 1000
+          exalt: Math.round(itemCurrency.exalted * itemAmount * 1000) / 1000,
         };
 
         itemsDiffIncomePayload.push(itemDiffIncome);
@@ -201,5 +201,5 @@ export const actions: ActionTree<StashState, RootState> = {
     });
 
     context.commit(stashMutations.setItemsDiffIncome, itemsDiffIncomePayload);
-  }
+  },
 };

@@ -19,10 +19,10 @@ const store = new Vuex.Store<RootState>({
     user: userModule,
     map: mapModule,
     rate: rateModule,
-    stash: stashModule
+    stash: stashModule,
   },
 
-  plugins: [localstorage.plugin]
+  plugins: [localstorage.plugin],
 });
 
 ipcToStore(store);

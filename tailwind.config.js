@@ -2,11 +2,11 @@ module.exports = {
   theme: {
     extend: {
       inset: {
-        full: '100%'
+        full: '100%',
       },
       opacity: {
         '10': '0.1',
-        '90': '0.9'
+        '90': '0.9',
       },
       colors: {
         'discord-100': '#B2B4B5',
@@ -17,8 +17,8 @@ module.exports = {
 
         'vue-700': '#3daa79',
         'vue-500': '#42b983',
-        'vue-300': '#70cca2'
-      }
+        'vue-300': '#70cca2',
+      },
     },
     fontFamily: {
       display: [
@@ -34,10 +34,10 @@ module.exports = {
         'Apple Color Emoji',
         'Segoe UI Emoji',
         'Segoe UI Symbol',
-        'Noto Color Emoji'
-      ]
+        'Noto Color Emoji',
+      ],
     },
-    minWidth: (theme) => theme('width')
+    minWidth: (theme) => theme('width'),
   },
   variants: {
     appearance: ['responsive'],
@@ -103,10 +103,10 @@ module.exports = {
     whitespace: ['responsive'],
     wordBreak: ['responsive'],
     width: ['responsive'],
-    zIndex: ['responsive']
+    zIndex: ['responsive'],
   },
   corePlugins: {
-    container: true
+    container: true,
   },
-  plugins: []
+  plugins: [],
 };

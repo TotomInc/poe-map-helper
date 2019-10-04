@@ -19,19 +19,19 @@ import { HalfCircleSpinner } from 'epic-spinners';
 
 @Component({
   components: {
-    HalfCircleSpinner
-  }
+    HalfCircleSpinner,
+  },
 })
 export default class ButtonComponent extends Vue {
   @Prop({
     type: Boolean,
-    required: false
+    required: false,
   })
   readonly loading!: boolean | undefined;
 
   @Prop({
     type: Boolean,
-    required: false
+    required: false,
   })
   readonly disabled!: boolean | undefined;
 

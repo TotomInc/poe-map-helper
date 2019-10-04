@@ -59,5 +59,5 @@ export const mutations: MutationTree<StashState> = {
 
   [stashMutations.removeItemsDiffIncome](state, payload: void) {
     state.itemsDiffIncome = [];
-  }
+  },
 };
