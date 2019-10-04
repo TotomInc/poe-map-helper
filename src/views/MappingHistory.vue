@@ -26,7 +26,7 @@
     >
       <template slot="table-row" slot-scope="props">
         <span v-if="props.column.field == 'map.name'" class="flex flex-row items-center">
-          <img :src="getMapIconURL(props.row.map)" class="w-8 h-8 mr-3" />
+          <img :src="getMapIconURL(props.row.map, selectedPoeCharacter.league)" class="w-8 h-8 mr-3" />
           <span>{{ props.row.map.name }}</span>
         </span>
 
@@ -74,7 +74,8 @@ import { Vue, Component, Mixins } from 'vue-property-decorator';
 import POEMapIconURLMixin from '@/mixins/POEMapIconURL';
 import { mapGetters } from '@/store/map/map.consts';
 import { MapState } from '@/store/map/map.state';
-import { POEMapItem, POEMapHistoryDate, POEMapHistory } from '@/models/PathOfExile';
+import { userGetters } from '@/store/user/user.consts';
+import { POEMapItem, POEMapHistoryDate, POEMapHistory, POECharacter } from '@/models/PathOfExile';
 import { rawMapsImageURL } from '../consts/zones';
 import LineChart from '@/components/charts/LineChart.vue';
 import BackButton from '@/components/ui-components/BackButton.vue';
@@ -123,6 +124,10 @@ export default class MappingHistoryView extends Mixins(POEMapIconURLMixin) {
 
   get rows(): POEMapHistoryDate[] {
     return this.$store.getters[mapGetters.mapsHistoryDate];
+  }
+
+  get selectedPoeCharacter(): POECharacter {
+    return this.$store.getters[userGetters.poeSelectedCharacter];
   }
 
   /**

@@ -25,7 +25,10 @@
               Current
             </p>
 
-            <img :src="getMapIconURL(map.currentMap)" class="p-2 h-16 rounded bg-discord-500" />
+            <img
+              :src="getMapIconURL(map.currentMap, selectedPoeCharacter.league)"
+              class="p-2 h-16 rounded bg-discord-500"
+            />
           </div>
 
           <div class="flex flex-col flex-grow justify-center">
@@ -58,7 +61,10 @@
               Queued
             </p>
 
-            <img :src="getMapIconURL(map.queuedMap)" class="p-2 h-16 rounded bg-discord-500" />
+            <img
+              :src="getMapIconURL(map.queuedMap, selectedPoeCharacter.league)"
+              class="p-2 h-16 rounded bg-discord-500"
+            />
           </div>
 
           <div class="flex flex-col flex-grow justify-center">
@@ -93,14 +99,19 @@
 import { Vue, Component, Mixins } from 'vue-property-decorator';
 
 import POEMapIconURLMixin from '@/mixins/POEMapIconURL';
-import { POEMapItem } from '@/models/PathOfExile';
+import { POEMapItem, POECharacter } from '@/models/PathOfExile';
 import { MapState } from '@/store/map/map.state';
+import { userGetters } from '@/store/user/user.consts';
 import { rawMapsImageURL } from '../consts/zones';
 
 @Component({})
 export default class MappingStatusComponent extends Mixins(POEMapIconURLMixin) {
   get map(): MapState {
     return this.$store.state.map;
+  }
+
+  get selectedPoeCharacter(): POECharacter {
+    return this.$store.getters[userGetters.poeSelectedCharacter];
   }
 }
 </script>
