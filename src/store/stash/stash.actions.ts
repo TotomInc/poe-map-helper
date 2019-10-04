@@ -127,6 +127,7 @@ export const actions: ActionTree<StashState, RootState> = {
   [stashActions.GET_STASH_ITEMS_SUCCESS](context, payload: { items: POEStashItem[] }) {
     if (context.state.items.length <= 0) {
       context.commit(stashMutations.setItems, payload.items);
+      context.commit(stashMutations.setInitialLoad);
     }
 
     context.commit(stashMutations.removeLoading);

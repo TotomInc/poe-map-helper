@@ -2,6 +2,7 @@ import { POEStashItem, POEPricedStashItem, POEStashTab } from '@/models/PathOfEx
 
 export interface StashState {
   loading: boolean;
+  initialLoad: boolean;
   stashTabs: POEStashTab[];
   selectedStashTab: string | undefined;
   items: POEStashItem[];
@@ -11,6 +12,7 @@ export interface StashState {
 
 export const state: StashState = {
   loading: false,
+  initialLoad: false,
   stashTabs: [],
   selectedStashTab: undefined,
   items: [],
