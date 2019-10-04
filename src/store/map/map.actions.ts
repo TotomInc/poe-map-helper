@@ -16,7 +16,7 @@ export const actions: ActionTree<MapState, RootState> = {
   },
 
   /**
-   * When player enter a map and it it's a new map:
+   * When player enter a map and it's a new map:
    *
    * - Retrieve stash-items in order to calculate items diff with the most recent map-run
    * - Move current-map to latest-map
@@ -28,8 +28,8 @@ export const actions: ActionTree<MapState, RootState> = {
     if (context.state.queuedMap) {
       const stashItems: { items: POEStashItem[] } | undefined = await context.dispatch(stashActions.GET_STASH_ITEMS);
 
-      const frozenCurrentMap = Object.freeze(context.state.currentMap);
-      const frozenQueuedMap = Object.freeze(context.state.queuedMap);
+      const frozenCurrentMap = JSON.parse(JSON.stringify(context.state.currentMap));
+      const frozenQueuedMap = JSON.parse(JSON.stringify(context.state.queuedMap));
 
       // If there is a current map, move it to the latest-map state
       if (context.state.currentMap) {
@@ -48,7 +48,7 @@ export const actions: ActionTree<MapState, RootState> = {
       if (frozenCurrentMap) {
         const mapDonePayload: POEMapHistory = {
           map: frozenCurrentMap,
-          items: Object.freeze(context.rootState.stash.itemsDiffIncome),
+          items: JSON.parse(JSON.stringify(context.rootState.stash.itemsDiffIncome)),
           startTime: context.state.mapStartedTime ? context.state.mapStartedTime : Date.now(),
           endTime: Date.now(),
           income: {
