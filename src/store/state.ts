@@ -14,5 +14,5 @@ export const rootState: RootState = {
   user: userState,
   map: mapState,
   rate: rateState,
-  stash: stashState
+  stash: stashState,
 };

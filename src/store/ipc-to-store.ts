@@ -9,7 +9,7 @@ import {
   MAP_ITEM_COPIED,
   HTTP_REQUEST,
   ENTER_MAP,
-  ENTER_HIDEOUT
+  ENTER_HIDEOUT,
 } from '../consts/ipc-events';
 import { RootState } from './state';
 import { mapActions } from './map/map.consts';

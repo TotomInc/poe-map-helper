@@ -62,8 +62,8 @@ import MapIncomeTable from '@/components/MapIncomeTable.vue';
 
 @Component({
   components: {
-    MapIncomeTable
-  }
+    MapIncomeTable,
+  },
 })
 export default class LatestMapIncomeComponent extends Vue {
   get map(): MapState {

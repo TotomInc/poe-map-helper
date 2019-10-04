@@ -9,7 +9,7 @@ export const stashActions = {
 
   CALCULATE_STASH_DIFF: 'CALCULATE_STASH_DIFF',
 
-  CALCULATE_ITEMS_DIFF_INCOME: 'CALCULATE_ITEMS_DIFF_INCOME'
+  CALCULATE_ITEMS_DIFF_INCOME: 'CALCULATE_ITEMS_DIFF_INCOME',
 };
 
 export const stashMutations = {
@@ -29,11 +29,11 @@ export const stashMutations = {
   removeItemsDiff: 'Remove items diff',
 
   setItemsDiffIncome: 'Set items diff income',
-  removeItemsDiffIncome: 'Remove items diff income'
+  removeItemsDiffIncome: 'Remove items diff income',
 };
 
 export const stashGetters = {
   getTotalItemsDiffIncome: 'getTotalItemsDiffIncome',
 
-  getStashTabIndex: 'getStashTabIndex'
+  getStashTabIndex: 'getStashTabIndex',
 };

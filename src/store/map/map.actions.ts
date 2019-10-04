@@ -53,8 +53,8 @@ export const actions: ActionTree<MapState, RootState> = {
           endTime: Date.now(),
           income: {
             chaos: context.rootGetters[stashGetters.getTotalItemsDiffIncome].chaos,
-            exalt: context.rootGetters[stashGetters.getTotalItemsDiffIncome].exalt
-          }
+            exalt: context.rootGetters[stashGetters.getTotalItemsDiffIncome].exalt,
+          },
         };
 
         context.commit(mapMutations.addMapDone, mapDonePayload);
@@ -74,5 +74,5 @@ export const actions: ActionTree<MapState, RootState> = {
     if (context.state.inMap) {
       context.commit(mapMutations.leaveMap);
     }
-  }
+  },
 };

@@ -12,10 +12,10 @@ export const getters: GetterTree<MapState, RootState> = {
         ...map,
         startDate: new Date(map.startTime),
         endDate: new Date(map.endTime),
-        duration: Math.ceil((map.endTime - map.startTime) / 1000)
+        duration: Math.ceil((map.endTime - map.startTime) / 1000),
       };
 
       return mapHistoryDate;
     });
-  }
+  },
 };

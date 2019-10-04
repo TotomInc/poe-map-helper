@@ -17,8 +17,8 @@ import ControlBar from '@/components/ControlBar.vue';
 
 @Component({
   components: {
-    ControlBar
-  }
+    ControlBar,
+  },
 })
 export default class App extends Vue {}
 </script>

@@ -11,7 +11,7 @@ export const localstorage = new VuexPersistence<RootState>({
 
   reducer: (state) => ({
     map: {
-      mapsHistory: state.map.mapsHistory
-    }
-  })
+      mapsHistory: state.map.mapsHistory,
+    },
+  }),
 });

@@ -28,7 +28,7 @@
         perPage: 10,
         perPageDropdown: [10, 20, 40],
         dropdownAllowAll: false,
-        rowsPerPageLabel: 'Maps per page'
+        rowsPerPageLabel: 'Maps per page',
       }"
       style-class="vgt-table striped"
       @on-row-click="onRowClick"
@@ -76,22 +76,22 @@ export default class MappingHistoryView extends Mixins(POEMapIconURLMixin) {
     {
       label: 'Map',
       field: 'map.name',
-      sortable: false
+      sortable: false,
     },
     {
       label: 'Chaos income',
       field: 'income.chaos',
-      type: 'decimal'
+      type: 'decimal',
     },
     {
       label: 'Exalt income',
       field: 'income.exalt',
-      type: 'decimal'
+      type: 'decimal',
     },
     {
       label: 'Run duration',
       field: 'duration',
-      type: 'number'
+      type: 'number',
     },
     {
       label: 'Run date',
@@ -99,8 +99,8 @@ export default class MappingHistoryView extends Mixins(POEMapIconURLMixin) {
       type: 'date',
       dateInputFormat: 'DD-MM-YYYY HH:mm:ss',
       dateOutputFormat: 'DD-MM-YYYY',
-      sortable: false
-    }
+      sortable: false,
+    },
   ];
 
   get map(): MapState {

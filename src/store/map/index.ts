@@ -10,5 +10,5 @@ export const mapModule: Module<MapState, RootState> = {
   state,
   actions,
   mutations,
-  getters
+  getters,
 };

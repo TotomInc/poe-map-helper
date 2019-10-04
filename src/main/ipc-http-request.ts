@@ -18,7 +18,7 @@ export function ipcHttpRequest(event: IpcMessageEvent, options: IpcHttpRequestOp
     .then((res: AxiosResponse) => {
       const payload: IpcHttpResponse = {
         requestOptions: options,
-        response: res
+        response: res,
       };
 
       event.sender.send(HTTP_REQUEST_SUCCESS, payload);
@@ -26,7 +26,7 @@ export function ipcHttpRequest(event: IpcMessageEvent, options: IpcHttpRequestOp
     .catch((err: AxiosError) => {
       const payload: IpcHttpResponse = {
         requestOptions: options,
-        error: err
+        error: err,
       };
 
       event.sender.send(HTTP_REQUEST_FAILED, payload);

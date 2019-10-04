@@ -30,9 +30,9 @@ export function registerSchemes() {
       scheme: 'app',
       privileges: {
         secure: true,
-        standard: true
-      }
-    }
+        standard: true,
+      },
+    },
   ]);
 }
 
@@ -45,8 +45,8 @@ export function createWindow() {
     height: 600,
     frame: false,
     webPreferences: {
-      nodeIntegration: true
-    }
+      nodeIntegration: true,
+    },
   });
 
   if (webpackDevURL) {
