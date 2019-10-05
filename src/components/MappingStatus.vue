@@ -95,7 +95,6 @@ import { Vue, Component, Mixins } from 'vue-property-decorator';
 import POEMapIconURLMixin from '@/mixins/POEMapIconURL';
 import { POEMapItem } from '@/models/PathOfExile';
 import { MapState } from '@/store/map/map.state';
-import { rawMapsImageURL } from '../consts/zones';
 
 @Component({})
 export default class MappingStatusComponent extends Mixins(POEMapIconURLMixin) {
