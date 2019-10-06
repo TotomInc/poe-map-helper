@@ -21,6 +21,7 @@
     "epic-spinners": "^1.1.0",
     "frappe-charts": "^1.2.4",
     "tail": "^2.0.2",
+    "universal-analytics": "^0.4.20",
     "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",
     "vue-date-fns": "^1.1.0",
