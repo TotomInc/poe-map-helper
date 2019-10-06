@@ -127,6 +127,7 @@ export const actions: ActionTree<StashState, RootState> = {
   [stashActions.GET_STASH_ITEMS_SUCCESS](context, payload: { items: POEStashItem[] }) {
     if (context.state.items.length <= 0) {
       context.commit(stashMutations.setItems, payload.items);
+      context.commit(stashMutations.setInitialLoad);
     }
 
     context.commit(stashMutations.removeLoading);
@@ -166,8 +167,7 @@ export const actions: ActionTree<StashState, RootState> = {
       }
     });
 
-    // Make sure our objects from `itemsDiff` array are frozen
-    const itemsDiffPayload = itemsDiff.map((item) => Object.freeze(item));
+    const itemsDiffPayload = itemsDiff.map((item) => JSON.parse(JSON.stringify(item)));
 
     context.commit(stashMutations.setItems, payload);
     context.commit(stashMutations.setItemsDiff, itemsDiffPayload);

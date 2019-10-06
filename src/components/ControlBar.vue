@@ -40,12 +40,16 @@ export default class ControlBarComponent extends Vue {
   }
 
   public minimize(): void {
+    this.getBrowserWindow();
+
     if (this.browserWindow) {
       this.browserWindow.minimize();
     }
   }
 
   public maximize(): void {
+    this.getBrowserWindow();
+
     if (this.browserWindow) {
       if (process.platform === 'darwin') {
         this.browserWindow.setFullScreen(!this.browserWindow.isFullScreen());
@@ -60,8 +64,22 @@ export default class ControlBarComponent extends Vue {
   }
 
   public close(): void {
+    this.getBrowserWindow();
+
     if (this.browserWindow) {
       this.browserWindow.close();
+    }
+  }
+
+  /**
+   * Call this function before doing any operation on the browser window,
+   * sometimes the browser window is not properly stored (`null`) on MacOS.
+   */
+  private getBrowserWindow(): void {
+    const focusedWindow = remote.BrowserWindow.getFocusedWindow();
+
+    if (focusedWindow) {
+      this.browserWindow = focusedWindow;
     }
   }
 }

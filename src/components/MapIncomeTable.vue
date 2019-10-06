@@ -16,12 +16,12 @@
         </span>
 
         <span v-if="props.column.field == 'chaos'" class="flex flex-row items-center float-right">
-          <span class="mr-2">{{ props.row.chaos }}</span>
+          <span class="mr-2">{{ round(props.row.chaos) }}</span>
           <img :src="require('@/assets/images/orbs/chaos-orb.png')" class="w-6 h-6" />
         </span>
 
         <span v-if="props.column.field == 'exalt'" class="flex flex-row items-center float-right">
-          <span class="mr-2">{{ props.row.exalt }}</span>
+          <span class="mr-2">{{ round(props.row.exalt) }}</span>
           <img :src="require('@/assets/images/orbs/exalted-orb.png')" class="w-6 h-6" />
         </span>
       </template>
@@ -72,7 +72,7 @@
 
           <div class="flex">
             <i
-              class="material-icons flex items-center justify-center mr-2 rounded bg-discord-900 cursor-pointer"
+              class="material-icons flex items-center justify-center mr-2 min-w-6 rounded bg-discord-900 cursor-pointer"
               :class="{ 'text-discord-500': currentPage <= 1, 'cursor-not-allowed': currentPage <= 1 }"
               @click="paginationPageChanged(props.pageChanged, props.total, 'decrease')"
             >
@@ -86,7 +86,7 @@
             </p>
 
             <i
-              class="material-icons flex items-center justify-center rounded bg-discord-900 cursor-pointer"
+              class="material-icons flex items-center justify-center min-w-6 rounded bg-discord-900 cursor-pointer"
               :class="{ 'text-discord-500': currentPage >= pages, 'cursor-not-allowed': currentPage >= pages }"
               @click="paginationPageChanged(props.pageChanged, props.total, 'increase')"
             >
@@ -153,6 +153,10 @@ export default class MapIncomeTableComponent extends Vue {
     this.recalculatePages();
 
     this.currentPage = this.pages <= 0 ? 0 : 1;
+  }
+
+  public round(value: number): number {
+    return Math.round(value * 100) / 100;
   }
 
   get rate(): RateState {

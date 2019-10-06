@@ -33,8 +33,15 @@ export default class HomeView extends Vue {
     return this.$store.state.stash;
   }
 
+  /**
+   * Make sure to only load stash-items if we haven't already loaded them.
+   */
   public mounted(): void {
     this.$store.dispatch(stashActions.GET_STASH_ITEMS);
+
+    if (!this.stash.initialLoad) {
+      this.$store.dispatch(stashActions.GET_STASH_ITEMS);
+    }
   }
 }
 </script>

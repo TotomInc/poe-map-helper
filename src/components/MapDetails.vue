@@ -5,7 +5,7 @@
   >
     <div class="flex flex-row">
       <div class="flex flex-col items-center justify-center mr-4">
-        <img :src="getMapIconURL(map)" class="p-2 h-16 rounded bg-discord-500" />
+        <img :src="getMapIconURL(map, selectedPoeCharacter.league)" class="p-2 h-16 rounded bg-discord-500" />
       </div>
 
       <div class="flex flex-col flex-grow justify-center">
@@ -54,8 +54,9 @@
 <script lang="ts">
 import { Component, Mixins, Prop } from 'vue-property-decorator';
 
-import { POEMapItem } from '@/models/PathOfExile';
+import { POEMapItem, POECharacter } from '@/models/PathOfExile';
 import POEMapIconURLMixin from '@/mixins/POEMapIconURL';
+import { userGetters } from '@/store/user/user.consts';
 
 @Component({})
 export default class MapDetailsComponent extends Mixins(POEMapIconURLMixin) {
@@ -64,6 +65,10 @@ export default class MapDetailsComponent extends Mixins(POEMapIconURLMixin) {
     required: true,
   })
   readonly map!: POEMapItem;
+
+  get selectedPoeCharacter(): POECharacter {
+    return this.$store.getters[userGetters.poeSelectedCharacter];
+  }
 
   public convertRarity(rarity: number): string {
     if (rarity === -1) {
