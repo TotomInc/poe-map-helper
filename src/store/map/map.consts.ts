@@ -19,6 +19,9 @@ export const mapMutations = {
 
   addMapDone: 'Add a map done',
 
+  enableAutomaticMode: 'Enable automatic mode',
+  disableAutomaticMode: 'Disable automatic mode',
+
   enterMap: 'Set in-map',
   leaveMap: 'Remove in-map',
 };

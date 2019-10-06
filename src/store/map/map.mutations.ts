@@ -37,6 +37,14 @@ export const mutations: MutationTree<MapState> = {
     state.mapsHistory.unshift(payload);
   },
 
+  [mapMutations.enableAutomaticMode](state, payload: void) {
+    state.automaticMode = true;
+  },
+
+  [mapMutations.disableAutomaticMode](state, payload: void) {
+    state.automaticMode = false;
+  },
+
   [mapMutations.enterMap](state, payload: void) {
     state.inMap = true;
   },

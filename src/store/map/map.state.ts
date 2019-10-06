@@ -6,6 +6,7 @@ export interface MapState {
   latestMap: POEMapItem | undefined;
   inMap: boolean;
   mapStartedTime: number | undefined;
+  automaticMode: boolean;
 
   /** Ordered by the most recent map at 0-index */
   mapsHistory: POEMapHistory[];
@@ -17,5 +18,6 @@ export const state: MapState = {
   latestMap: undefined,
   inMap: false,
   mapStartedTime: undefined,
+  automaticMode: false,
   mapsHistory: [],
 };

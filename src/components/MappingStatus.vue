@@ -2,7 +2,7 @@
   <transition name="smooth" appear>
     <div
       id="mapping-status-component"
-      class="max-w-2xl mx-auto p-4 rounded text-discord-100 bg-discord-700 shadow-2xl select-none"
+      class="max-w-2xl mx-auto p-4 rounded text-center text-discord-100 bg-discord-700 shadow-2xl select-none"
     >
       <h1 v-if="!map.inMap" class="mb-2 text-xl text-center text-gray-300">
         You are not in a map, waiting for player to enter the map.
@@ -12,13 +12,13 @@
         You are in the map.
       </h1>
 
-      <h2 v-if="!map.queuedMap && !map.currentMap" class="text-base text-center">
+      <h2 v-if="!map.queuedMap && !map.currentMap" class="text-base text-center mb-2">
         Start mapping by pressing
         <span class="bg-discord-300 rounded p-1 text-white">CTRL+C</span>
         with your cursor over the map-item you want to run, in order to notify the Mapper Assistant.
       </h2>
 
-      <div class="flex">
+      <div v-if="map.currentMap || map.queuedMap" class="flex">
         <div v-if="map.currentMap" class="flex w-1/2">
           <div class="flex flex-col items-center justify-center mr-4">
             <p class="mb-2 rounded-full px-2 py-1 text-xs text-white bg-vue-500">
@@ -85,6 +85,16 @@
           </div>
         </div>
       </div>
+
+      <div class="inline-block text-gray-300 py-1 px-3 rounded-full bg-discord-500 cursor-pointer">
+        <p v-if="!map.automaticMode" @click="enableAutomaticMode">
+          Enable Automatic Mode
+        </p>
+
+        <p v-else @click="disableAutomaticMode">
+          Disable Automatic Mode
+        </p>
+      </div>
     </div>
   </transition>
 </template>
@@ -96,11 +106,20 @@ import POEMapIconURLMixin from '@/mixins/POEMapIconURL';
 import { POEMapItem } from '@/models/PathOfExile';
 import { MapState } from '@/store/map/map.state';
 import { rawMapsImageURL } from '../consts/zones';
+import { mapMutations } from '../store/map/map.consts';
 
 @Component({})
 export default class MappingStatusComponent extends Mixins(POEMapIconURLMixin) {
   get map(): MapState {
     return this.$store.state.map;
+  }
+
+  public enableAutomaticMode(): void {
+    this.$store.commit(mapMutations.enableAutomaticMode);
+  }
+
+  public disableAutomaticMode(): void {
+    this.$store.commit(mapMutations.disableAutomaticMode);
   }
 }
 </script>

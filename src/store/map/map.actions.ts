@@ -16,7 +16,7 @@ export const actions: ActionTree<MapState, RootState> = {
   },
 
   /**
-   * When player enter a map and it it's a new map:
+   * When player enter a map and it's a new map:
    *
    * - Retrieve stash-items in order to calculate items diff with the most recent map-run
    * - Move current-map to latest-map
