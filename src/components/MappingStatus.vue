@@ -102,7 +102,6 @@ import POEMapIconURLMixin from '@/mixins/POEMapIconURL';
 import { POEMapItem, POECharacter } from '@/models/PathOfExile';
 import { MapState } from '@/store/map/map.state';
 import { userGetters } from '@/store/user/user.consts';
-import { rawMapsImageURL } from '../consts/zones';
 
 @Component({})
 export default class MappingStatusComponent extends Mixins(POEMapIconURLMixin) {

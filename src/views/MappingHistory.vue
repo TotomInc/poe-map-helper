@@ -76,7 +76,6 @@ import { mapGetters } from '@/store/map/map.consts';
 import { MapState } from '@/store/map/map.state';
 import { userGetters } from '@/store/user/user.consts';
 import { POEMapItem, POEMapHistoryDate, POEMapHistory, POECharacter } from '@/models/PathOfExile';
-import { rawMapsImageURL } from '../consts/zones';
 import LineChart from '@/components/charts/LineChart.vue';
 import BackButton from '@/components/ui-components/BackButton.vue';
 
