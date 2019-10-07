@@ -4,12 +4,20 @@ import { app, protocol, BrowserWindow, IpcMessageEvent, ipcMain } from 'electron
 import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib';
 
 import { IpcHttpRequestOption } from '@/models/IpcHttp';
-import { HTTP_REQUEST, LOGFILE_PATH_RECEIVED, MAP_ITEM_COPIED, ENTER_MAP, ENTER_HIDEOUT } from '../consts/ipc-events';
+import {
+  HTTP_REQUEST,
+  ANALYTICS_TRACKING,
+  LOGFILE_PATH_RECEIVED,
+  MAP_ITEM_COPIED,
+  ENTER_MAP,
+  ENTER_HIDEOUT,
+} from '../consts/ipc-events';
 import { ipcHttpRequest } from './ipc-http-request';
 import { isMapItem, parseMapItem } from './parse-map-item';
 import { parseLogLine } from './parse-log-file';
 import Clipboard from './clipboard';
 import TailLogfile from './tail-logfile';
+import trackEvent from './analytics';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 const webpackDevURL: string | undefined = process.env.WEBPACK_DEV_SERVER_URL;
@@ -95,6 +103,19 @@ export function registerIpcEvents() {
   ipcMain.on(HTTP_REQUEST, (event: IpcMessageEvent, option: IpcHttpRequestOption) => {
     ipcHttpRequest(event, option);
   });
+
+  ipcMain.on(
+    ANALYTICS_TRACKING,
+    (
+      event: IpcMessageEvent,
+      tracking: {
+        category: string;
+        action: string;
+        label: string;
+        value: string;
+      },
+    ) => trackEvent(tracking.category, tracking.action, tracking.label, tracking.value),
+  );
 
   ipcMain.on(LOGFILE_PATH_RECEIVED, (event: IpcMessageEvent, path: string) => {
     tail = new TailLogfile(path);

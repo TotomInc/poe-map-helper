@@ -8,7 +8,7 @@ import { RootState } from '@/store/state';
 import { ipcHttpRequest } from '@/store/ipc-to-store';
 import { UserState } from './user.state';
 import { userActions, userMutations } from './user.consts';
-import { LOGFILE_PATH_RECEIVED } from '../../consts/ipc-events';
+import { LOGFILE_PATH_RECEIVED, ANALYTICS_TRACKING } from '../../consts/ipc-events';
 
 export const actions: ActionTree<UserState, RootState> = {
   async [userActions.COOKIE_LOGIN](context, payload: string) {
@@ -132,5 +132,17 @@ export const actions: ActionTree<UserState, RootState> = {
   [userActions.LOGOUT](context, payload: void) {
     context.commit(userMutations.removeCharacters);
     context.commit(userMutations.removeLogged);
+  },
+
+  [userActions.ANALYTICS_TRACKING](
+    context,
+    payload: {
+      category: string;
+      action: string;
+      label: string;
+      value: string;
+    },
+  ) {
+    ipcRenderer.emit(ANALYTICS_TRACKING, payload);
   },
 };
