@@ -4,6 +4,7 @@ import { app, protocol, BrowserWindow, IpcMessageEvent, ipcMain } from 'electron
 import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib';
 
 import { IpcHttpRequestOption } from '@/models/IpcHttp';
+import { GoogleAnalyticsPayload } from '@/models/Analytics';
 import {
   HTTP_REQUEST,
   ANALYTICS_TRACKING,
@@ -97,25 +98,19 @@ export function registerEvents() {
 
 /**
  * Register various IPC events that can be sent from the renderer to the main
- * process.
+ * process:
+ *
+ * - handle IPC HTTP-REQUESTS
+ * - analytics tracking
+ * - tail logfile on new line
+ * - watch clipboard new content
  */
 export function registerIpcEvents() {
   ipcMain.on(HTTP_REQUEST, (event: IpcMessageEvent, option: IpcHttpRequestOption) => {
     ipcHttpRequest(event, option);
   });
 
-  ipcMain.on(
-    ANALYTICS_TRACKING,
-    (
-      event: IpcMessageEvent,
-      tracking: {
-        category: string;
-        action: string;
-        label: string;
-        value: string;
-      },
-    ) => trackEvent(tracking.category, tracking.action, tracking.label, tracking.value),
-  );
+  ipcMain.on(ANALYTICS_TRACKING, (event: IpcMessageEvent, tracking: GoogleAnalyticsPayload) => trackEvent(tracking));
 
   ipcMain.on(LOGFILE_PATH_RECEIVED, (event: IpcMessageEvent, path: string) => {
     tail = new TailLogfile(path);

@@ -3,6 +3,8 @@ import { JSONStorage } from 'node-localstorage';
 import ua from 'universal-analytics';
 import uuidv4 from 'uuid/v4';
 
+import { GoogleAnalyticsPayload } from '@/models/Analytics';
+
 const jsonStoragePath = app.getPath('userData');
 const jsonStorage = new JSONStorage(jsonStoragePath);
 
@@ -20,13 +22,13 @@ const analyticsUser = ua('UA-XXXXXXXX-X', userID);
  * @param label additional label
  * @param value value to send
  */
-function trackEvent(category: string, action: string, label: string, value: string) {
+function trackEvent(tracking: GoogleAnalyticsPayload) {
   analyticsUser
     .event({
-      ec: category,
-      ea: action,
-      el: label,
-      ev: value,
+      ec: tracking.category,
+      ea: tracking.action,
+      el: tracking.label,
+      ev: tracking.value,
     })
     .send();
 }

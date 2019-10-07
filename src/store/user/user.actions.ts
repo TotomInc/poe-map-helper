@@ -4,6 +4,7 @@ import to from 'await-to-js';
 
 import { IpcHttpRequestOption } from '@/models/IpcHttp';
 import { POECharacter } from '@/models/PathOfExile';
+import { GoogleAnalyticsPayload } from '@/models/Analytics';
 import { RootState } from '@/store/state';
 import { ipcHttpRequest } from '@/store/ipc-to-store';
 import { UserState } from './user.state';
@@ -134,15 +135,7 @@ export const actions: ActionTree<UserState, RootState> = {
     context.commit(userMutations.removeLogged);
   },
 
-  [userActions.ANALYTICS_TRACKING](
-    context,
-    payload: {
-      category: string;
-      action: string;
-      label: string;
-      value: string;
-    },
-  ) {
+  [userActions.ANALYTICS_TRACKING](context, payload: GoogleAnalyticsPayload) {
     ipcRenderer.emit(ANALYTICS_TRACKING, payload);
   },
 };
