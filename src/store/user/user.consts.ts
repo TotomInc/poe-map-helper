@@ -12,6 +12,8 @@ export const userActions = {
   FINISH_SETUP: 'FINISH_SETUP',
 
   LOGOUT: 'LOGOUT',
+
+  ANALYTICS_TRACKING: 'ANALYTICS_TRACKING',
 };
 
 export const userMutations = {

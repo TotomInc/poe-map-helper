@@ -19,7 +19,7 @@ import { Vue, Component, Prop, Emit } from 'vue-property-decorator';
 export default class BackButtonComponent extends Vue {
   @Prop({
     type: String,
-    required: true
+    required: true,
   })
   readonly label!: String;
 

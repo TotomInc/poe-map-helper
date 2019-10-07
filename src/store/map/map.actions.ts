@@ -11,12 +11,18 @@ export const actions: ActionTree<MapState, RootState> = {
   [mapActions.MAP_ITEM_COPIED](context, payload: POEMapItem) {
     // Set a new queued map and set the current map as the latest map
     if (!context.state.inMap) {
+      context.dispatch(userActions.ANALYTICS_TRACKING, {
+        category: 'Map',
+        action: 'Register map-item',
+        label: 'Register a map-item as a queued map',
+      });
+
       context.commit(mapMutations.setQueuedMap, payload);
     }
   },
 
   /**
-   * When player enter a map and it's a new map:
+   * When the player enter a map and it's a new map:
    *
    * - Retrieve stash-items in order to calculate items diff with the most recent map-run
    * - Move current-map to latest-map
