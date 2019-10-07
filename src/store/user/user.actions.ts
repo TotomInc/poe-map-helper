@@ -35,6 +35,12 @@ export const actions: ActionTree<UserState, RootState> = {
 
         ipcRenderer.once(userActions.COOKIE_LOGIN_SUCCESS, (ipcPayload: string) => resolve(ipcPayload));
         ipcRenderer.once(userActions.COOKIE_LOGIN_FAILED, (ipcPayload: any) => reject(ipcPayload));
+
+        context.dispatch(userActions.ANALYTICS_TRACKING, {
+          category: 'Login',
+          action: 'Login',
+          label: 'Try to login',
+        });
       }),
     );
 
@@ -51,6 +57,12 @@ export const actions: ActionTree<UserState, RootState> = {
   },
 
   [userActions.COOKIE_LOGIN_FAILED](context, payload: void) {
+    context.dispatch(userActions.ANALYTICS_TRACKING, {
+      category: 'Login',
+      action: 'Login failed',
+      label: 'Login failed',
+    });
+
     context.commit(userMutations.removeLoading);
   },
 
@@ -60,6 +72,12 @@ export const actions: ActionTree<UserState, RootState> = {
     const accountName = payload.match(accountNameRegex);
 
     if (accountName && accountName[1]) {
+      context.dispatch(userActions.ANALYTICS_TRACKING, {
+        category: 'Login',
+        action: 'Login success',
+        label: 'Login success',
+      });
+
       context.commit(userMutations.setAccountName, accountName[1]);
       context.commit(userMutations.setLogged);
       context.commit(userMutations.removeLoading);
@@ -90,6 +108,12 @@ export const actions: ActionTree<UserState, RootState> = {
 
         ipcRenderer.once(userActions.LOAD_CHARACTERS_SUCCESS, (ipcPayload: POECharacter[]) => resolve(ipcPayload));
         ipcRenderer.once(userActions.LOAD_CHARACTERS_FAILED, (ipcPayload: any) => reject(ipcPayload));
+
+        context.dispatch(userActions.ANALYTICS_TRACKING, {
+          category: 'Login',
+          action: 'Load characters',
+          label: 'Load user characters',
+        });
       }),
     );
 
@@ -106,10 +130,22 @@ export const actions: ActionTree<UserState, RootState> = {
   },
 
   [userActions.LOAD_CHARACTERS_FAILED](context, payload: void) {
+    context.dispatch(userActions.ANALYTICS_TRACKING, {
+      category: 'Login',
+      action: 'Load characters failed',
+      label: 'Load user characters failed',
+    });
+
     context.commit(userMutations.removeLoading);
   },
 
   [userActions.LOAD_CHARACTERS_SUCCESS](context, payload: POECharacter[]) {
+    context.dispatch(userActions.ANALYTICS_TRACKING, {
+      category: 'Login',
+      action: 'Load characters success',
+      label: 'Load user characters success',
+    });
+
     context.commit(userMutations.removeLoading);
     context.commit(userMutations.setCharacters, payload);
   },
@@ -125,6 +161,12 @@ export const actions: ActionTree<UserState, RootState> = {
       logfilePath: string;
     },
   ) {
+    context.dispatch(userActions.ANALYTICS_TRACKING, {
+      category: 'Login',
+      action: 'Finish setup',
+      label: 'User finish setup',
+    });
+
     context.commit(userMutations.setSelectedCharacter, payload.selectedCharacter);
 
     ipcRenderer.send(LOGFILE_PATH_RECEIVED, payload.logfilePath);
