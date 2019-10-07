@@ -13,27 +13,27 @@ import { Chart } from 'frappe-charts/dist/frappe-charts.min.esm';
 export default class LineChartComponent extends Vue {
   @Prop({
     required: true,
-    type: Array
+    type: Array,
   })
   readonly labels!: string[];
 
   @Prop({
     required: true,
-    type: Array
+    type: Array,
   })
   readonly datasets!: string[];
 
   @Prop({
     required: false,
     type: Number,
-    default: 150
+    default: 150,
   })
   readonly height!: number;
 
   @Prop({
     required: false,
     type: Array,
-    default: () => ['#42b983']
+    default: () => ['#42b983'],
   })
   readonly colors!: string[];
 
@@ -41,7 +41,7 @@ export default class LineChartComponent extends Vue {
   onLabelsChanged(val: string[], oldVal: string[]) {
     this.chartRef.update({
       labels: this.labels,
-      datasets: this.datasets
+      datasets: this.datasets,
     });
   }
 
@@ -49,7 +49,7 @@ export default class LineChartComponent extends Vue {
   onDatasetsChanged(val: any[], oldVal: any[]) {
     this.chartRef.update({
       labels: this.labels,
-      datasets: this.datasets
+      datasets: this.datasets,
     });
   }
 
@@ -63,13 +63,13 @@ export default class LineChartComponent extends Vue {
 
       axisOptions: {
         xAxisMode: 'tick',
-        xIsSeries: true
+        xIsSeries: true,
       },
 
       data: {
         labels: this.labels,
-        datasets: this.datasets
-      }
+        datasets: this.datasets,
+      },
     });
   }
 }
