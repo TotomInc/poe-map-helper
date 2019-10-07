@@ -12,7 +12,7 @@ const userID: string = jsonStorage.getItem('userID') || uuidv4();
 
 jsonStorage.setItem('userID', userID);
 
-const analyticsUser = ua('UA-XXXXXXXX-X', userID);
+const analyticsUser = ua('UA-136985393-1', userID);
 
 /**
  * Track a Google Analytics event.
