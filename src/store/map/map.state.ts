@@ -9,6 +9,9 @@ export interface MapState {
 
   /** Ordered by the most recent map at 0-index */
   mapsHistory: POEMapHistory[];
+
+  /** Map history of a shared user */
+  mapsHistoryShared: POEMapHistory[];
 }
 
 export const state: MapState = {
@@ -18,4 +21,5 @@ export const state: MapState = {
   inMap: false,
   mapStartedTime: undefined,
   mapsHistory: [],
+  mapsHistoryShared: [],
 };

@@ -29,6 +29,14 @@ export const mutations: MutationTree<MapState> = {
     state.latestMap = undefined;
   },
 
+  [mapMutations.setMapsHistoryShared](state, payload: POEMapHistory[]) {
+    state.mapsHistoryShared = payload;
+  },
+
+  [mapMutations.removeMapsHistoryShared](state, payload: void) {
+    state.mapsHistoryShared = [];
+  },
+
   [mapMutations.setMapStartedTime](state, payload: number) {
     state.mapStartedTime = payload;
   },
