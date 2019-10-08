@@ -1,6 +1,6 @@
 <template>
   <div id="login-view" class="flex flex-col justify-center items-center h-full w-full">
-    <div class="splash-screen z-0" />
+    <splash-screen />
 
     <div class="z-10 flex flex-col justify-center items-center">
       <h1 class="mb-4 text-white text-2xl">
@@ -45,11 +45,13 @@ import { UserState } from '@/store/user/user.state';
 import { userActions } from '@/store/user/user.consts';
 import Button from '@/components/ui-components/Button.vue';
 import Input from '@/components/ui-components/Input.vue';
+import SplashScreen from '@/components/SplashScreen.vue';
 
 @Component({
   components: {
     VButton: Button,
     VInput: Input,
+    SplashScreen,
   },
 })
 export default class LoginView extends Vue {

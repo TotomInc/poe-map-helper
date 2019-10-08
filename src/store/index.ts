@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import isElectron from 'is-electron';
 
-import { ipcToStore } from './ipc-to-store';
 import { localstorage } from './persist';
 
 import { RootState } from './state';
@@ -25,6 +25,10 @@ const store = new Vuex.Store<RootState>({
   plugins: [localstorage.plugin],
 });
 
-ipcToStore(store);
+if (isElectron()) {
+  import('./ipc-to-store').then((module) => {
+    module.ipcToStore(store);
+  });
+}
 
 export default store;

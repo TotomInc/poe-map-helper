@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
-import { ipcRenderer } from 'electron';
 import to from 'await-to-js';
+import isElectron from 'is-electron';
 
 import { POEWatchCurrency } from '@/models/POEWatch';
 import { IpcHttpRequestOption } from '@/models/IpcHttp';
@@ -11,46 +11,54 @@ import { rateActions, rateMutations } from './rate.consts';
 
 export const actions: ActionTree<RateState, RootState> = {
   async [rateActions.LOAD_CURRENCIES_RATE](context, payload: void) {
-    const [err, currencyRates] = await to<POEWatchCurrency[]>(
-      new Promise((resolve, reject) => {
-        const { selectedCharacter } = context.rootState.user;
-        const poeSelectedCharacter = context.rootState.user.characters.find((char) => char.name === selectedCharacter);
+    if (isElectron()) {
+      const { ipcRenderer } = await import('electron');
 
-        if (poeSelectedCharacter) {
-          const requestPayload: IpcHttpRequestOption = {
-            url: `https://api.poe.watch/get?league=${poeSelectedCharacter.league}&category=currency`,
-            onSuccessIpc: rateActions.LOAD_CURRENCIES_RATE_SUCCESS,
-            onFailIpc: rateActions.LOAD_CURRENCIES_RATE_FAILED,
-            axiosOptions: {
-              method: 'GET',
-            },
-          };
+      const [err, currencyRates] = await to<POEWatchCurrency[]>(
+        new Promise((resolve, reject) => {
+          const { selectedCharacter } = context.rootState.user;
+          const poeSelectedCharacter = context.rootState.user.characters.find(
+            (char) => char.name === selectedCharacter,
+          );
 
-          context.commit(rateMutations.setLoading);
+          if (poeSelectedCharacter) {
+            const requestPayload: IpcHttpRequestOption = {
+              url: `https://api.poe.watch/get?league=${poeSelectedCharacter.league}&category=currency`,
+              onSuccessIpc: rateActions.LOAD_CURRENCIES_RATE_SUCCESS,
+              onFailIpc: rateActions.LOAD_CURRENCIES_RATE_FAILED,
+              axiosOptions: {
+                method: 'GET',
+              },
+            };
 
-          ipcHttpRequest(requestPayload);
-        } else {
-          reject();
-        }
+            context.commit(rateMutations.setLoading);
 
-        ipcRenderer.once(rateActions.LOAD_CURRENCIES_RATE_SUCCESS, (ipcPayload: POEWatchCurrency[]) =>
-          resolve(ipcPayload),
-        );
+            ipcHttpRequest(requestPayload);
+          } else {
+            reject();
+          }
 
-        ipcRenderer.once(rateActions.LOAD_CURRENCIES_RATE_FAILED, (ipcPayload: any) => reject(ipcPayload));
-      }),
-    );
+          ipcRenderer.once(rateActions.LOAD_CURRENCIES_RATE_SUCCESS, (ipcPayload: POEWatchCurrency[]) =>
+            resolve(ipcPayload),
+          );
 
-    ipcRenderer.removeAllListeners(rateActions.LOAD_CURRENCIES_RATE_SUCCESS);
-    ipcRenderer.removeAllListeners(rateActions.LOAD_CURRENCIES_RATE_FAILED);
+          ipcRenderer.once(rateActions.LOAD_CURRENCIES_RATE_FAILED, (ipcPayload: any) => reject(ipcPayload));
+        }),
+      );
 
-    if (err || !currencyRates) {
-      context.dispatch(rateActions.LOAD_CURRENCIES_RATE_FAILED, err);
-    } else {
-      context.dispatch(rateActions.LOAD_CURRENCIES_RATE_SUCCESS, currencyRates);
+      ipcRenderer.removeAllListeners(rateActions.LOAD_CURRENCIES_RATE_SUCCESS);
+      ipcRenderer.removeAllListeners(rateActions.LOAD_CURRENCIES_RATE_FAILED);
+
+      if (err || !currencyRates) {
+        context.dispatch(rateActions.LOAD_CURRENCIES_RATE_FAILED, err);
+      } else {
+        context.dispatch(rateActions.LOAD_CURRENCIES_RATE_SUCCESS, currencyRates);
+      }
+
+      return err || currencyRates;
     }
 
-    return err || currencyRates;
+    context.dispatch(rateActions.LOAD_CURRENCIES_RATE_FAILED);
   },
 
   [rateActions.LOAD_CURRENCIES_RATE_SUCCESS](context, payload: POEWatchCurrency[]) {

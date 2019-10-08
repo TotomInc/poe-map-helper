@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
-import { ipcRenderer } from 'electron';
 import to from 'await-to-js';
+import isElectron from 'is-electron';
 
 import { POECharacter, POEStashItem, POEPricedStashItem, POEStashTab } from '@/models/PathOfExile';
 import { IpcHttpRequestOption } from '@/models/IpcHttp';
@@ -9,56 +9,61 @@ import { RootState } from '../state';
 import { StashState } from './stash.state';
 import { userGetters } from '../user/user.consts';
 import { stashActions, stashMutations, stashGetters } from './stash.consts';
-import { mapMutations } from '../map/map.consts';
 
 export const actions: ActionTree<StashState, RootState> = {
   /**
    * Load all available stash-tabs of a specific league.
    */
   async [stashActions.GET_STASH_TABS](context, payload: void) {
-    const [err, stashTabs] = await to<POEStashTab[]>(
-      new Promise((resolve, reject) => {
-        const selectedCharacter: POECharacter | undefined = context.rootGetters[userGetters.poeSelectedCharacter];
-        const { accountName, poesessid } = context.rootState.user;
+    if (isElectron()) {
+      const { ipcRenderer } = await import('electron');
 
-        if (selectedCharacter && accountName && poesessid) {
-          const { league } = selectedCharacter;
+      const [err, stashTabs] = await to<POEStashTab[]>(
+        new Promise((resolve, reject) => {
+          const selectedCharacter: POECharacter | undefined = context.rootGetters[userGetters.poeSelectedCharacter];
+          const { accountName, poesessid } = context.rootState.user;
 
-          const requestPayload: IpcHttpRequestOption = {
-            url: `https://www.pathofexile.com/character-window/get-stash-items?accountName=${accountName}&realm=pc&league=${league}&tabs=1&tabIndex=0&public=false`,
-            onSuccessIpc: stashActions.GET_STASH_TABS_SUCCESS,
-            onFailIpc: stashActions.GET_STASH_TABS_FAILED,
-            axiosOptions: {
-              method: 'GET',
-              maxRedirects: 0,
-              headers: {
-                Cookie: `POESESSID=${poesessid}`,
+          if (selectedCharacter && accountName && poesessid) {
+            const { league } = selectedCharacter;
+
+            const requestPayload: IpcHttpRequestOption = {
+              url: `https://www.pathofexile.com/character-window/get-stash-items?accountName=${accountName}&realm=pc&league=${league}&tabs=1&tabIndex=0&public=false`,
+              onSuccessIpc: stashActions.GET_STASH_TABS_SUCCESS,
+              onFailIpc: stashActions.GET_STASH_TABS_FAILED,
+              axiosOptions: {
+                method: 'GET',
+                maxRedirects: 0,
+                headers: {
+                  Cookie: `POESESSID=${poesessid}`,
+                },
               },
-            },
-          };
+            };
 
-          context.commit(stashMutations.setLoading);
+            context.commit(stashMutations.setLoading);
 
-          ipcHttpRequest(requestPayload);
+            ipcHttpRequest(requestPayload);
 
-          ipcRenderer.once(stashActions.GET_STASH_TABS_SUCCESS, (ipcPayload: POEStashTab[]) => resolve(ipcPayload));
-          ipcRenderer.once(stashActions.GET_STASH_TABS_FAILED, (ipcPayload: any) => reject(ipcPayload));
-        } else {
-          reject();
-        }
-      }),
-    );
+            ipcRenderer.once(stashActions.GET_STASH_TABS_SUCCESS, (ipcPayload: POEStashTab[]) => resolve(ipcPayload));
+            ipcRenderer.once(stashActions.GET_STASH_TABS_FAILED, (ipcPayload: any) => reject(ipcPayload));
+          } else {
+            reject();
+          }
+        }),
+      );
 
-    ipcRenderer.removeAllListeners(stashActions.GET_STASH_TABS_SUCCESS);
-    ipcRenderer.removeAllListeners(stashActions.GET_STASH_TABS_FAILED);
+      ipcRenderer.removeAllListeners(stashActions.GET_STASH_TABS_SUCCESS);
+      ipcRenderer.removeAllListeners(stashActions.GET_STASH_TABS_FAILED);
 
-    if (err || !stashTabs) {
-      context.dispatch(stashActions.GET_STASH_TABS_FAILED, err);
-    } else {
-      context.dispatch(stashActions.GET_STASH_TABS_SUCCESS, stashTabs);
+      if (err || !stashTabs) {
+        context.dispatch(stashActions.GET_STASH_TABS_FAILED, err);
+      } else {
+        context.dispatch(stashActions.GET_STASH_TABS_SUCCESS, stashTabs);
+      }
+
+      return err || stashTabs;
     }
 
-    return err || stashTabs;
+    context.dispatch(stashActions.GET_STASH_TABS_FAILED);
   },
 
   [stashActions.GET_STASH_TABS_SUCCESS](context, payload: { tabs: POEStashTab[] }) {
@@ -74,50 +79,56 @@ export const actions: ActionTree<StashState, RootState> = {
    * Load all items from the selected stash-tab.
    */
   async [stashActions.GET_STASH_ITEMS](context, payload: void) {
-    const [err, stashItems] = await to<POEStashItem[]>(
-      new Promise((resolve, reject) => {
-        const { accountName, poesessid } = context.rootState.user;
-        const selectedCharacter: POECharacter | undefined = context.rootGetters[userGetters.poeSelectedCharacter];
-        const stashTabIndex = context.rootGetters[stashGetters.getStashTabIndex];
+    if (isElectron()) {
+      const { ipcRenderer } = await import('electron');
 
-        if (selectedCharacter && accountName && poesessid && stashTabIndex > -1) {
-          const { league } = selectedCharacter;
+      const [err, stashItems] = await to<POEStashItem[]>(
+        new Promise((resolve, reject) => {
+          const { accountName, poesessid } = context.rootState.user;
+          const selectedCharacter: POECharacter | undefined = context.rootGetters[userGetters.poeSelectedCharacter];
+          const stashTabIndex = context.rootGetters[stashGetters.getStashTabIndex];
 
-          const requestPayload: IpcHttpRequestOption = {
-            url: `https://www.pathofexile.com/character-window/get-stash-items?accountName=${accountName}&realm=pc&league=${league}&tabs=0&tabIndex=${stashTabIndex}&public=false`,
-            onSuccessIpc: stashActions.GET_STASH_ITEMS_SUCCESS,
-            onFailIpc: stashActions.GET_STASH_ITEMS_FAILED,
-            axiosOptions: {
-              method: 'GET',
-              maxRedirects: 0,
-              headers: {
-                Cookie: `POESESSID=${poesessid}`,
+          if (selectedCharacter && accountName && poesessid && stashTabIndex > -1) {
+            const { league } = selectedCharacter;
+
+            const requestPayload: IpcHttpRequestOption = {
+              url: `https://www.pathofexile.com/character-window/get-stash-items?accountName=${accountName}&realm=pc&league=${league}&tabs=0&tabIndex=${stashTabIndex}&public=false`,
+              onSuccessIpc: stashActions.GET_STASH_ITEMS_SUCCESS,
+              onFailIpc: stashActions.GET_STASH_ITEMS_FAILED,
+              axiosOptions: {
+                method: 'GET',
+                maxRedirects: 0,
+                headers: {
+                  Cookie: `POESESSID=${poesessid}`,
+                },
               },
-            },
-          };
+            };
 
-          context.commit(stashMutations.setLoading);
+            context.commit(stashMutations.setLoading);
 
-          ipcHttpRequest(requestPayload);
+            ipcHttpRequest(requestPayload);
 
-          ipcRenderer.once(stashActions.GET_STASH_ITEMS_SUCCESS, (ipcPayload: POEStashItem[]) => resolve(ipcPayload));
-          ipcRenderer.once(stashActions.GET_STASH_ITEMS_FAILED, (ipcPayload: any) => reject(ipcPayload));
-        } else {
-          reject();
-        }
-      }),
-    );
+            ipcRenderer.once(stashActions.GET_STASH_ITEMS_SUCCESS, (ipcPayload: POEStashItem[]) => resolve(ipcPayload));
+            ipcRenderer.once(stashActions.GET_STASH_ITEMS_FAILED, (ipcPayload: any) => reject(ipcPayload));
+          } else {
+            reject();
+          }
+        }),
+      );
 
-    ipcRenderer.removeAllListeners(stashActions.GET_STASH_ITEMS_SUCCESS);
-    ipcRenderer.removeAllListeners(stashActions.GET_STASH_ITEMS_FAILED);
+      ipcRenderer.removeAllListeners(stashActions.GET_STASH_ITEMS_SUCCESS);
+      ipcRenderer.removeAllListeners(stashActions.GET_STASH_ITEMS_FAILED);
 
-    if (err || !stashItems) {
-      context.dispatch(stashActions.GET_STASH_ITEMS_FAILED, err);
-    } else {
-      context.dispatch(stashActions.GET_STASH_ITEMS_SUCCESS, stashItems);
+      if (err || !stashItems) {
+        context.dispatch(stashActions.GET_STASH_ITEMS_FAILED, err);
+      } else {
+        context.dispatch(stashActions.GET_STASH_ITEMS_SUCCESS, stashItems);
+      }
+
+      return err || stashItems;
     }
 
-    return err || stashItems;
+    context.dispatch(stashActions.GET_STASH_ITEMS_FAILED);
   },
 
   /**

@@ -1,5 +1,5 @@
-import { ipcRenderer, IpcMessageEvent } from 'electron';
 import { Store } from 'vuex';
+import isElectron from 'is-electron';
 
 import { IpcHttpResponse, IpcHttpRequestOption } from '@/models/IpcHttp';
 import { POEMapItem, POEMapZone } from '@/models/PathOfExile';
@@ -29,36 +29,40 @@ import { mapActions } from './map/map.consts';
  *
  * @param store store instance of the Vue app
  */
-export function ipcToStore(store: Store<RootState>): void {
-  ipcRenderer.on(HTTP_REQUEST_SUCCESS, (event: IpcMessageEvent, args: IpcHttpResponse) => {
-    console.log(`Received ${HTTP_REQUEST_SUCCESS} IPC event:`, args);
+export async function ipcToStore(store: Store<RootState>): Promise<void> {
+  if (isElectron()) {
+    const { ipcRenderer } = await import('electron');
 
-    ipcRenderer.emit(args.requestOptions.onSuccessIpc, args.response ? args.response.data : null);
-  });
+    ipcRenderer.on(HTTP_REQUEST_SUCCESS, (event: Electron.IpcMessageEvent, args: IpcHttpResponse) => {
+      console.log(`Received ${HTTP_REQUEST_SUCCESS} IPC event:`, args);
 
-  ipcRenderer.on(HTTP_REQUEST_FAILED, (event: IpcMessageEvent, args: IpcHttpResponse) => {
-    console.log(`Received ${HTTP_REQUEST_FAILED} IPC event:`, args);
+      ipcRenderer.emit(args.requestOptions.onSuccessIpc, args.response ? args.response.data : null);
+    });
 
-    ipcRenderer.emit(args.requestOptions.onFailIpc, args.error);
-  });
+    ipcRenderer.on(HTTP_REQUEST_FAILED, (event: Electron.IpcMessageEvent, args: IpcHttpResponse) => {
+      console.log(`Received ${HTTP_REQUEST_FAILED} IPC event:`, args);
 
-  ipcRenderer.on(MAP_ITEM_COPIED, (event: IpcMessageEvent, args: POEMapItem) => {
-    console.log(`Received ${MAP_ITEM_COPIED} IPC event:`, args);
+      ipcRenderer.emit(args.requestOptions.onFailIpc, args.error);
+    });
 
-    store.dispatch(mapActions.MAP_ITEM_COPIED, args);
-  });
+    ipcRenderer.on(MAP_ITEM_COPIED, (event: Electron.IpcMessageEvent, args: POEMapItem) => {
+      console.log(`Received ${MAP_ITEM_COPIED} IPC event:`, args);
 
-  ipcRenderer.on(ENTER_MAP, (event: IpcMessageEvent, args: POEMapZone) => {
-    console.log(`Received ${ENTER_MAP} IPC event:`, args);
+      store.dispatch(mapActions.MAP_ITEM_COPIED, args);
+    });
 
-    store.dispatch(mapActions.ENTER_MAP, args);
-  });
+    ipcRenderer.on(ENTER_MAP, (event: Electron.IpcMessageEvent, args: POEMapZone) => {
+      console.log(`Received ${ENTER_MAP} IPC event:`, args);
 
-  ipcRenderer.on(ENTER_HIDEOUT, (event: IpcMessageEvent, args: void) => {
-    console.log(`Received ${ENTER_HIDEOUT} IPC event:`, args);
+      store.dispatch(mapActions.ENTER_MAP, args);
+    });
 
-    store.dispatch(mapActions.LEAVE_MAP);
-  });
+    ipcRenderer.on(ENTER_HIDEOUT, (event: Electron.IpcMessageEvent, args: void) => {
+      console.log(`Received ${ENTER_HIDEOUT} IPC event:`, args);
+
+      store.dispatch(mapActions.LEAVE_MAP);
+    });
+  }
 }
 
 /**
@@ -66,8 +70,12 @@ export function ipcToStore(store: Store<RootState>): void {
  *
  * @param options HTTP request options
  */
-export function ipcHttpRequest(options: IpcHttpRequestOption) {
-  console.log(`Store sent an ${HTTP_REQUEST} IPC event:`, options);
+export async function ipcHttpRequest(options: IpcHttpRequestOption) {
+  if (isElectron()) {
+    const { ipcRenderer } = await import('electron');
 
-  ipcRenderer.send(HTTP_REQUEST, options);
+    console.log(`Store sent an ${HTTP_REQUEST} IPC event:`, options);
+
+    ipcRenderer.send(HTTP_REQUEST, options);
+  }
 }
