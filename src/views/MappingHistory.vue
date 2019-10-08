@@ -2,6 +2,28 @@
   <div id="mapping-history-view" class="relative container mx-auto py-8">
     <back-button :label="'Home'" @on-click="goToHome" />
 
+    <div
+      class="share-button absolute inline-flex text-gray-300 py-1 px-3 rounded-full bg-discord-500 hover:bg-discord-300 cursor-pointer shadow-2xl hover:shadow-none"
+      @click="createShareableLink"
+    >
+      <i class="material-icons flex items-center mr-2">
+        share
+      </i>
+
+      <p>Share</p>
+    </div>
+
+    <div
+      class="import-button absolute inline-flex text-gray-300 py-1 px-3 rounded-full bg-discord-500 hover:bg-discord-300 cursor-pointer shadow-2xl hover:shadow-none"
+      @click="createShareableLink"
+    >
+      <i class="material-icons flex items-center mr-2">
+        edit
+      </i>
+
+      <p>Import</p>
+    </div>
+
     <h1 class="text-gray-300 text-center text-4xl mb-4 select-none">
       Mapping history
     </h1>
@@ -65,14 +87,18 @@
         </p>
       </div>
     </div>
+
+    <notifications group="MAPPING-HISTORY" position="bottom right" />
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Mixins } from 'vue-property-decorator';
+import axios from 'axios';
+import isElectron from 'is-electron';
 
 import POEMapIconURLMixin from '@/mixins/POEMapIconURL';
-import { mapGetters } from '@/store/map/map.consts';
+import { mapMutations, mapGetters } from '@/store/map/map.consts';
 import { MapState } from '@/store/map/map.state';
 import { userGetters } from '@/store/user/user.consts';
 import { POEMapItem, POEMapHistoryDate, POEMapHistory, POECharacter } from '@/models/PathOfExile';
@@ -160,11 +186,112 @@ export default class MappingHistoryView extends Mixins(POEMapIconURLMixin) {
   public goToHome() {
     this.$router.push('/');
   }
+
+  /**
+   * Stringify the map-history and push it to a JSONBin, once created copy the
+   * JSONBin ID to the clipboard.
+   */
+  public createShareableLink() {
+    const payload = {
+      mapsHistory: JSON.stringify(this.map.mapsHistory),
+    };
+
+    this.$notify({
+      group: 'MAPPING-HISTORY',
+      title: 'Share mapping-history',
+      text: 'Creating a shareable mapping-history link...',
+    });
+
+    axios
+      .post('https://api.jsonbin.io/b/', payload, {
+        headers: {
+          'Content-Type': 'application/json',
+          'secret-key': '$2b$10$gRhmLSfmU/QxmWS8jGarjeeoWH6Ld9ssN00A91R.nCWNjTubYvQDq',
+        },
+      })
+      .then((response) => {
+        return this.copyToClipboard(response.data.id);
+      })
+      .then((binID) => {
+        this.$notify({
+          group: 'MAPPING-HISTORY',
+          title: 'Share mapping-history',
+          text: 'Mapping-history link created and copied to your clipboard!',
+        });
+      })
+      .catch((error) => {
+        this.$notify({
+          group: 'MAPPING-HISTORY',
+          title: 'Share mapping-history',
+          text: `Unable to share mapping-history: error ${error.statusCode || 'unknown'}`,
+          type: 'error',
+        });
+      });
+  }
+
+  /**
+   * Retrieve a JSONBin, if success then store the shared map-history in the
+   * store.
+   *
+   * @param binID ID of the JSONBin to retrieve
+   */
+  public retrieveShareableLink(binID: string) {
+    axios
+      .get(`https://api.jsonbin.io/b/${binID}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'secret-key': '$2b$10$gRhmLSfmU/QxmWS8jGarjeeoWH6Ld9ssN00A91R.nCWNjTubYvQDq',
+        },
+      })
+      .then((response) => {
+        const payload = JSON.parse(response.data);
+
+        this.$store.commit(mapMutations.setMapsHistoryShared, payload);
+
+        this.$notify({
+          group: 'MAPPING-HISTORY',
+          title: 'Load mapping-history',
+          text: `Mapping-history successfully loaded from bin ID ${binID}`,
+        });
+      })
+      .catch((error) => {
+        this.$notify({
+          group: 'MAPPING-HISTORY',
+          title: 'Load mapping-history',
+          text: `Unable to load mapping-history: error ${error.statusCode || 'unknown'}`,
+          type: 'error',
+        });
+      });
+  }
+
+  /**
+   * Copy to the clipboard the JSONBin ID if in an electron environment.
+   *
+   * @param binID ID of the JSONBin to copy to clipboard
+   */
+  private copyToClipboard(binID: string) {
+    if (isElectron()) {
+      import('electron').then((electron) => {
+        electron.clipboard.writeText(binID);
+      });
+    }
+  }
 }
 </script>
 
 <style scoped>
-.back-home {
+.share-button,
+.import-button {
+  transition: all 0.2s ease-in-out;
+}
+
+.share-button {
   top: 42px;
+  right: 16px;
+}
+
+.import-button {
+  top: 42px;
+  right: 112px;
 }
 </style>
