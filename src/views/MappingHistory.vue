@@ -77,9 +77,19 @@
         Income of your 50 most recent maps
       </h2>
 
-      <line-chart :height="150" :colors="['#3daa79']" :labels="chartLabels" :datasets="chartDatasets" />
+      <p v-if="map.mapsHistory.length <= 0" class="text-center">
+        No data. Run some maps!
+      </p>
 
-      <div class="flex items-center justify-center">
+      <line-chart
+        v-if="map.mapsHistory.length > 0"
+        :height="150"
+        :colors="['#3daa79']"
+        :labels="chartLabels"
+        :datasets="chartDatasets"
+      />
+
+      <div v-if="map.mapsHistory.length > 0" class="flex items-center justify-center">
         <div class="w-8 h-4 rounded mr-2 bg-green-500" />
 
         <p class="text-base">
