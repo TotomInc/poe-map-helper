@@ -37,13 +37,25 @@
       Shared mapping history
     </h1>
 
-    <p class="mb-4 text-center text-discord-100 select-none">
+    <p class="mb-8 text-center text-discord-100 select-none">
       Click on a row for a list of detailed income items.
     </p>
 
-    <mapping-history-table :maps-history="share.mapsHistory" :character="share.character" @on-row-click="onRowClick" />
+    <character-overview
+      v-if="share.character"
+      class="mb-8"
+      :character="share.character"
+      :can-switch-character="false"
+    />
 
-    <div class="max-w mx-auto p-4 rounded text-discord-100 bg-discord-700 shadow-2xl select-none">
+    <mapping-history-table
+      class="mx-auto max-w-4xl"
+      :maps-history="share.mapsHistory"
+      :character="share.character"
+      @on-row-click="onRowClick"
+    />
+
+    <div class="max-w-4xl mx-auto p-4 rounded text-discord-100 bg-discord-700 shadow-2xl select-none">
       <h2 class="mb-2 text-gray-300 text-xl text-center">
         Income of the 50 most recent maps of this shared mapping-history
       </h2>
@@ -84,6 +96,7 @@ import BackButton from '@/components/ui-components/BackButton.vue';
 import Input from '@/components/ui-components/Input.vue';
 import LineChart from '@/components/charts/LineChart.vue';
 import MappingHistoryTable from '@/components/tables/MappingHistoryTable.vue';
+import CharacterOverview from '@/components/CharacterOverview.vue';
 
 @Component({
   components: {
@@ -91,6 +104,7 @@ import MappingHistoryTable from '@/components/tables/MappingHistoryTable.vue';
     BackButton,
     LineChart,
     MappingHistoryTable,
+    CharacterOverview,
   },
 })
 export default class SharedMappingHistoryView extends Mixins(POEMapIconURLMixin) {
