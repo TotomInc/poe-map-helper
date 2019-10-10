@@ -4,10 +4,10 @@
       id="character-overview-component"
       class="max-w-2xl mx-auto rounded text-discord-100 bg-discord-700 shadow-2xl select-none"
     >
-      <div v-if="!user.loading && poeCharacter" class="flex flex-row">
+      <div v-if="!user.loading && character" class="flex flex-row">
         <div>
           <img
-            :src="require(`@/assets/images/ascendencies/${poeCharacter.class.toLowerCase()}.png`)"
+            :src="require(`@/assets/images/ascendencies/${character.class.toLowerCase()}.png`)"
             alt="Ascendency image"
             class="rounded-l-sm"
           />
@@ -15,6 +15,7 @@
 
         <div class="relative flex flex-col justify-center flex-grow px-4 py-2">
           <div
+            v-if="canSwitchCharacter"
             class="change-character absolute w-6 h-6 rounded-full bg-discord-500 cursor-pointer"
             @click="changeCharacter()"
           >
@@ -24,10 +25,10 @@
           </div>
 
           <h1 class="text-3xl text-gray-300">
-            {{ poeCharacter.name }}
+            {{ character.name }}
 
             <small class="text-xl bg-discord-500 rounded-full px-2 py-1 text-gray text-discord-100">
-              {{ poeCharacter.league }}
+              {{ character.league }}
             </small>
           </h1>
 
@@ -35,10 +36,10 @@
             Level
 
             <span class="text-vue-500">
-              {{ poeCharacter.level }}
+              {{ character.level }}
             </span>
 
-            <small>({{ poeCharacter.experience }} / {{ experienceRequired }} exp.)</small>
+            <small>({{ character.experience }} / {{ experienceRequired }} exp.)</small>
           </p>
 
           <div class="w-full h-2 bg-discord-300 rounded">
@@ -57,7 +58,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 
 import { POECharacter } from '@/models/PathOfExile';
 import { UserState } from '@/store/user/user.state';
@@ -66,6 +67,15 @@ import { experiencePerLevel } from '@/utils/experience-per-level';
 
 @Component({})
 export default class CharacterOverviewComponent extends Vue {
+  @Prop()
+  readonly character!: POECharacter;
+
+  @Prop({
+    type: Boolean,
+    default: true,
+  })
+  readonly canSwitchCharacter!: boolean;
+
   private experienceRequired = 0;
 
   private experiencePercentage = 0;
@@ -74,14 +84,6 @@ export default class CharacterOverviewComponent extends Vue {
 
   get user(): UserState {
     return this.$store.state.user;
-  }
-
-  get poeCharacter(): POECharacter | undefined {
-    if (this.user.selectedCharacter) {
-      return this.user.characters.find((char) => char.name === this.user.selectedCharacter);
-    }
-
-    return undefined;
   }
 
   public mounted(): void {
@@ -102,20 +104,20 @@ export default class CharacterOverviewComponent extends Vue {
   }
 
   private updateRequiredExperience(): void {
-    if (this.poeCharacter) {
-      this.experienceRequired = experiencePerLevel[this.poeCharacter.level];
-      this.lastLevelExperienceRequired = experiencePerLevel[this.poeCharacter.level - 1];
+    if (this.character) {
+      this.experienceRequired = experiencePerLevel[this.character.level];
+      this.lastLevelExperienceRequired = experiencePerLevel[this.character.level - 1];
     }
   }
 
   private calculateExperienceBarWidth(): string {
     let width = '0%';
 
-    if (this.poeCharacter) {
-      const { experience } = this.poeCharacter;
+    if (this.character) {
+      const { experience } = this.character;
 
       // eslint-disable-next-line
-      const widthPercentage = ((this.poeCharacter.experience - this.lastLevelExperienceRequired) / (this.experienceRequired - this.lastLevelExperienceRequired)) * 100;
+      const widthPercentage = ((this.character.experience - this.lastLevelExperienceRequired) / (this.experienceRequired - this.lastLevelExperienceRequired)) * 100;
 
       this.experiencePercentage = widthPercentage;
       width = `${widthPercentage}%`;
