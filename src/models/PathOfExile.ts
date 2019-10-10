@@ -134,3 +134,11 @@ export interface POEMapHistoryDate extends POEMapHistory {
   /** Map run duration in seconds */
   duration: number;
 }
+
+/**
+ * Object shared via a JSONBin (used for imports/exports of data).
+ */
+export interface POEShare {
+  character: POECharacter;
+  maps: POEMapHistory[];
+}
