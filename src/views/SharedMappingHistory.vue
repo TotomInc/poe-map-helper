@@ -113,7 +113,6 @@
 
 <script lang="ts">
 import { Vue, Component, Mixins } from 'vue-property-decorator';
-import axios from 'axios';
 
 import { UserState } from '@/store/user/user.state';
 import { ShareState } from '@/store/share/share.state';
