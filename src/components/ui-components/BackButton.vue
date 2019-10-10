@@ -24,9 +24,7 @@ export default class BackButtonComponent extends Vue {
   readonly label!: String;
 
   @Emit('on-click')
-  onClick() {
-    console.log('go back event');
-  }
+  onClick() {}
 }
 </script>
 
