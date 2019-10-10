@@ -2,31 +2,51 @@
   <div id="mapping-history-view" class="relative container mx-auto py-8">
     <back-button :label="'Home'" @on-click="goToHome" />
 
-    <div
-      class="share-button absolute inline-flex text-gray-300 py-1 px-3 rounded-full bg-discord-500 hover:bg-discord-300 cursor-pointer shadow-2xl hover:shadow-none"
-      @click="createShareableLink"
-    >
-      <i class="material-icons flex items-center mr-2">
-        share
-      </i>
+    <div class="share-container absolute">
+      <div
+        v-if="map.mapsHistoryShared.length <= 0"
+        class="share-button inline-flex text-gray-300 py-1 px-3 mr-4 rounded-full bg-discord-500 hover:bg-discord-300 cursor-pointer shadow-2xl hover:shadow-none"
+        @click="createShareableLink"
+      >
+        <i class="material-icons flex items-center mr-2">
+          share
+        </i>
 
-      <p>Share</p>
-    </div>
+        <p>Share</p>
+      </div>
 
-    <div
-      class="import-button absolute inline-flex text-gray-300 py-1 px-3 rounded-full bg-discord-500 hover:bg-discord-300 cursor-pointer shadow-2xl hover:shadow-none"
-      @click="createShareableLink"
-    >
-      <i class="material-icons flex items-center mr-2">
-        edit
-      </i>
+      <div
+        v-if="map.mapsHistoryShared.length <= 0"
+        class="import-button inline-flex text-gray-300 py-1 px-3 rounded-full bg-discord-500 hover:bg-discord-300 cursor-pointer shadow-2xl hover:shadow-none"
+        @click="retrieveShareableLink"
+      >
+        <i class="material-icons flex items-center mr-2">
+          edit
+        </i>
 
-      <p>Import</p>
+        <p>Import</p>
+      </div>
+
+      <div
+        v-if="map.mapsHistoryShared.length > 0"
+        class="remove-import-button inline-flex text-gray-300 py-1 px-3 rounded-full bg-discord-500 hover:bg-discord-300 cursor-pointer shadow-2xl hover:shadow-none"
+        @click="removeMapsHistoryShared"
+      >
+        <i class="material-icons flex items-center mr-2">
+          trash
+        </i>
+
+        <p>Remove</p>
+      </div>
     </div>
 
     <h1 class="text-gray-300 text-center text-4xl mb-4 select-none">
       Mapping history
     </h1>
+
+    <h2 v-if="map.mapsHistoryShared.length > 0" class="text-gray-300 text-center text-4xl mb-4 select-none">
+      You are viewing a shared mapping history
+    </h2>
 
     <p class="mb-4 text-center text-discord-100 select-none">
       Click on a row for a list of detailed income items.
@@ -169,20 +189,33 @@ export default class MappingHistoryView extends Mixins(POEMapIconURLMixin) {
    * Charts labels, return only the 50 most recent maps.
    */
   get chartLabels(): string[] {
-    const mapsHistory: POEMapHistory[] = JSON.parse(JSON.stringify(this.map.mapsHistory));
+    let mapsHistoryDataset: POEMapHistory[] = [];
 
-    return mapsHistory.slice(0, 50).map((mapHistory, i) => `#${i + 1}`);
+    if (this.map.mapsHistoryShared.length > 0) {
+      mapsHistoryDataset = JSON.parse(JSON.stringify(this.map.mapsHistoryShared));
+    } else {
+      mapsHistoryDataset = JSON.parse(JSON.stringify(this.map.mapsHistory));
+    }
+
+    return mapsHistoryDataset.slice(0, 50).map((mapHistory, i) => `#${i + 1}`);
   }
 
   /**
-   * Generate dataset, return only the 50 most recent maps.
+   * Generate dataset of a shared maps-history or local maps-history, return
+   * only the 50 most recent maps.
    */
   get chartDatasets() {
-    const mapsHistory: POEMapHistory[] = JSON.parse(JSON.stringify(this.map.mapsHistory));
+    let mapsHistoryDataset: POEMapHistory[] = [];
+
+    if (this.map.mapsHistoryShared.length > 0) {
+      mapsHistoryDataset = JSON.parse(JSON.stringify(this.map.mapsHistoryShared));
+    } else {
+      mapsHistoryDataset = JSON.parse(JSON.stringify(this.map.mapsHistory));
+    }
 
     return [
       {
-        values: mapsHistory.slice(0, 50).map((mapHistory) => mapHistory.income.chaos),
+        values: mapsHistoryDataset.slice(0, 50).map((mapHistory) => mapHistory.income.chaos),
       },
     ];
   }
@@ -202,41 +235,50 @@ export default class MappingHistoryView extends Mixins(POEMapIconURLMixin) {
    * JSONBin ID to the clipboard.
    */
   public createShareableLink() {
-    const payload = {
-      mapsHistory: JSON.stringify(this.map.mapsHistory),
-    };
+    if (this.map.mapsHistory.length > 0) {
+      const payload = {
+        mapsHistory: JSON.stringify(this.map.mapsHistory),
+      };
 
-    this.$notify({
-      group: 'MAPPING-HISTORY',
-      title: 'Share mapping-history',
-      text: 'Creating a shareable mapping-history link...',
-    });
-
-    axios
-      .post('https://api.jsonbin.io/b/', payload, {
-        headers: {
-          'Content-Type': 'application/json',
-          'secret-key': '$2b$10$gRhmLSfmU/QxmWS8jGarjeeoWH6Ld9ssN00A91R.nCWNjTubYvQDq',
-        },
-      })
-      .then((response) => {
-        return this.copyToClipboard(response.data.id);
-      })
-      .then((binID) => {
-        this.$notify({
-          group: 'MAPPING-HISTORY',
-          title: 'Share mapping-history',
-          text: 'Mapping-history link created and copied to your clipboard!',
-        });
-      })
-      .catch((error) => {
-        this.$notify({
-          group: 'MAPPING-HISTORY',
-          title: 'Share mapping-history',
-          text: `Unable to share mapping-history: error ${error.statusCode || 'unknown'}`,
-          type: 'error',
-        });
+      this.$notify({
+        group: 'MAPPING-HISTORY',
+        title: 'Share mapping-history',
+        text: 'Creating a shareable mapping-history link...',
       });
+
+      axios
+        .post('https://api.jsonbin.io/b/', payload, {
+          headers: {
+            'Content-Type': 'application/json',
+            'secret-key': '$2b$10$gRhmLSfmU/QxmWS8jGarjeeoWH6Ld9ssN00A91R.nCWNjTubYvQDq',
+          },
+        })
+        .then((response) => {
+          return this.copyToClipboard(response.data.id);
+        })
+        .then((binID) => {
+          this.$notify({
+            group: 'MAPPING-HISTORY',
+            title: 'Share mapping-history',
+            text: 'Mapping-history link created and copied to your clipboard!',
+          });
+        })
+        .catch((error) => {
+          this.$notify({
+            group: 'MAPPING-HISTORY',
+            title: 'Share mapping-history',
+            text: `Unable to share mapping-history: error ${error.statusCode || 'unknown'}`,
+            type: 'error',
+          });
+        });
+    } else {
+      this.$notify({
+        group: 'MAPPING-HISTORY',
+        title: 'Share mapping-history',
+        text: "You can't share an empty map-history",
+        type: 'error',
+      });
+    }
   }
 
   /**
@@ -274,6 +316,12 @@ export default class MappingHistoryView extends Mixins(POEMapIconURLMixin) {
       });
   }
 
+  public removeSharedMapsHistory(): void {
+    if (this.map.mapsHistoryShared.length > 0) {
+      this.$store.commit(mapMutations.removeMapsHistoryShared);
+    }
+  }
+
   /**
    * Copy to the clipboard the JSONBin ID if in an electron environment.
    *
@@ -290,18 +338,14 @@ export default class MappingHistoryView extends Mixins(POEMapIconURLMixin) {
 </script>
 
 <style scoped>
-.share-button,
-.import-button {
-  transition: all 0.2s ease-in-out;
-}
-
-.share-button {
+.share-container {
   top: 42px;
   right: 16px;
 }
 
-.import-button {
-  top: 42px;
-  right: 112px;
+.share-button,
+.import-button,
+.remove-import-button {
+  transition: all 0.2s ease-in-out;
 }
 </style>
