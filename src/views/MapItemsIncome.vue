@@ -19,7 +19,7 @@ import { Vue, Component } from 'vue-property-decorator';
 
 import { POEPricedStashItem, POEMapHistory } from '@/models/PathOfExile';
 import { MapState } from '@/store/map/map.state';
-import MapIncomeTable from '@/components/MapIncomeTable.vue';
+import MapIncomeTable from '@/components/tables/MapIncomeTable.vue';
 import MapDetails from '@/components/MapDetails.vue';
 import BackButton from '@/components/ui-components/BackButton.vue';
 

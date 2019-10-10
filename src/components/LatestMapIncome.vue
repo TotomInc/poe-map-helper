@@ -58,7 +58,7 @@ import { Vue, Component } from 'vue-property-decorator';
 import { MapState } from '@/store/map/map.state';
 import { stashGetters } from '@/store/stash/stash.consts';
 import { StashState } from '@/store/stash/stash.state';
-import MapIncomeTable from '@/components/MapIncomeTable.vue';
+import MapIncomeTable from '@/components/tables/MapIncomeTable.vue';
 
 @Component({
   components: {
