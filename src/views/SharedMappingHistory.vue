@@ -41,45 +41,7 @@
       Click on a row for a list of detailed income items.
     </p>
 
-    <vue-good-table
-      class="max-w shadow-2xl mb-4"
-      :columns="columns"
-      :rows="rows"
-      :pagination-options="{
-        enabled: true,
-        perPage: 10,
-        perPageDropdown: [10, 20, 40],
-        dropdownAllowAll: false,
-        rowsPerPageLabel: 'Maps per page',
-      }"
-      style-class="vgt-table striped"
-      @on-row-click="onRowClick"
-    >
-      <template slot="table-row" slot-scope="props">
-        <span v-if="props.column.field == 'map.name'" class="flex flex-row items-center">
-          <img :src="getMapIconURL(props.row.map, share.character.league)" class="w-8 h-8 mr-3" />
-          <span>{{ props.row.map.name }}</span>
-        </span>
-
-        <span v-if="props.column.field == 'income.chaos'" class="flex flex-row items-center float-right">
-          <span class="mr-2">{{ props.row.income.chaos }}</span>
-          <img :src="require('@/assets/images/orbs/chaos-orb.png')" class="w-6 h-6" />
-        </span>
-
-        <span v-if="props.column.field == 'income.exalt'" class="flex flex-row items-center float-right">
-          <span class="mr-2">{{ props.row.income.exalt }}</span>
-          <img :src="require('@/assets/images/orbs/exalted-orb.png')" class="w-6 h-6" />
-        </span>
-
-        <span v-if="props.column.field == 'duration'" class="flex flex-row items-center float-right">
-          <span class="mr-2">{{ (props.row.duration * 1000) | date('mm:ss') }}</span>
-        </span>
-
-        <span v-if="props.column.field == 'endDate'" class="flex flex-row items-center float-right">
-          <span class="mr-2">{{ props.row.endDate | date('DD-MM-YYYY') }}</span>
-        </span>
-      </template>
-    </vue-good-table>
+    <mapping-history-table :maps-history="share.mapsHistory" :character="share.character" @on-row-click="onRowClick" />
 
     <div class="max-w mx-auto p-4 rounded text-discord-100 bg-discord-700 shadow-2xl select-none">
       <h2 class="mb-2 text-gray-300 text-xl text-center">
@@ -121,15 +83,17 @@ import POEMapIconURLMixin from '@/mixins/POEMapIconURL';
 import BackButton from '@/components/ui-components/BackButton.vue';
 import Input from '@/components/ui-components/Input.vue';
 import LineChart from '@/components/charts/LineChart.vue';
+import MappingHistoryTable from '@/components/tables/MappingHistoryTable.vue';
 
 @Component({
   components: {
     VInput: Input,
     BackButton,
     LineChart,
+    MappingHistoryTable,
   },
 })
-export default class MappingHistoryView extends Mixins(POEMapIconURLMixin) {
+export default class SharedMappingHistoryView extends Mixins(POEMapIconURLMixin) {
   private JSONBinID: string = '';
 
   private columns = [
@@ -171,10 +135,6 @@ export default class MappingHistoryView extends Mixins(POEMapIconURLMixin) {
     return this.$store.state.share;
   }
 
-  get rows(): POEMapHistoryDate[] {
-    return this.$store.getters[shareGetters.sharedMapsHistoryDate];
-  }
-
   /**
    * Charts labels, return only the 50 most recent maps of the shared
    * mapping-history.
@@ -205,7 +165,7 @@ export default class MappingHistoryView extends Mixins(POEMapIconURLMixin) {
     }
   }
 
-  public onRowClick(params: any) {}
+  public onRowClick(event: any) {}
 
   public mounted(): void {
     const queryID = this.$route.query.id;
