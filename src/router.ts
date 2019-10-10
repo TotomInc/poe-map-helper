@@ -9,6 +9,7 @@ import LoginView from '@/views/Login.vue';
 import SetupCharacterView from '@/views/SetupCharacter.vue';
 import SetupStashView from '@/views/SetupStash.vue';
 import MappingHistoryView from '@/views/MappingHistory.vue';
+import SharedMappingHistoryView from '@/views/SharedMappingHistory.vue';
 import MapItemsIncomeView from '@/views/MapItemsIncome.vue';
 import BrowserView from '@/views/Browser.vue';
 
@@ -21,10 +22,17 @@ export default new Router({
       path: '/',
       component: HomeView,
       beforeEnter: (to, from, next) => {
-        if (!store.state.user.logged) {
+        // On Electron, you must be logged to access any view
+        if (isElectron()) {
+          if (!store.state.user.logged) {
+            next('/login');
+          } else {
+            next();
+          }
+        }
+        // On browser, you can only access the shared-mapping-history view
+        else if (from.path !== '/shared-mapping-history') {
           next('/login');
-        } else {
-          next();
         }
       },
     },
@@ -70,6 +78,17 @@ export default new Router({
       component: MappingHistoryView,
       beforeEnter: (to, from, next) => {
         if (!store.state.user.logged) {
+          next('/login');
+        } else {
+          next();
+        }
+      },
+    },
+    {
+      path: '/shared-mapping-history',
+      component: SharedMappingHistoryView,
+      beforeEnter: (to, from, next) => {
+        if (isElectron() && !store.state.user.logged) {
           next('/login');
         } else {
           next();
