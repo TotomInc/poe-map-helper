@@ -9,6 +9,7 @@ import { userModule } from './user';
 import { mapModule } from './map';
 import { rateModule } from './rate';
 import { stashModule } from './stash';
+import { shareModule } from './share';
 
 Vue.use(Vuex);
 
@@ -20,6 +21,7 @@ const store = new Vuex.Store<RootState>({
     map: mapModule,
     rate: rateModule,
     stash: stashModule,
+    share: shareModule,
   },
 
   plugins: [localstorage.plugin],
