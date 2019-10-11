@@ -41,19 +41,23 @@
       Click on a row for a list of detailed income items.
     </p>
 
-    <character-overview
-      v-if="share.character"
-      class="mb-8"
-      :character="share.character"
-      :can-switch-character="false"
-    />
+    <transition name="smooth" appear>
+      <character-overview
+        v-if="share.character"
+        class="mb-8"
+        :character="share.character"
+        :can-switch-character="false"
+      />
+    </transition>
 
-    <mapping-history-table
-      class="mx-auto max-w-4xl"
-      :maps-history="share.mapsHistory"
-      :character="share.character"
-      @on-row-click="onRowClick"
-    />
+    <transition name="smooth" appear>
+      <mapping-history-table
+        class="mx-auto max-w-4xl"
+        :maps-history="share.mapsHistory"
+        :character="share.character"
+        @on-row-click="onRowClick"
+      />
+    </transition>
 
     <div class="max-w-4xl mx-auto p-4 rounded text-discord-100 bg-discord-700 shadow-2xl select-none">
       <h2 class="mb-2 text-gray-300 text-xl text-center">
@@ -64,13 +68,15 @@
         No data, please import a mapping-history.
       </p>
 
-      <line-chart
-        v-if="share.mapsHistory.length > 0"
-        :height="150"
-        :colors="['#3daa79']"
-        :labels="chartLabels"
-        :datasets="chartDatasets"
-      />
+      <transition name="smooth" appear>
+        <line-chart
+          v-if="share.mapsHistory.length > 0"
+          :height="150"
+          :colors="['#3daa79']"
+          :labels="chartLabels"
+          :datasets="chartDatasets"
+        />
+      </transition>
 
       <div v-if="share.mapsHistory.length > 0" class="flex items-center justify-center">
         <div class="w-8 h-4 rounded mr-2 bg-green-500" />

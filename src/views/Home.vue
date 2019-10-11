@@ -4,11 +4,17 @@
       PoE Mapper Assistant
     </h1>
 
-    <character-overview class="mb-4" :character="poeSelectedCharacter" :can-switch-character="true" />
+    <transition name="smooth" appear>
+      <character-overview class="mb-4" :character="poeSelectedCharacter" :can-switch-character="true" />
+    </transition>
 
-    <mapping-status class="mb-4" />
+    <transition name="smooth" appear>
+      <mapping-status class="mb-4" />
+    </transition>
 
-    <latest-map-income class="mb-4" />
+    <transition name="smooth" appear>
+      <latest-map-income class="mb-4" />
+    </transition>
   </div>
 </template>
 
