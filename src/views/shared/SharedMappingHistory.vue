@@ -88,6 +88,7 @@
 <script lang="ts">
 import { Vue, Component, Mixins } from 'vue-property-decorator';
 
+import { POEMapHistory } from '@/models/PathOfExile';
 import { UserState } from '@/store/user/user.state';
 import { ShareState } from '@/store/share/share.state';
 import { shareActions, shareGetters } from '@/store/share/share.consts';
