@@ -14,9 +14,16 @@
       As soon as PoE's OAuth API is out, the application will be also available as a web-app, directly in your browser.
     </p>
 
-    <p class="text-white text-base">
+    <p class="text-white text-base mb-4">
       Please, download the application
       <span class="underline text-vue-500 cursor-pointer" @click="openDownloadLink">here</span>.
+    </p>
+
+    <p class="text-white text-lg">
+      You can also investigate mapping-reports made by other players who use this app,
+      <router-link to="/shared/mapping-history" tag="a" class="text-vue-500 underline">
+        on the mapping-history page.
+      </router-link>
     </p>
   </div>
 </template>
