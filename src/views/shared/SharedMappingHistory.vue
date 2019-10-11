@@ -193,7 +193,11 @@ export default class SharedMappingHistoryView extends Mixins(POEMapIconURLMixin)
     if (queryID && typeof queryID === 'string') {
       this.JSONBinID = queryID;
 
-      this.retrieveShareableLink();
+      // Make sure to only load JSONBin if its ID is different than the one we
+      // already have loaded.
+      if (this.share.binID !== this.JSONBinID) {
+        this.retrieveShareableLink();
+      }
     }
 
     this.unsubscribe = this.$store.subscribeAction({
