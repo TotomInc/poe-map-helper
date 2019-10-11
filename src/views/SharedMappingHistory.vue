@@ -108,6 +108,8 @@ import CharacterOverview from '@/components/CharacterOverview.vue';
   },
 })
 export default class SharedMappingHistoryView extends Mixins(POEMapIconURLMixin) {
+  private unsubscribe: any;
+
   private JSONBinID: string = '';
 
   private columns = [
@@ -194,7 +196,7 @@ export default class SharedMappingHistoryView extends Mixins(POEMapIconURLMixin)
       this.retrieveShareableLink();
     }
 
-    this.$store.subscribeAction({
+    this.unsubscribe = this.$store.subscribeAction({
       after: ({ type, payload }) => {
         if (type === shareActions.LOAD_SHARE_SUCCESS) {
           this.$notify({
@@ -214,6 +216,10 @@ export default class SharedMappingHistoryView extends Mixins(POEMapIconURLMixin)
         }
       },
     });
+  }
+
+  public destroyed(): void {
+    this.unsubscribe();
   }
 
   /**
