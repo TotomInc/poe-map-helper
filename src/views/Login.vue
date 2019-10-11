@@ -71,7 +71,7 @@ export default class LoginView extends Vue {
     this.$store.subscribeAction({
       after: ({ type, payload }) => {
         if (type === userActions.COOKIE_LOGIN_SUCCESS) {
-          this.$router.push('setup-character');
+          this.$router.push('/setup/character');
         } else if (type === userActions.COOKIE_LOGIN_FAILED) {
           this.$notify({
             group: 'LOGIN',

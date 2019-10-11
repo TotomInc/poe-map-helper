@@ -98,7 +98,7 @@ export default class CharacterOverviewComponent extends Vue {
 
   public changeCharacter(): void {
     this.$store.commit(userMutations.removeSelectedCharacter);
-    this.$router.push('setup-character');
+    this.$router.push('/setup/character');
   }
 
   private updateRequiredExperience(): void {

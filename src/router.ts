@@ -6,11 +6,12 @@ import store from '@/store';
 
 import HomeView from '@/views/Home.vue';
 import LoginView from '@/views/Login.vue';
-import SetupCharacterView from '@/views/SetupCharacter.vue';
-import SetupStashView from '@/views/SetupStash.vue';
+import BrowserView from '@/views/Browser.vue';
 import MappingHistoryView from '@/views/MappingHistory.vue';
 import MapItemsIncomeView from '@/views/MapItemsIncome.vue';
-import BrowserView from '@/views/Browser.vue';
+
+import SetupCharacterView from '@/views/setup/SetupCharacter.vue';
+import SetupStashView from '@/views/setup/SetupStash.vue';
 
 import SharedMapItemsIncomeView from '@/views/shared/SharedMapItemsIncome.vue';
 import SharedMappingHistoryView from '@/views/shared/SharedMappingHistory.vue';
@@ -54,7 +55,7 @@ export default new Router({
       component: BrowserView,
     },
     {
-      path: '/setup-character',
+      path: '/setup/character',
       component: SetupCharacterView,
       beforeEnter: (to, from, next) => {
         if (!store.state.user.logged) {
@@ -65,7 +66,7 @@ export default new Router({
       },
     },
     {
-      path: '/setup-stash',
+      path: '/setup/stash',
       component: SetupStashView,
       beforeEnter: (to, from, next) => {
         if (!store.state.user.logged) {

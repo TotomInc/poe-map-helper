@@ -104,7 +104,7 @@ export default class SetupCharacterView extends Vue {
 
   /**
    * Set the selected character and the logfile path in the store, then go to
-   * the `setup-stash` view.
+   * the `setup/stash` view.
    */
   public finishSetupCharacter(): void {
     const payload = {
@@ -114,7 +114,7 @@ export default class SetupCharacterView extends Vue {
 
     this.$store.dispatch(userActions.FINISH_SETUP, payload);
 
-    this.$router.push('/setup-stash');
+    this.$router.push('/setup/stash');
   }
 
   /**
