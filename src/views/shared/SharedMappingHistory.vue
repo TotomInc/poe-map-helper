@@ -184,7 +184,7 @@ export default class SharedMappingHistoryView extends Mixins(POEMapIconURLMixin)
   public onRowClick(params: any) {
     const { originalIndex } = params.row;
 
-    this.$router.push(`/shared-map-income/${originalIndex}`);
+    this.$router.push(`/shared/map-income/${originalIndex}`);
   }
 
   public mounted(): void {
