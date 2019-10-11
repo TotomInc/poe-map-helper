@@ -59,7 +59,7 @@ export interface POEStashItem {
   descrText: string;
   frameType: number;
 
-  category: {
+  category?: {
     currency?: ['fossil'];
     weapons?: ['oneaxe', 'twoaxe'];
     armour?: ['helmet', 'gloves', 'chest', 'boots'];
@@ -91,7 +91,9 @@ export interface POEStashItem {
   secDescrText?: string;
   explicitMods?: string[];
   socketedItems?: POEStashItem[];
+  flavourText?: string[];
   stackSize?: number;
+  maxStackSize?: number;
 }
 
 export interface POEPricedStashItem extends POEStashItem {
