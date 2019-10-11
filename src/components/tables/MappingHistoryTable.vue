@@ -15,12 +15,12 @@
         </span>
 
         <span v-if="props.column.field == 'income.chaos'" class="flex flex-row items-center float-right">
-          <span class="mr-2">{{ props.row.income.chaos }}</span>
+          <span class="mr-2">{{ round(props.row.income.chaos) }}</span>
           <img :src="require('@/assets/images/orbs/chaos-orb.png')" class="w-6 h-6" />
         </span>
 
         <span v-if="props.column.field == 'income.exalt'" class="flex flex-row items-center float-right">
-          <span class="mr-2">{{ props.row.income.exalt }}</span>
+          <span class="mr-2">{{ roundDecimals(props.row.income.exalt) }}</span>
           <img :src="require('@/assets/images/orbs/exalted-orb.png')" class="w-6 h-6" />
         </span>
 
@@ -106,6 +106,14 @@ export default class SharedMappingHistoryView extends Mixins(POEMapIconURLMixin)
 
       return mapHistoryDate;
     });
+  }
+
+  public round(value: number): number {
+    return Math.round(value);
+  }
+
+  public roundDecimals(value: number): number {
+    return Math.round(value * 100) / 100;
   }
 }
 </script>
