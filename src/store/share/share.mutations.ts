@@ -13,6 +13,14 @@ export const mutations: MutationTree<ShareState> = {
     state.loading = false;
   },
 
+  [shareMutations.setBinID](state, payload: string) {
+    state.binID = payload;
+  },
+
+  [shareMutations.removeBinID](state, payload: void) {
+    state.binID = undefined;
+  },
+
   [shareMutations.setCharacter](state, payload: POECharacter) {
     state.character = payload;
   },

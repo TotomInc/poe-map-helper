@@ -49,9 +49,12 @@ export const actions: ActionTree<ShareState, RootState> = {
       })
       .then((response) => {
         if (response.status === 200) {
-          const responsePayload: POEShare = response.data;
+          const successPayload = {
+            data: response.data as POEShare,
+            binID: payload,
+          };
 
-          context.dispatch(shareActions.LOAD_SHARE_SUCCESS, responsePayload);
+          context.dispatch(shareActions.LOAD_SHARE_SUCCESS, successPayload);
         } else {
           context.dispatch(shareActions.LOAD_SHARE_FAILED, response.data);
         }
@@ -61,9 +64,10 @@ export const actions: ActionTree<ShareState, RootState> = {
       });
   },
 
-  [shareActions.LOAD_SHARE_SUCCESS](context, payload: POEShare) {
-    context.commit(shareMutations.setCharacter, payload.character);
-    context.commit(shareMutations.setMaps, payload.maps);
+  [shareActions.LOAD_SHARE_SUCCESS](context, payload: { data: POEShare, binID: string }) {
+    context.commit(shareMutations.setBinID, payload.binID);
+    context.commit(shareMutations.setCharacter, payload.data.character);
+    context.commit(shareMutations.setMaps, payload.data.maps);
     context.commit(shareMutations.removeLoading);
   },
 

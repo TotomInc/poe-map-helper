@@ -12,6 +12,9 @@ export const shareMutations = {
   setLoading: 'Set share loading',
   removeLoading: 'Remove share loading',
 
+  setBinID: 'Set share bin ID',
+  removeBinID: 'Remove share bin ID',
+
   setCharacter: 'Set share character',
   removeCharacter: 'Remove share character',
 
