@@ -17,6 +17,18 @@
       <p>Share</p>
     </div>
 
+    <router-link
+      tag="div"
+      to="/shared/mapping-history"
+      class="import-button absolute inline-flex text-gray-300 py-1 px-3 mr-4 rounded-full bg-discord-500 hover:bg-discord-300 cursor-pointer shadow-2xl hover:shadow-none"
+    >
+      <i class="material-icons flex items-center mr-2">
+        cloud_download
+      </i>
+
+      <p>Import</p>
+    </router-link>
+
     <h1 class="text-gray-300 text-center text-4xl mb-4 select-none">
       Mapping history
     </h1>
@@ -222,8 +234,18 @@ export default class MappingHistoryView extends Mixins(POEMapIconURLMixin) {
 </script>
 
 <style scoped>
+.share-button,
+.import-button {
+  transition: all 0.2s ease-in-out;
+}
+
 .share-button {
   top: 42px;
   right: 16px;
+}
+
+.import-button {
+  top: 42px;
+  right: 116px;
 }
 </style>
