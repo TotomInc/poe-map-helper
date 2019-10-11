@@ -1,7 +1,7 @@
 import { POECharacter, POEMapHistory } from '@/models/PathOfExile';
 
 export interface ShareState {
-  loading: boolean
+  loading: boolean;
   binID: string | undefined;
   character: POECharacter | undefined;
   mapsHistory: POEMapHistory[];

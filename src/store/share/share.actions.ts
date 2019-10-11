@@ -64,7 +64,7 @@ export const actions: ActionTree<ShareState, RootState> = {
       });
   },
 
-  [shareActions.LOAD_SHARE_SUCCESS](context, payload: { data: POEShare, binID: string }) {
+  [shareActions.LOAD_SHARE_SUCCESS](context, payload: { data: POEShare; binID: string }) {
     context.commit(shareMutations.setBinID, payload.binID);
     context.commit(shareMutations.setCharacter, payload.data.character);
     context.commit(shareMutations.setMaps, payload.data.maps);
