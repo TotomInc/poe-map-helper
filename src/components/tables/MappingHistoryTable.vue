@@ -45,7 +45,7 @@ import POEMapIconURLMixin from '@/mixins/POEMapIconURL';
 @Component({})
 export default class SharedMappingHistoryView extends Mixins(POEMapIconURLMixin) {
   @Prop()
-  readonly mapsHistory!: POEMapHistory;
+  readonly mapsHistory!: POEMapHistory[];
 
   @Prop()
   readonly character!: POECharacter;
