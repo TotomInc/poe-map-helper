@@ -6,7 +6,7 @@
       Map income report
     </h1>
 
-    <map-details :map="mapHistory.map" class="mb-4" />
+    <map-details :map="mapHistory.map" :character="poeSelectedCharacter" class="mb-4" />
 
     <div class="max-w-2xl mx-auto p-4 rounded text-discord-100 bg-discord-700 shadow-2xl select-none">
       <map-income-table :items-diff-income="mapHistory.items" />
@@ -17,8 +17,9 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 
-import { POEPricedStashItem, POEMapHistory } from '@/models/PathOfExile';
+import { POEPricedStashItem, POEMapHistory, POECharacter } from '@/models/PathOfExile';
 import { MapState } from '@/store/map/map.state';
+import { userGetters } from '@/store/user/user.consts';
 import MapIncomeTable from '@/components/tables/MapIncomeTable.vue';
 import MapDetails from '@/components/MapDetails.vue';
 import BackButton from '@/components/ui-components/BackButton.vue';
@@ -33,6 +34,10 @@ import BackButton from '@/components/ui-components/BackButton.vue';
 export default class MapItemsIncomeView extends Vue {
   get mapParamIndex(): number {
     return parseInt(this.$route.params.id, 10);
+  }
+
+  get poeSelectedCharacter(): POECharacter | undefined {
+    return this.$store.getters[userGetters.poeSelectedCharacter];
   }
 
   get map(): MapState {

@@ -5,7 +5,7 @@
   >
     <div class="flex flex-row">
       <div class="flex flex-col items-center justify-center mr-4">
-        <img :src="getMapIconURL(map, selectedPoeCharacter.league)" class="p-2 h-16 rounded bg-discord-500" />
+        <img :src="getMapIconURL(map, character.league)" class="p-2 h-16 rounded bg-discord-500" />
       </div>
 
       <div class="flex flex-col flex-grow justify-center">
@@ -66,9 +66,8 @@ export default class MapDetailsComponent extends Mixins(POEMapIconURLMixin) {
   })
   readonly map!: POEMapItem;
 
-  get selectedPoeCharacter(): POECharacter {
-    return this.$store.getters[userGetters.poeSelectedCharacter];
-  }
+  @Prop()
+  readonly character!: POECharacter;
 
   public convertRarity(rarity: number): string {
     if (rarity === -1) {
