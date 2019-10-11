@@ -28,6 +28,7 @@
             placeholder="Mapping-history ID"
             icon="vpn_key"
             :disabled="share.loading"
+            @on-enter="retrieveShareableLink"
           />
         </div>
       </div>
