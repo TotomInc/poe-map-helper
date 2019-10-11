@@ -11,6 +11,7 @@
       :type="type || 'text'"
       :placeholder="placeholder || ''"
       :disabled="ghost"
+      @keyup.enter="$emit('on-enter', $event)"
     />
   </div>
 </template>
