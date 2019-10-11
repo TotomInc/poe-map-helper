@@ -9,6 +9,7 @@ import LoginView from '@/views/Login.vue';
 import SetupCharacterView from '@/views/SetupCharacter.vue';
 import SetupStashView from '@/views/SetupStash.vue';
 import MappingHistoryView from '@/views/MappingHistory.vue';
+import SharedMapItemsIncomeView from '@/views/SharedMapItemsIncome.vue';
 import SharedMappingHistoryView from '@/views/SharedMappingHistory.vue';
 import MapItemsIncomeView from '@/views/MapItemsIncome.vue';
 import BrowserView from '@/views/Browser.vue';
@@ -30,8 +31,8 @@ export default new Router({
             next();
           }
         }
-        // On browser, you can only access the shared-mapping-history view
-        else if (from.path !== '/shared-mapping-history') {
+        // On browser, you can only access the `shared-*` paths
+        else if (!from.path.includes('/shared-')) {
           next('/login');
         }
       },
@@ -101,6 +102,19 @@ export default new Router({
       beforeEnter: (to, from, next) => {
         if (!store.state.user.logged) {
           next('/login');
+        } else {
+          next();
+        }
+      },
+    },
+    {
+      path: '/shared-map-income/:id',
+      component: SharedMapItemsIncomeView,
+      beforeEnter: (to, from, next) => {
+        if (isElectron() && !store.state.user.logged) {
+          next('/login');
+        } else if (!isElectron() && store.state.share.mapsHistory.length === 0) {
+          next('/shared-mapping-history');
         } else {
           next();
         }
