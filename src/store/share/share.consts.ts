@@ -6,6 +6,8 @@ export const shareActions = {
   LOAD_SHARE: 'LOAD_SHARE',
   LOAD_SHARE_SUCCESS: 'LOAD_SHARE_SUCCESS',
   LOAD_SHARE_FAILED: 'LOAD_SHARE_FAILED',
+
+  REMOVE_SHARE_DATA: 'REMOVE_SHARE_DATA',
 };
 
 export const shareMutations = {

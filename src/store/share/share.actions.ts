@@ -74,4 +74,10 @@ export const actions: ActionTree<ShareState, RootState> = {
   [shareActions.LOAD_SHARE_FAILED](context, payload: Error) {
     context.commit(shareMutations.removeLoading);
   },
+
+  [shareActions.REMOVE_SHARE_DATA](context, payload: void) {
+    context.commit(shareMutations.removeBinID);
+    context.commit(shareMutations.removeCharacter);
+    context.commit(shareMutations.removeMaps);
+  },
 };

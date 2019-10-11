@@ -186,6 +186,8 @@ export default class SharedMappingHistoryView extends Mixins(POEMapIconURLMixin)
   public goToHome(): void {
     if (this.user.logged) {
       this.$router.push('/');
+
+      this.$store.dispatch(shareActions.REMOVE_SHARE_DATA);
     }
   }
 
