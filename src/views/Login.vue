@@ -91,16 +91,3 @@ export default class LoginView extends Vue {
   }
 }
 </script>
-
-<style>
-.splash-screen {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  opacity: 0.1;
-  background-image: url('../assets/images/legion-splash.jpg');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-</style>
