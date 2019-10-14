@@ -6,11 +6,15 @@ import store from '@/store';
 
 import HomeView from '@/views/Home.vue';
 import LoginView from '@/views/Login.vue';
-import SetupCharacterView from '@/views/SetupCharacter.vue';
-import SetupStashView from '@/views/SetupStash.vue';
+import BrowserView from '@/views/Browser.vue';
 import MappingHistoryView from '@/views/MappingHistory.vue';
 import MapItemsIncomeView from '@/views/MapItemsIncome.vue';
-import BrowserView from '@/views/Browser.vue';
+
+import SetupCharacterView from '@/views/setup/SetupCharacter.vue';
+import SetupStashView from '@/views/setup/SetupStash.vue';
+
+import SharedMapItemsIncomeView from '@/views/shared/SharedMapItemsIncome.vue';
+import SharedMappingHistoryView from '@/views/shared/SharedMappingHistory.vue';
 
 Vue.use(Router);
 
@@ -21,10 +25,17 @@ export default new Router({
       path: '/',
       component: HomeView,
       beforeEnter: (to, from, next) => {
-        if (!store.state.user.logged) {
+        // On Electron, you must be logged to access any view
+        if (isElectron()) {
+          if (!store.state.user.logged) {
+            next('/login');
+          } else {
+            next();
+          }
+        }
+        // On browser, you can only access the `/shared` paths
+        else if (!from.path.includes('/shared')) {
           next('/login');
-        } else {
-          next();
         }
       },
     },
@@ -44,7 +55,7 @@ export default new Router({
       component: BrowserView,
     },
     {
-      path: '/setup-character',
+      path: '/setup/character',
       component: SetupCharacterView,
       beforeEnter: (to, from, next) => {
         if (!store.state.user.logged) {
@@ -55,7 +66,7 @@ export default new Router({
       },
     },
     {
-      path: '/setup-stash',
+      path: '/setup/stash',
       component: SetupStashView,
       beforeEnter: (to, from, next) => {
         if (!store.state.user.logged) {
@@ -77,11 +88,35 @@ export default new Router({
       },
     },
     {
+      path: '/shared/mapping-history',
+      component: SharedMappingHistoryView,
+      beforeEnter: (to, from, next) => {
+        if (isElectron() && !store.state.user.logged) {
+          next('/login');
+        } else {
+          next();
+        }
+      },
+    },
+    {
       path: '/map-income/:id',
       component: MapItemsIncomeView,
       beforeEnter: (to, from, next) => {
         if (!store.state.user.logged) {
           next('/login');
+        } else {
+          next();
+        }
+      },
+    },
+    {
+      path: '/shared/map-income/:id',
+      component: SharedMapItemsIncomeView,
+      beforeEnter: (to, from, next) => {
+        if (isElectron() && !store.state.user.logged) {
+          next('/login');
+        } else if (!isElectron() && store.state.share.mapsHistory.length === 0) {
+          next('/shared/mapping-history');
         } else {
           next();
         }

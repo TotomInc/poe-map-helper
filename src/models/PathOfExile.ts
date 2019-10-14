@@ -59,7 +59,7 @@ export interface POEStashItem {
   descrText: string;
   frameType: number;
 
-  category: {
+  category?: {
     currency?: ['fossil'];
     weapons?: ['oneaxe', 'twoaxe'];
     armour?: ['helmet', 'gloves', 'chest', 'boots'];
@@ -91,7 +91,9 @@ export interface POEStashItem {
   secDescrText?: string;
   explicitMods?: string[];
   socketedItems?: POEStashItem[];
+  flavourText?: string[];
   stackSize?: number;
+  maxStackSize?: number;
 }
 
 export interface POEPricedStashItem extends POEStashItem {
@@ -133,4 +135,12 @@ export interface POEMapHistoryDate extends POEMapHistory {
   endDate: Date;
   /** Map run duration in seconds */
   duration: number;
+}
+
+/**
+ * Object shared via a JSONBin (used for imports/exports of data).
+ */
+export interface POEShare {
+  character: POECharacter;
+  maps: POEMapHistory[];
 }
