@@ -233,6 +233,8 @@ export default class SharedMappingHistoryView extends Mixins(POEMapIconURLMixin)
             text: `Unable to load shared mapping-history: ${payload.message || 'error unknown'}`,
             type: 'error',
           });
+
+          this.animateAppearingComponents();
         }
       },
     });
