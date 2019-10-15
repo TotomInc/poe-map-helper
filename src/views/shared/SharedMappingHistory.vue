@@ -38,29 +38,30 @@
       Shared mapping history
     </h1>
 
-    <p class="mb-8 text-center text-discord-100 select-none">
+    <p class="mb-16 text-center text-discord-100 select-none">
       Click on a row for a list of detailed income items.
     </p>
 
-    <transition name="smooth" appear>
-      <character-overview
-        v-if="share.character"
-        class="mb-8"
-        :character="share.character"
-        :can-switch-character="false"
-      />
-    </transition>
+    <character-overview
+      v-if="share.character"
+      ref="characterOverview"
+      class="mb-8 opacity-0"
+      :character="share.character"
+      :can-switch-character="false"
+    />
 
-    <transition name="smooth" appear>
-      <mapping-history-table
-        class="mx-auto max-w-4xl"
-        :maps-history="share.mapsHistory"
-        :character="share.character"
-        @on-row-click="onRowClick"
-      />
-    </transition>
+    <mapping-history-table
+      ref="mappingHistoryTable"
+      class="mx-auto max-w-4xl opacity-0"
+      :maps-history="share.mapsHistory"
+      :character="share.character"
+      @on-row-click="onRowClick"
+    />
 
-    <div class="max-w-4xl mx-auto p-4 rounded text-discord-100 bg-discord-700 shadow-2xl select-none">
+    <div
+      ref="mappingHistoryIncome"
+      class="max-w-4xl mx-auto p-4 rounded text-discord-100 bg-discord-700 shadow-2xl select-none opacity-0"
+    >
       <h2 class="mb-2 text-gray-300 text-xl text-center">
         Income of the 50 most recent maps of this shared mapping-history
       </h2>
@@ -94,6 +95,7 @@
 
 <script lang="ts">
 import { Vue, Component, Mixins } from 'vue-property-decorator';
+import anime from 'animejs';
 
 import { POEMapHistory } from '@/models/PathOfExile';
 import { UserState } from '@/store/user/user.state';
@@ -150,6 +152,8 @@ export default class SharedMappingHistoryView extends Mixins(POEMapIconURLMixin)
       sortable: false,
     },
   ];
+
+  private currentAnimation: anime.AnimeInstance | undefined;
 
   get user(): UserState {
     return this.$store.state.user;
@@ -218,6 +222,8 @@ export default class SharedMappingHistoryView extends Mixins(POEMapIconURLMixin)
             title: 'Load shared mapping-history',
             text: `Mapping-history successfully loaded with ID: ${this.JSONBinID}`,
           });
+
+          this.animateAppearingComponents();
         }
 
         if (type === shareActions.LOAD_SHARE_FAILED) {
@@ -230,6 +236,12 @@ export default class SharedMappingHistoryView extends Mixins(POEMapIconURLMixin)
         }
       },
     });
+
+    this.animateAppearingComponents();
+  }
+
+  public beforeDestroy(): void {
+    this.animateDiseappearingComponents();
   }
 
   public destroyed(): void {
@@ -249,7 +261,65 @@ export default class SharedMappingHistoryView extends Mixins(POEMapIconURLMixin)
       });
 
       this.$store.dispatch(shareActions.LOAD_SHARE, this.JSONBinID);
+
+      this.animateDiseappearingComponents();
     }
+  }
+
+  /**
+   * Animate appearing components, translateX from bottom to top with opacity
+   * from 0 to 1.
+   */
+  private animateAppearingComponents() {
+    const characterOverviewComp = this.$refs.characterOverview as Vue | undefined;
+    const mappingHistoryComp = this.$refs.mappingHistoryTable as Vue;
+    const mappingHistoryIncome = this.$refs.mappingHistoryIncome as HTMLDivElement;
+
+    const targets = [
+      characterOverviewComp ? characterOverviewComp.$el : null,
+      mappingHistoryComp.$el,
+      mappingHistoryIncome,
+    ];
+
+    const animation = anime({
+      targets: targets.filter((target) => !!target),
+      easing: 'spring(2, 100, 100, 0)',
+      delay: anime.stagger(250, { start: 250 }),
+      translateY: -50,
+      opacity: 1,
+    });
+
+    this.currentAnimation = animation;
+
+    animation.play();
+  }
+
+  /**
+   * Animate disappearing components, translate from top to bottom with opacity
+   * from 1 to 0.
+   */
+  private animateDiseappearingComponents() {
+    const characterOverviewComp = this.$refs.characterOverview as Vue | undefined;
+    const mappingHistoryComp = this.$refs.mappingHistoryTable as Vue;
+    const mappingHistoryIncome = this.$refs.mappingHistoryIncome as HTMLDivElement;
+
+    const targets = [
+      characterOverviewComp ? characterOverviewComp.$el : null,
+      mappingHistoryComp.$el,
+      mappingHistoryIncome,
+    ];
+
+    const animation = anime({
+      targets: targets.filter((target) => !!target),
+      easing: 'spring(1, 100, 100, 0)',
+      delay: anime.stagger(100),
+      translateY: 0,
+      opacity: 0,
+    });
+
+    this.currentAnimation = animation;
+
+    animation.play();
   }
 }
 </script>
