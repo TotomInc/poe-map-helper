@@ -29,19 +29,21 @@ export const actions: ActionTree<MapState, RootState> = {
     if (mapDetails) {
       const stashItems: { items: POEStashItem[] } | undefined = await context.dispatch(stashActions.GET_STASH_ITEMS);
 
-      const frozenCurrentMap: POEMapItem | undefined = JSON.parse(JSON.stringify((context.state.currentMap)));
+      const frozenCurrentMap: POEMapItem | undefined = JSON.parse(JSON.stringify(context.state.currentMap));
 
       // Create a `POEMapItem` from the `POEMapZone`
-      const newMap: POEMapItem = JSON.parse(JSON.stringify({
-        name: mapDetails.name,
-        rarity: -1,
-        modifiers: [],
-        itemLevel: 67 + mapDetails.tier,
-        tier: mapDetails.tier,
-        iq: -1,
-        ir: -1,
-        mps: -1,
-      }));
+      const newMap: POEMapItem = JSON.parse(
+        JSON.stringify({
+          name: mapDetails.name,
+          rarity: -1,
+          modifiers: [],
+          itemLevel: 67 + mapDetails.tier,
+          tier: mapDetails.tier,
+          iq: -1,
+          ir: -1,
+          mps: -1,
+        }),
+      );
 
       // If there is a current map, move it to the latest-map state
       if (context.state.currentMap) {
@@ -91,8 +93,8 @@ export const actions: ActionTree<MapState, RootState> = {
     if (context.state.queuedMap) {
       const stashItems: { items: POEStashItem[] } | undefined = await context.dispatch(stashActions.GET_STASH_ITEMS);
 
-      const frozenCurrentMap: POEMapItem | undefined = JSON.parse(JSON.stringify((context.state.currentMap)));
-      const frozenQueuedMap: POEMapItem | undefined = JSON.parse(JSON.stringify((context.state.queuedMap)));
+      const frozenCurrentMap: POEMapItem | undefined = JSON.parse(JSON.stringify(context.state.currentMap));
+      const frozenQueuedMap: POEMapItem | undefined = JSON.parse(JSON.stringify(context.state.queuedMap));
 
       // If there is a current map, move it to the latest-map state
       if (context.state.currentMap) {
