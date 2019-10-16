@@ -1,16 +1,16 @@
 import { POEMapHistory, POEMapItem, POEPricedStashItem } from '@/models/PathOfExile';
-import { maps } from '../consts/zones';
 import { randomStashOrbItem } from './items';
+import { maps } from '../consts/zones';
 
 /**
  * Generate a random map from a valid list of existing maps in the game.
  */
 export function randomMap(): POEMapItem {
   const randomMapIndex = Math.floor(Math.random() * maps.length);
-  const randomMap = maps[randomMapIndex];
+  const map = maps[randomMapIndex];
 
   return {
-    name: randomMap.name,
+    name: map.name,
     modifiers: [],
     rarity: Math.floor(Math.random() * 3),
     itemLevel: Math.floor(Math.random() * 100),
@@ -22,22 +22,27 @@ export function randomMap(): POEMapItem {
 }
 
 /**
- * Generate a random `POEMapHistory` with realistic map and items.
+ * Generate a random `POEMapHistory` with realistic random map and items.
  */
 export function randomMapHistory(): POEMapHistory {
   const map = randomMap();
 
-  const stashOrbItems = new Array(10).map(() => randomStashOrbItem());
+  const amountOfItems = Math.floor(Math.random() * 5);
 
-  const pricedStashOrbItems: POEPricedStashItem[] = stashOrbItems.map((item) => ({
-    ...item,
-    chaos: Math.floor(Math.random() * 300),
-    exalt: Math.floor(Math.random() * 2),
-  } as POEPricedStashItem));
+  const stashOrbItems: POEPricedStashItem[] = [...Array(amountOfItems)]
+    .map(() => randomStashOrbItem())
+    .map(
+      (item) =>
+        ({
+          ...item,
+          chaos: Math.floor(Math.random() * 300),
+          exalt: Math.floor(Math.random() * 2),
+        } as POEPricedStashItem),
+    );
 
   return {
     map,
-    items: pricedStashOrbItems,
+    items: stashOrbItems,
     startTime: Date.now(),
     endTime: Date.now() - 60000,
     income: {
@@ -45,4 +50,13 @@ export function randomMapHistory(): POEMapHistory {
       exalt: Math.floor(Math.random() * 7),
     },
   };
+}
+
+/**
+ * Generate the amount needed of `POEMapHistory`.
+ *
+ * @param length amount of `POEMapHistory` to generate
+ */
+export function randomMapsHistory(length: number = 50): POEMapHistory[] {
+  return [...Array(length)].map(() => randomMapHistory());
 }

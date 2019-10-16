@@ -63,8 +63,15 @@ export function randomStashOrbItem(league: string = 'Standard'): POEStashItem {
     name: randomOrb.name,
     descrText: randomOrb.name,
 
-    id: Math.random().toString(36).replace(/[^a-z]+/g, '').substr(2, 10),
-    inventoryId: Math.random().toString(36).replace(/[^a-z]+/g, '').substr(2, 10),
+    id: Math.random()
+      .toString(36)
+      .replace(/[^a-z]+/g, '')
+      .substr(2, 10),
+
+    inventoryId: Math.random()
+      .toString(36)
+      .replace(/[^a-z]+/g, '')
+      .substr(2, 10),
 
     category: {},
   };
