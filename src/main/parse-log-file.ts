@@ -1,5 +1,5 @@
 import { POEMapZone } from '@/models/PathOfExile';
-import { maps, hideouts } from '../consts/zones';
+import { maps, specialMappedZones, hideouts } from '../consts/zones';
 
 const parseEnteredZone = /You have entered (.*)./;
 
@@ -24,7 +24,7 @@ export function parseLogLine(line: string): ParsedLogLine {
     // eslint-disable-next-line prefer-destructuring
     const zoneName = line.match(parseEnteredZone)![1];
 
-    mapZoneDetails = maps.find((map) => map.name === zoneName);
+    mapZoneDetails = [...maps, ...specialMappedZones].find((map) => map.name === zoneName);
 
     if (mapZoneDetails) {
       enterMap = true;

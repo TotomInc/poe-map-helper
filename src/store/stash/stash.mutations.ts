@@ -13,6 +13,14 @@ export const mutations: MutationTree<StashState> = {
     state.loading = false;
   },
 
+  [stashMutations.setInitialLoad](state, payload: void) {
+    state.initialLoad = true;
+  },
+
+  [stashMutations.removeInitialLoad](state, payload: void) {
+    state.initialLoad = false;
+  },
+
   [stashMutations.setStashTabs](state, payload: POEStashTab[]) {
     state.stashTabs = payload;
   },

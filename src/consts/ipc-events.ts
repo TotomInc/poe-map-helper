@@ -38,3 +38,9 @@ export const ENTER_MAP = 'ENTER_MAP';
  * hideout, by checking the logfile.
  */
 export const ENTER_HIDEOUT = 'ENTER_HIDEOUT';
+
+/**
+ * IPC event emitted to the main process from a Vuex action to register a
+ * tracking event.
+ */
+export const ANALYTICS_TRACKING = 'ANALYTICS_TRACKING';

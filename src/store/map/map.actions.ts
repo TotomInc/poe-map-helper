@@ -12,6 +12,12 @@ export const actions: ActionTree<MapState, RootState> = {
   [mapActions.MAP_ITEM_COPIED](context, payload: POEMapItem) {
     // Set a new queued map and set the current map as the latest map
     if (!context.state.inMap) {
+      context.dispatch(userActions.ANALYTICS_TRACKING, {
+        category: 'Map',
+        action: 'Register map-item',
+        label: 'Register a map-item as a queued map',
+      });
+
       context.commit(mapMutations.setQueuedMap, payload);
     }
   },
@@ -115,7 +121,7 @@ export const actions: ActionTree<MapState, RootState> = {
       if (frozenCurrentMap) {
         const mapDonePayload: POEMapHistory = {
           map: frozenCurrentMap,
-          items: Object.freeze(context.rootState.stash.itemsDiffIncome),
+          items: JSON.parse(JSON.stringify(context.rootState.stash.itemsDiffIncome)),
           startTime: context.state.mapStartedTime ? context.state.mapStartedTime : Date.now(),
           endTime: Date.now(),
           income: {

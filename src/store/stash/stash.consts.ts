@@ -16,6 +16,9 @@ export const stashMutations = {
   setLoading: 'Set stash loading',
   removeLoading: 'Remove stash loading',
 
+  setInitialLoad: 'Set stash initial load',
+  removeInitialLoad: 'Remove stash initial load',
+
   setStashTabs: 'Set stash tabs',
   removeStashTabs: 'Remove stash tabs',
 

@@ -18,6 +18,9 @@ export const mapMutations = {
   setLatestMap: 'Set latest map',
   removeLatestMap: 'Remove latest map',
 
+  setMapsHistoryShared: 'Set maps history shared',
+  removeMapsHistoryShared: 'Remove maps history shared',
+
   setMapStartedTime: 'Set map started time',
 
   addMapDone: 'Add a map done',

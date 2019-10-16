@@ -4,22 +4,30 @@
       PoE Mapper Assistant
     </h1>
 
-    <character-overview class="mb-4" />
+    <transition name="smooth" appear>
+      <character-overview class="mb-4" :character="poeSelectedCharacter" :can-switch-character="true" />
+    </transition>
 
-    <mapping-status class="mb-4" />
+    <transition name="smooth" appear>
+      <mapping-status class="mb-4" />
+    </transition>
 
-    <latest-map-income class="mb-4" />
+    <transition name="smooth" appear>
+      <latest-map-income class="mb-4" />
+    </transition>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 
+import { POECharacter } from '@/models/PathOfExile';
+import { StashState } from '@/store/stash/stash.state';
+import { stashActions } from '@/store/stash/stash.consts';
+import { userGetters } from '@/store/user/user.consts';
 import CharacterOverview from '@/components/CharacterOverview.vue';
 import MappingStatus from '@/components/MappingStatus.vue';
 import LatestMapIncome from '@/components/LatestMapIncome.vue';
-import { StashState } from '@/store/stash/stash.state';
-import { stashActions } from '@/store/stash/stash.consts';
 
 @Component({
   components: {
@@ -33,8 +41,19 @@ export default class HomeView extends Vue {
     return this.$store.state.stash;
   }
 
+  get poeSelectedCharacter(): POECharacter | undefined {
+    return this.$store.getters[userGetters.poeSelectedCharacter];
+  }
+
+  /**
+   * Make sure to only load stash-items if we haven't already loaded them.
+   */
   public mounted(): void {
     this.$store.dispatch(stashActions.GET_STASH_ITEMS);
+
+    if (!this.stash.initialLoad) {
+      this.$store.dispatch(stashActions.GET_STASH_ITEMS);
+    }
   }
 }
 </script>
