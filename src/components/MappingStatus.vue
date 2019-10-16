@@ -17,7 +17,7 @@
       with your cursor over the map-item you want to run, in order to notify the Mapper Assistant.
     </h2>
 
-    <div class="flex">
+    <div class="flex mb-4">
       <div v-if="map.currentMap" class="flex w-1/2">
         <div class="flex flex-col items-center justify-center mr-4">
           <p class="mb-2 rounded-full px-2 py-1 text-xs text-white bg-vue-500">
@@ -89,7 +89,9 @@
           </p>
         </div>
       </div>
+    </div>
 
+    <div class="flex justify-center items-center">
       <div class="inline-block text-gray-300 py-1 px-3 rounded-full bg-discord-500 cursor-pointer">
         <p v-if="!map.automaticMode" @click="enableAutomaticMode">
           Enable Automatic Mode
