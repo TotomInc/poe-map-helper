@@ -97,37 +97,6 @@ import MappingHistoryTable from '@/components/tables/MappingHistoryTable.vue';
   },
 })
 export default class MappingHistoryView extends Mixins(POEMapIconURLMixin) {
-  private columns = [
-    {
-      label: 'Map',
-      field: 'map.name',
-      sortable: false,
-    },
-    {
-      label: 'Chaos income',
-      field: 'income.chaos',
-      type: 'decimal',
-    },
-    {
-      label: 'Exalt income',
-      field: 'income.exalt',
-      type: 'decimal',
-    },
-    {
-      label: 'Run duration',
-      field: 'duration',
-      type: 'number',
-    },
-    {
-      label: 'Run date',
-      field: 'endDate',
-      type: 'date',
-      dateInputFormat: 'DD-MM-YYYY HH:mm:ss',
-      dateOutputFormat: 'DD-MM-YYYY',
-      sortable: false,
-    },
-  ];
-
   get map(): MapState {
     return this.$store.state.map;
   }
