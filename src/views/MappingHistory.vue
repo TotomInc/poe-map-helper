@@ -48,19 +48,19 @@
         Income of your 50 most recent maps
       </h2>
 
-      <p v-if="map.mapsHistory.length <= 0" class="text-center">
-        No data. Run some maps!
+      <p v-if="map.mapsHistory.length < 2" class="text-center">
+        No data. Run some maps (at least 2)!
       </p>
 
       <line-chart
-        v-if="map.mapsHistory.length > 0"
+        v-if="map.mapsHistory.length >= 2"
         :height="150"
         :colors="['#3daa79']"
         :labels="chartLabels"
         :datasets="chartDatasets"
       />
 
-      <div v-if="map.mapsHistory.length > 0" class="flex items-center justify-center">
+      <div v-if="map.mapsHistory.length >= 2" class="flex items-center justify-center">
         <div class="w-8 h-4 rounded mr-2 bg-green-500" />
 
         <p class="text-base">
