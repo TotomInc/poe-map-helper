@@ -19,13 +19,15 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import anime from 'animejs';
+import * as Anime from 'animejs';
 
 import { POEPricedStashItem, POEMapHistory } from '@/models/PathOfExile';
 import { ShareState } from '@/store/share/share.state';
 import MapIncomeTable from '@/components/tables/MapIncomeTable.vue';
 import MapDetails from '@/components/MapDetails.vue';
 import BackButton from '@/components/ui-components/BackButton.vue';
+
+const anime = Anime.default;
 
 @Component({
   components: {

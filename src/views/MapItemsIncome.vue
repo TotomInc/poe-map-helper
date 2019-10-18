@@ -19,6 +19,7 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
+import * as Anime from 'animejs';
 
 import { POEPricedStashItem, POEMapHistory, POECharacter } from '@/models/PathOfExile';
 import { MapState } from '@/store/map/map.state';
@@ -26,6 +27,8 @@ import { userGetters } from '@/store/user/user.consts';
 import MapIncomeTable from '@/components/tables/MapIncomeTable.vue';
 import MapDetails from '@/components/MapDetails.vue';
 import BackButton from '@/components/ui-components/BackButton.vue';
+
+const anime = Anime.default;
 
 @Component({
   components: {

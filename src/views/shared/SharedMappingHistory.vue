@@ -95,7 +95,7 @@
 
 <script lang="ts">
 import { Vue, Component, Mixins } from 'vue-property-decorator';
-import anime from 'animejs';
+import * as Anime from 'animejs';
 
 import { POEMapHistory } from '@/models/PathOfExile';
 import { UserState } from '@/store/user/user.state';
@@ -107,6 +107,8 @@ import Input from '@/components/ui-components/Input.vue';
 import LineChart from '@/components/charts/LineChart.vue';
 import MappingHistoryTable from '@/components/tables/MappingHistoryTable.vue';
 import CharacterOverview from '@/components/CharacterOverview.vue';
+
+const anime = Anime.default;
 
 @Component({
   components: {

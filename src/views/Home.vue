@@ -19,7 +19,7 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import anime from 'animejs';
+import * as Anime from 'animejs';
 
 import { POECharacter } from '@/models/PathOfExile';
 import { StashState } from '@/store/stash/stash.state';
@@ -28,6 +28,8 @@ import { userGetters } from '@/store/user/user.consts';
 import CharacterOverview from '@/components/CharacterOverview.vue';
 import MappingStatus from '@/components/MappingStatus.vue';
 import LatestMapIncome from '@/components/LatestMapIncome.vue';
+
+const anime = Anime.default;
 
 @Component({
   components: {

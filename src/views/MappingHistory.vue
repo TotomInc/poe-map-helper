@@ -80,7 +80,7 @@
 
 <script lang="ts">
 import { Vue, Component, Mixins } from 'vue-property-decorator';
-import anime from 'animejs';
+import * as Anime from 'animejs';
 import axios from 'axios';
 import isElectron from 'is-electron';
 
@@ -94,6 +94,8 @@ import { POEMapItem, POEMapHistoryDate, POEMapHistory, POECharacter } from '@/mo
 import LineChart from '@/components/charts/LineChart.vue';
 import BackButton from '@/components/ui-components/BackButton.vue';
 import MappingHistoryTable from '@/components/tables/MappingHistoryTable.vue';
+
+const anime = Anime.default;
 
 @Component({
   components: {
