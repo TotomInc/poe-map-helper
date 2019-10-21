@@ -46,57 +46,6 @@ export function registerSchemes() {
 }
 
 /**
- * Create a new `BrowserWindow`, erase the current window.
- */
-export function createWindow() {
-  win = new BrowserWindow({
-    width: 800,
-    height: 600,
-    frame: false,
-    webPreferences: {
-      nodeIntegration: true,
-    },
-  });
-
-  if (webpackDevURL) {
-    win.loadURL(webpackDevURL);
-  } else {
-    createProtocol('app');
-    win.loadURL('app://./index.html');
-  }
-
-  win.on('closed', () => {
-    win = null;
-
-    // Make sure to delete the Tail instance when the window is closed
-    if (tail) {
-      tail.unwatch();
-      tail = null;
-    }
-  });
-}
-
-/**
- * Register various Electron events such as `ready`. Also send a `ready` event
- * to the local event-emitter.
- */
-export function registerEvents() {
-  app.on('ready', async () => {
-    if (isDevelopment && !process.env.IS_TEST) {
-      try {
-        await installVueDevtools();
-      } catch (e) {
-        console.error('Vue Devtools failed to install:', e.toString());
-      }
-    }
-
-    createWindow();
-
-    ee.emit('ready');
-  });
-}
-
-/**
  * Register various IPC events that can be sent from the renderer to the main
  * process:
  *
@@ -136,5 +85,77 @@ export function registerIpcEvents() {
 
       win.webContents.send(MAP_ITEM_COPIED, parsedMapItem);
     }
+  });
+}
+
+/**
+ * Call this method to unregister all IPC events from the background process,
+ * in order to have a clean-reload of the app when developing.
+ */
+export function unregisterIpcEvents() {
+  ipcMain.removeAllListeners(HTTP_REQUEST);
+
+  ipcMain.removeAllListeners(ANALYTICS_TRACKING);
+
+  ipcMain.removeAllListeners(LOGFILE_PATH_RECEIVED);
+}
+
+/**
+ * Create a new `BrowserWindow` and make sure to load the appropriate URL or
+ * file depending on the environment.
+ *
+ * Also register/unregister various IPC events.
+ */
+export function createWindow() {
+  win = new BrowserWindow({
+    width: 800,
+    height: 600,
+    frame: false,
+    webPreferences: {
+      nodeIntegration: true,
+    },
+  });
+
+  if (webpackDevURL) {
+    win.loadURL(webpackDevURL);
+  } else {
+    createProtocol('app');
+
+    win.loadURL('app://./index.html');
+  }
+
+  // When window is going to be closed, remove all ipc-events and watchers
+  win.on('close', () => {
+    if (tail) {
+      tail.unwatch();
+      tail = null;
+    }
+
+    unregisterIpcEvents();
+  });
+
+  // Remove window reference on window closed
+  win.on('closed', () => {
+    win = null;
+  });
+}
+
+/**
+ * Register various Electron events such as `ready`. Also send a `ready` event
+ * to the local event-emitter.
+ */
+export function registerEvents() {
+  app.on('ready', async () => {
+    if (isDevelopment && !process.env.IS_TEST) {
+      try {
+        await installVueDevtools();
+      } catch (e) {
+        console.error('Vue Devtools failed to install:', e.toString());
+      }
+    }
+
+    createWindow();
+
+    ee.emit('ready');
   });
 }
