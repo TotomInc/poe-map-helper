@@ -12,7 +12,7 @@ export default class POEMapIconURL extends Vue {
    *
    * @param map a parsed POE map-item (copied from the clipboard)
    */
-  public getMapIconURL(map: POEMapItem, league: string): string {
+  public getMapIconURL(map: POEMapItem): string {
     // Map name contains the "Map" suffix, we need to cut this suffix
     // It can also contains the shaped prefix which needs to be removed
     let mapName = map.name.substring(0, map.name.indexOf('Map') - 1);
@@ -23,22 +23,11 @@ export default class POEMapIconURL extends Vue {
     }
 
     const rawMapImageURL = rawMapsImageURL.find((rawMap) => rawMap.name === mapName);
-    const mapIconStyle = this.getMapIconType(league);
 
     if (rawMapImageURL) {
-      return `https:${rawMapImageURL.url}?mn=${mapIconStyle}&mt=${map.tier}&mr=${isShaped}`;
+      return `https:${rawMapImageURL.url}?mn=-1&mt=${map.tier}&mr=${isShaped}`;
     }
 
     return 'https://gamepedia.cursecdn.com/pathofexile_gamepedia/0/09/Untainted_Paradise_inventory_icon.png';
-  }
-
-  /**
-   * Return the proper map-icon type depending on the current league of the
-   * selected character.
-   *
-   * TODO: handle per-leagues maps
-   */
-  private getMapIconType(league: string): string {
-    return '4';
   }
 }
