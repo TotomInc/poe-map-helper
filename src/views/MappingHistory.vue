@@ -33,34 +33,39 @@
       Mapping history
     </h1>
 
-    <p class="mb-4 text-center text-discord-100 select-none">
+    <p class="mb-16 text-center text-discord-100 select-none">
       Click on a row for a list of detailed income items.
     </p>
 
     <mapping-history-table
+      ref="mappingHistoryTable"
+      class="opacity-0"
       :maps-history="map.mapsHistory"
       :character="selectedPoeCharacter"
       @on-row-click="onRowClick"
     />
 
-    <div class="max-w mx-auto p-4 rounded text-discord-100 bg-discord-700 shadow-2xl select-none">
+    <div
+      ref="mostRecentMaps"
+      class="max-w mx-auto p-4 rounded text-discord-100 bg-discord-700 shadow-2xl select-none opacity-0"
+    >
       <h2 class="mb-2 text-gray-300 text-xl text-center">
         Income of your 50 most recent maps
       </h2>
 
-      <p v-if="map.mapsHistory.length <= 0" class="text-center">
-        No data. Run some maps!
+      <p v-if="map.mapsHistory.length < 2" class="text-center">
+        No data. Run some maps (at least 2)!
       </p>
 
       <line-chart
-        v-if="map.mapsHistory.length > 0"
+        v-if="map.mapsHistory.length >= 2"
         :height="150"
         :colors="['#3daa79']"
         :labels="chartLabels"
         :datasets="chartDatasets"
       />
 
-      <div v-if="map.mapsHistory.length > 0" class="flex items-center justify-center">
+      <div v-if="map.mapsHistory.length >= 2" class="flex items-center justify-center">
         <div class="w-8 h-4 rounded mr-2 bg-green-500" />
 
         <p class="text-base">
@@ -75,6 +80,7 @@
 
 <script lang="ts">
 import { Vue, Component, Mixins } from 'vue-property-decorator';
+import * as Anime from 'animejs';
 import axios from 'axios';
 import isElectron from 'is-electron';
 
@@ -89,6 +95,8 @@ import LineChart from '@/components/charts/LineChart.vue';
 import BackButton from '@/components/ui-components/BackButton.vue';
 import MappingHistoryTable from '@/components/tables/MappingHistoryTable.vue';
 
+const anime = Anime.default;
+
 @Component({
   components: {
     LineChart,
@@ -97,37 +105,6 @@ import MappingHistoryTable from '@/components/tables/MappingHistoryTable.vue';
   },
 })
 export default class MappingHistoryView extends Mixins(POEMapIconURLMixin) {
-  private columns = [
-    {
-      label: 'Map',
-      field: 'map.name',
-      sortable: false,
-    },
-    {
-      label: 'Chaos income',
-      field: 'income.chaos',
-      type: 'decimal',
-    },
-    {
-      label: 'Exalt income',
-      field: 'income.exalt',
-      type: 'decimal',
-    },
-    {
-      label: 'Run duration',
-      field: 'duration',
-      type: 'number',
-    },
-    {
-      label: 'Run date',
-      field: 'endDate',
-      type: 'date',
-      dateInputFormat: 'DD-MM-YYYY HH:mm:ss',
-      dateOutputFormat: 'DD-MM-YYYY',
-      sortable: false,
-    },
-  ];
-
   get map(): MapState {
     return this.$store.state.map;
   }
@@ -201,6 +178,8 @@ export default class MappingHistoryView extends Mixins(POEMapIconURLMixin) {
   }
 
   public mounted(): void {
+    this.animateAppearingComponents();
+
     this.$store.subscribeAction({
       after: ({ type, payload }) => {
         if (type === shareActions.CREATE_SHARE_SUCCESS) {
@@ -218,6 +197,10 @@ export default class MappingHistoryView extends Mixins(POEMapIconURLMixin) {
     });
   }
 
+  public beforeDestroy(): void {
+    this.animateDiseappearingComponents();
+  }
+
   /**
    * Copy to the clipboard the JSONBin ID if in an electron environment.
    *
@@ -229,6 +212,48 @@ export default class MappingHistoryView extends Mixins(POEMapIconURLMixin) {
         electron.clipboard.writeText(binID);
       });
     }
+  }
+
+  /**
+   * Animate appearing components, translateX from bottom to top with opacity
+   * from 0 to 1.
+   */
+  private animateAppearingComponents() {
+    const mappingHistoryTableComp = this.$refs.mappingHistoryTable as Vue;
+    const mostRecentMaps = this.$refs.mostRecentMaps as HTMLDivElement;
+
+    const targets = [mappingHistoryTableComp.$el, mostRecentMaps];
+
+    const animation = anime({
+      targets,
+      easing: 'spring(2, 100, 100, 0)',
+      delay: anime.stagger(250),
+      translateY: -50,
+      opacity: 1,
+    });
+
+    animation.play();
+  }
+
+  /**
+   * Animate disappearing components, translate from top to bottom with opacity
+   * from 1 to 0.
+   */
+  private animateDiseappearingComponents() {
+    const mappingHistoryTableComp = this.$refs.mappingHistoryTable as Vue;
+    const mostRecentMaps = this.$refs.mostRecentMaps as HTMLDivElement;
+
+    const targets = [mappingHistoryTableComp.$el, mostRecentMaps];
+
+    const animation = anime({
+      targets,
+      easing: 'spring(1, 100, 100, 0)',
+      delay: anime.stagger(100),
+      translateY: 0,
+      opacity: 0,
+    });
+
+    animation.play();
   }
 }
 </script>
